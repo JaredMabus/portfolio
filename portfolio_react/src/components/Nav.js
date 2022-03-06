@@ -1,24 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
-import { Link as ScrollLink } from "react-scroll";
-// import * as themes from "../styles/components";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
-import MusicNoteIcon from "@mui/icons-material/MusicNote";
 import PersonIcon from "@mui/icons-material/Person";
+// import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 
 const NavContainer = styled.div`
   display: flex;
   flex-direction: row;
-  // justify-content: ;
+  justify-content: center;
   align-items: center;
   width: 100%;
   min-width: 100%;
@@ -27,11 +23,10 @@ const NavContainer = styled.div`
   max-height: 80px;
   font-weight: 500;
   font-size: 1.35em;
-  margin: 0 0px 0 0;
+  margin: 0;
   padding: 2px 10% 0 10%;
-  background-color: white;
+  background-color: #fff;
   border-bottom: 3px solid;
-  // rgba(120, 120, 120, 0.4) 25%
   border-image: linear-gradient(
       to right,
       rgba(227, 230, 228, 1) 75%,
@@ -41,19 +36,10 @@ const NavContainer = styled.div`
 `;
 
 const NavLinkWrapper = styled.div`
-  justify-self: center;
-  align-self: center;
   display: flex;
   flex-direction: row;
   flex: 1;
-  // justify-content: center;
-  // align-items: center;
-  // margin: 0 auto;
-  // justify-content: center;
-  // align-items: center;
-  width: 500px;
-  // box-shadow: inset 0 0 0 0 grey;
-  // transition: ease-in-out 250ms;
+  width: auto;
 
   a {
     color: ${(props) => props.theme.fontColor};
@@ -89,8 +75,7 @@ const NavLinkWrapper = styled.div`
   svg {
     color: ${(props) => props.theme.fontColor};
     cursor: pointer;
-    height: 35px;
-    width: 35px;
+    font-size: 35px;
 
     &:hover {
       color: #f6773d;
@@ -119,6 +104,7 @@ const Socials = styled.div`
   align-self: center;
   justify-content: center;
   align-items: center;
+  // flex -1;
   width: 150px;
   height: 100%;
   margin: 0 0 0 15px;
@@ -262,28 +248,37 @@ const navData = [
     icon: <ViewSidebarIcon />,
     type: "scroll",
   },
-  {
-    title: "Sound Engineer",
-    path: "/music",
-    scroll: "",
-    icon: <MusicNoteIcon />,
-    type: "link",
-  },
+  // {
+  //   title: "Sound Engineer",
+  //   path: "/music",
+  //   scroll: "",
+  //   icon: <MusicNoteIcon />,
+  //   type: "link",
+  // },
 ];
 
 const Nav = () => {
   const [sidebar, setSideBarStatus] = useState(false);
-
   const toggleSideBar = () => {
-    console.log(sidebar);
     setSideBarStatus(!sidebar);
+  };
+
+  const accessibilityScroll = (id) => {
+    const section = document.querySelector(`#${id}`);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <>
       <SideBarNavContainer sidebar={sidebar}>
         <div className="close-sidebar">
-          <CloseIcon onClick={() => toggleSideBar()} />
+          <CloseIcon
+            onClick={() => toggleSideBar()}
+            tabIndex="0"
+            onKeyDown={(e) => {
+              e.key === "Enter" ? toggleSideBar() : console.log();
+            }}
+          />
         </div>
         {navData.map((item, i) => {
           return item.type === "scroll" ? (
@@ -295,6 +290,12 @@ const Nav = () => {
               offset={-70}
               duration={1000}
               onClick={() => toggleSideBar()}
+              tabIndex="0"
+              onKeyDown={(e) => {
+                e.key === "Enter"
+                  ? accessibilityScroll(item.scroll)
+                  : console.log();
+              }}
             >
               <div className="nav-link sidebar">
                 {item.icon}
@@ -318,10 +319,16 @@ const Nav = () => {
           );
         })}
       </SideBarNavContainer>
-      <NavContainer sidebar={sidebar}>
+      <NavContainer id="top-nav" sidebar={sidebar}>
         <NavLinkWrapper>
           <div className="nav-menu-btn">
-            <MenuIcon onClick={() => toggleSideBar()} />
+            <MenuIcon
+              onClick={() => toggleSideBar()}
+              tabIndex="0"
+              onKeyDown={(e) => {
+                e.key === "Enter" && toggleSideBar();
+              }}
+            />
           </div>
           {navData.map((item, i) => {
             return item.type === "scroll" ? (
@@ -332,6 +339,10 @@ const Nav = () => {
                 smooth={true}
                 offset={-70}
                 duration={1000}
+                tabIndex="0"
+                onKeyDown={(e) => {
+                  e.key === "Enter" && accessibilityScroll(item.scroll);
+                }}
               >
                 <div className="nav-link">{item.title}</div>
               </ScrollLink>

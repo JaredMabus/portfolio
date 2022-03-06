@@ -1,34 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
-import blob from "../images/blob.svg";
 import ProjectItem from "./ProjectItem";
 
-const ProjectSection = styled.div` 
+const ProjectSection = styled.div`
   display: flex;
   flex-direction: column;
-  // flex-wrap: wrap;
   justify-content: center;
-  align-items: start;
-  width: 100%;
-  //   min-width: 500px;
-  //   max-width: 500px;
+  align-items: center;
+  max-width: 80%;
   height: auto;
-  padding: 0px 10% 0px 10%;
-  margin: 200px 0 200px 0;
-  }
-`;
-
-const Header = styled.div`
-  display: row;
-  flex-direction: column;
-  // min-width: 350px;
-  // max-width: 350px;
-  margin: 0 0 0 0;
-  padding: 0;
+  // padding: 0 10%;
+  // margin: 275px 0 50px 0;
+  // margin: 0 auto;
 
   h1 {
     font-size: 4em;
     margin: 0 0 25px 0;
+  }
+
+  @media only screen and (max-width: 630px) {
+    padding: 0 2%;
+    width: 95%;
   }
 `;
 
@@ -36,9 +28,7 @@ const Project = () => {
   return (
     <>
       <ProjectSection>
-        <Header>
-          <h1 id="projects">Projects</h1>
-        </Header>
+        <h1 id="projects">Projects</h1>
         <ProjectItem />
       </ProjectSection>
     </>

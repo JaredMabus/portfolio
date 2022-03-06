@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
-import { Link as ScrollLink } from "react-scroll";
+import React from "react";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import styled from "styled-components";
 // Components
 import Nav from "./Nav";
 import Project from "./Project";
 // Images/Icons
-import blob from "../images/ProfilePic.png";
+import ProfilePic from "../images/ProfilePic.png";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import SectionSplitBG from "../images/SectionSplit.svg";
+// import SectionSplitBG from "../images/SectionSplitCurved.svg";
 
 const HomePage = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: auto;
   width: 100%;
   min-width: 100%;
-  padding: 0 10%;
+  //   padding: 0 10%;
 
   background-image: linear-gradient(
     165deg,
@@ -27,7 +31,7 @@ const HomePage = styled.div`
   );
 
   @media only screen and (max-width: 630px) {
-    padding: 0 2% 0 2%;
+    // padding: 0 2% 0 2%;
   }
 `;
 
@@ -41,8 +45,9 @@ const InfoContainer = styled.div`
   //   min-width: 500px;
   //   max-width: 500px;
   height: auto;
-  margin: 0 0 150px 0;
+  margin: 0 0 25px 0;
   padding: 150px 0 0px 0;
+  //   background-color: rgba(255, 119, 61, 0.07);
 
   img {
     min-width: 340px;
@@ -79,8 +84,9 @@ const InfoContainer = styled.div`
     }
 
     svg {
-      height: 15px;
-      padding: 3px 0 0 0;
+      //   height: 15px;
+      padding: 1px 0 0 3px;
+      margin: 0 0 0 2px;
     }
   }
 
@@ -99,7 +105,9 @@ const InfoText = styled.div`
   min-width: 350px;
   max-width: 450px;
   margin: 0 0px 0 0;
-  padding: 5px;
+  padding: 20px;
+  //   background-color: rgba(255, 119, 61, 0.07);
+  //   border-radius: 20px;
 
   h1 {
     font-size: 3.5em;
@@ -117,7 +125,57 @@ const InfoText = styled.div`
   }
 `;
 
+const ReturnToTop = styled.div`
+  display: flex;
+  //   justify-self: center;
+  //   align-self: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  //   font-size: 4em;
+
+  svg {
+    height: 50px;
+    width: 75px;
+  }
+
+  .scroll-top-btn {
+    display: flex;
+    //   justify-self: center;
+    //   align-self: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      color: #f6773d;
+    }
+  }
+`;
+
+const SectionSplit = styled.div`
+  height: 250px;
+  max-width: 100%;
+  margin-right: 150px;
+  width: 100vw;
+  background-image: url(${SectionSplitBG});
+  background-position: left;
+  background-size: cover;
+  background-repeat: no-repeat;
+  x-overflow: hidden;
+  border-radius: 50p;
+  margin: 150px 0 0 0;
+
+  img {
+    max-width: 100%;
+  }
+`;
+
 const Home = () => {
+  const accessibilityScroll = (id) => {
+    const section = document.querySelector(`#${id}`);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
   return (
     <>
       <Nav />
@@ -128,22 +186,41 @@ const Home = () => {
             <hr></hr>
             <h3> Web Developer | Data Analyst</h3>
             <p>Below are some of my recent projects I've been working on.</p>
-            <div className="project-btn">
-              <ScrollLink
-                to="projects"
-                spy={true}
-                smooth={true}
-                duration={1000}
-              >
+
+            <ScrollLink
+              to="projects"
+              spy={true}
+              smooth={true}
+              duration={1000}
+              tabIndex="0"
+              onKeyDown={(e) => {
+                e.key === "Enter" && accessibilityScroll("projects");
+              }}
+            >
+              <div className="project-btn">
                 Projects <ArrowForwardIosIcon />
-              </ScrollLink>
-            </div>
+              </div>
+            </ScrollLink>
           </InfoText>
           <div id="prof-img">
-            <img src={blob} alt="profile" />
+            <img src={ProfilePic} alt="profile" />
           </div>
         </InfoContainer>
+        <SectionSplit>{/* <img src={SectionSplitBG}></img> */}</SectionSplit>
         <Project />
+        <ReturnToTop>
+          <div
+            className="scroll-top-btn"
+            onClick={() => scroll.scrollToTop()}
+            tabIndex="0"
+            onKeyDown={(e) => {
+              e.key === "Enter" && accessibilityScroll("top-nav");
+            }}
+          >
+            <KeyboardArrowUpIcon></KeyboardArrowUpIcon>
+            <p>Return to top</p>
+          </div>
+        </ReturnToTop>
       </HomePage>
     </>
   );

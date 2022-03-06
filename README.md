@@ -1,6 +1,8 @@
-# Jared Mabusth's Portfolio
+# My Portfolio Website
 
 # Summary
+
+This is a
 
 # Python Poetry Environment
 

@@ -9,11 +9,15 @@ import SoundklipsLogo from "../images/SKLogoFullNotLevel.svg";
 const ProjectContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-self: center;
+  align-self: center;
   // justify-content: center;
   // align-items: center;
   width: 100%;
   height: auto;
   padding: 0 0px;
+  flex-wrap: no-wrap;
+  // margin: 0 5px;
   // border: 1px solid blue;
   // background-color: white;
   // border-radius: 5px;
@@ -22,92 +26,102 @@ const ProjectContainer = styled.div`
 const ProjectWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-items: start;
+  // justify-content: start;
+  // align-items: start;
   // border-bottom: 1px solid lightgrey;
   width: 100%;
   height: auto;
+  max-height: ;
 `;
 
 const ProjectContent = styled.div`
   display: flex;
   flex-direction: row;
-  // justify-content: center;
-  // align-items: center;
+  justify-content: start;
+  align-items: start;
   // border: 1px solid green;
-  width: 100%;
+  flex-1;
+  // width: 100%;
   height: auto;
   flex-wrap: wrap;
-  padding: 15px 0;
+  padding: 50px 0;
 
-  img {
-    height: 75px;
-    width: auto;
+  @media only screen and (max-width: 932px) {
+    justify-content: center;
+    align-items: center;
   }
 `;
 
 const ProjectCardWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
   // border: 1px solid brown;
-  flex: 1;
-  flex-shrink; 0;
-  // min-width: 100%; 
+  // flex: 1;
+  // flex-shrink: 1;
   // width: 100%;
-  // max-width: 400px;
+  min-width: 288px;
+  // max-width: 450px;
   height: auto;
-  padding: 0 0 0px 0;
+  min-height: 360px;
+  max-height: 360px;
+  // padding: 500px 0;
+  margin: 0 auto;
   border-radius: 5px;
-  border: 2px solid rgba(0,0,0,.1); 
-  box-shadow: 1px 1px 10px 1px rgba(0,0,0,.1);
-  // transform: scale(.99); 
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.1);
+  transform: scale(0.99);
   transition: ease-in-out 250ms;
-  
 
   &:hover {
-    border: 2px solid rgba(0,0,0,.1); 
-    box-shadow: 5px 5px 10px 2px rgba(0,0,0,.11);
-    // transform: scale(1);
-    // backface-visibility: hidden;
-    // transform: translateZ(0);
-    // -webkit-font-smoothing: subpixel-antialiased;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 5px 10px 5px rgba(0, 0, 0, 0.13);
+    transform: scale(1);
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-font-smoothing: subpixel-antialiased;
   }
 
   &:active {
-    border: 0px solid rgba(0,0,0,.1); 
-    box-shadow: 0px 0px 0px 2px rgba(0,0,0,.11);
+    border: 0px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 0px 2px rgba(0, 0, 0, 0.11);
   }
-  
+
   &:hover .card-header {
     border-image: linear-gradient(
         to left,
         rgb(97, 196, 62, 1),
-        rgb(97, 196, 62, .5),
-        rgb(97, 196, 62, .7)
+        rgb(97, 196, 62, 0.5),
+        rgb(97, 196, 62, 0.7)
       )
       3;
-
-    // img {
-    //   filter: grayscale(0%);
-    // }
   }
 
-  // &:hover .project-card {
-  //   img {
-  //     filter: grayscale(0%);
-  //   }
+  &:hover .card-image-bg {
+    opacity: 1;
+  }
+
+  @media only screen and (max-width: 550px) {
+    margin: 0;
   }
 `;
 
 const CardHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  // width: 450px;
+  // min-width: 288px;
+  // max-width: 400px;
+  width: 100%;
   height: auto;
-  flex-1; 
-  // width: 100%;
-  max-width: 100%;
+  // max-height: 375px;
+  // border: 1px solid red;
+
+  @media only screen and (max-width: 550px) {
+    width: 100%;
+  }
 `;
 
 const ProjectHeader = styled.div`
@@ -115,13 +129,14 @@ const ProjectHeader = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  // width: 100%;
+  // flex: 1;
+  width: 100%;
   // max-width: 150px;
-  flex: 1;
   height: auto;
   border-bottom: 3px solid;
   padding: 5px 0;
-  transition: ease-in-out;
+  transition: ease-in-out 500ms;
+  padding: 20px 0;
 
   border-image: linear-gradient(
       to right,
@@ -135,40 +150,45 @@ const ProjectHeader = styled.div`
   img {
     transition: filter ease-in-out 350ms;
     height: 60px;
-    width: auto;
+    // height: auto;
+    // width: 100%;
+    max-width: 250px;
     // filter: grayscale(100%);
   }
 `;
 
 const ProjectCard = styled.div`
   display: flex;
-  // flex-direction: row;
-  // justify-content: start;
-  // align-items: start;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
   // border: 1px solid yellow;
-  width: 400px;
-  min-width: 288px;
-  // max-width: 100%;
+  // flex: 1;
+  width: 100%;
+  // width: 450px;
+  // min-width: 325px;
+  // max-width: 450px;
   height: 250px;
   min-height: 250px;
   max-height: 350px;
   border-radius: 5px;
-  min-height: 250px;
-  // background-image: url(${InfometrixCard});
-  // background-position: center;
-  // background-size: cover;
-  // background-repeat: no-repeat;
 
-  img {
-    height: auto;
+  .card-image-bg {
+    transition: ease-in-out 500ms;
     width: 100%;
-    min-width: 100%;
-    // border-radius: 15px;
-    // filter: grayscale(100%);
+    max-width: 100%;
+    height: 100%;
+    opacity: 0.9;
   }
 
-  @media only screen and (max-width: 480px) {
-    width: 288px;
+  @media only screen and (max-width: 934px) {
+    // width: 288px;
+    min-width: 100%;
+    min-width: 500px;
+  }
+  @media only screen and (max-width: 525px) {
+    // width: 288px;
+    min-width: 350px;
   }
 `;
 
@@ -181,11 +201,13 @@ const ProjectText = styled.div`
   align-items: start;
   // border: 1px solid red;
   flex: 1;
-  flex-shrink: 1;
-  min-width: 288px;
-  max-width: 550px;
+  flex-shrink: 0;
+  // width: 550px;
+  min-width: 300px;
+  // min-width: 550px;
+  max-width: 800px;
   height: auto;
-  padding: 20px 15px;
+  padding: 10px 15px;
 
   ul {
     padding: 20px 0 0 30px;
@@ -201,6 +223,10 @@ const ProjectText = styled.div`
 
   strong {
     color: ${(props) => props.theme.fontColor};
+  }
+
+  @media only screen and (max-width: 550px) {
+    width: 288px;
   }
 `;
 
@@ -224,32 +250,57 @@ const ProjectItem = () => {
                   </ProjectHeader>
 
                   <ProjectCard className="project-card">
-                    <img src={InfometrixCard} alt="infometrix card"></img>
+                    {/* <img src={InfometrixCard} alt="infometrix card"></img> */}
+                    <div
+                      className="card-image-bg"
+                      style={{
+                        backgroundImage: `url("${InfometrixCard}")`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    ></div>
                   </ProjectCard>
                 </CardHeaderWrapper>
               </ProjectCardWrapper>
             </a>
             <ProjectText>
               <p>
-                <strong>Infometrix</strong> is a data analytics/visualization
-                website. It provides dashboards on topics within public health
-                and the economy.
+                <strong>Infometrix</strong> is a data analytics and
+                visualization website. It provides dashboards on topics
+                regarding public health and the economy. It was my first project
+                using React and I learned a lot about state management and the
+                component life lifecycle.
               </p>
               <ul>
                 <li>
                   <p>
-                    <strong>Difficulties:</strong> AWS EC2, and RDS
+                    <strong>Features:</strong> Tableau and Power BI dashboards,
+                    responsive web design, and a web-scrapping data pipeline
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Web Stack:</strong> React, Flask, MySQL,
+                    mysql-connector, and NGINX
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Cloud:</strong> AWS RDS and EC2
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Challenge:</strong> Scrapping web data with
+                    inconsistent update times
                   </p>
                 </li>
 
                 <li>
                   <p>
-                    <strong>Solution:</strong> AWS EC2, and RDS
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    <strong>Web Stack:</strong> AWS EC2, and RDS
+                    <strong>Solution:</strong> Created more robust ETL scripts
+                    when extracting from data source
                   </p>
                 </li>
               </ul>
@@ -261,44 +312,67 @@ const ProjectItem = () => {
         <ProjectWrapper>
           <ProjectContent>
             <a
-              href="http://www.infometrix.org"
+              href="https://soundklips.com/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <ProjectCardWrapper>
                 <CardHeaderWrapper className="card-header-wrap">
                   <ProjectHeader className="card-header">
-                    <div>
-                      <img src={SoundklipsLogo} alt="infometrix"></img>
-                    </div>
+                    <img src={SoundklipsLogo} alt="infometrix"></img>
                   </ProjectHeader>
                   <ProjectCard className="project-card">
-                    <img src={SoundklipsCard} alt="infometrix card"></img>
+                    <div
+                      className="card-image-bg"
+                      style={{
+                        backgroundImage: `url("${SoundklipsCard}")`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                        backgroundRepeat: "no-repeat",
+                      }}
+                    ></div>
                   </ProjectCard>
                 </CardHeaderWrapper>
               </ProjectCardWrapper>
             </a>
             <ProjectText>
               <p>
-                <strong>Infometrix</strong> is a data analytics/visualization
-                website. It provides dashboards on topics within public health
-                and the economy.
+                <strong>Soundklips</strong> is an audio sample sharing and
+                management website. This project aims to provide a platform for
+                musicians, audio engineers, producers, and sound designers to
+                share audio files with one another. It's a work in progress and
+                I plan on adding new features over time.
               </p>
               <ul>
                 <li>
                   <p>
-                    <strong>Difficulties:</strong> AWS EC2, and RDS
-                  </p>
-                </li>
-
-                <li>
-                  <p>
-                    <strong>Solution:</strong> AWS EC2, and RDS
+                    <strong>Features:</strong> Uploading files and editing audio
+                    file meta data, user sign up and login, audio waveform
+                    display, and dark/light theme
                   </p>
                 </li>
                 <li>
                   <p>
-                    <strong>Web Stack:</strong> Google Cloud Platform
+                    <strong>Web Stack:</strong> React, Flask, Docker,
+                    PostgreSQL, and SQLAlchemy
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Cloud:</strong> GC SQL, GC Storage, GC Run, and GC
+                    Build
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Challenge:</strong> Displaying audio wave forms
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <strong>Solution:</strong> Created RestfulAPI to extract
+                    audio file's peak meta data and rendered the audio peaks
+                    using React waveform module
                   </p>
                 </li>
               </ul>
