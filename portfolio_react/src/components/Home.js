@@ -134,7 +134,7 @@ const ReturnToTop = styled.div`
   width: 100%;
   height: auto;
   //   font-size: 4em;
-
+  margin: 100px 0 0 0;
   svg {
     height: 50px;
     width: 75px;
@@ -185,14 +185,14 @@ const Home = () => {
             <h1 id="top">Hi, I'm Jared</h1>
             <hr></hr>
             <h3> Web Developer | Data Analyst</h3>
-            <p>Below are some of my recent projects I've been working on.</p>
-
+            <p>Below are some of the projects I've been working on.</p>
             <ScrollLink
               to="projects"
               spy={true}
               smooth={true}
               duration={1000}
               tabIndex="0"
+              title="View Projects"
               onKeyDown={(e) => {
                 e.key === "Enter" && accessibilityScroll("projects");
               }}
@@ -211,6 +211,7 @@ const Home = () => {
         <ReturnToTop>
           <div
             className="scroll-top-btn"
+            title="Scroll To Top"
             onClick={() => scroll.scrollToTop()}
             tabIndex="0"
             onKeyDown={(e) => {

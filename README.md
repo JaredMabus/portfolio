@@ -1,58 +1,52 @@
-# My Portfolio Website
+# Portfolio Landing Page
 
-# Summary
+A landing page for posting my projects.
 
-This is a
+## Tech Stack 
+* <strong>React:</strong> create-react-app, styled-components
+* <strong>Python:</strong> Flask, poetry
+* <strong>Docker</strong>
+* <strong>Cloud:</strong> GC Run and GC Build
 
-# Python Poetry Environment
 
-If poetry isn't installed on machine  
-`curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -`
+## Running Poetry Dev Virtual Env
 
-Could also install with pip instead  
-`pip install poetry==1.1.7 `
+`Installing Poetry`
+```zsh
+pip install poetry==1.1.7
 
-Install python dependencies  
-`poetry install `
+# or with curl
 
-Activate poetry virual environment  
-`poetry shell`
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+```
 
-# Flask Dev Server
+`Installing Python dependencies`
+```zsh
+poetry install
+```
 
-Starts server at port 8000 by default  
-`python3 main.py`
+`Running Virtual Env`
+```zsh
+# start
+poetry shell
 
-Start using Gunicorn  
-`gunicorn --bind localhost:8000 main:app`
+# stop
+exit
+```
 
-# Docker
+## Start Flask Dev Server
+`Run "main.py" default port 8000`
+```zsh
+python3 main.py
+```
 
-Create docker image:
-(-t allows you to name the image)  
-`docker build -t portfolio-image .`
+## Node Create-React-App Dev
+`Start React Dev Server`
 
-Create and run container from new image:  
-`docker run -p 8000:8000 --name portfolio-container portfolio-image`
+```zsh
+#start server port 3000
+npm start
 
-Run flask dev server  
-`docker run -it -p 8000:8000 -v $(pwd)/app:/usr/src/app/app:ro --name portfolio-container portfolio-image flask run -h 0.0.0.0 -p 8000`
-
-`docker run -it -p 8000:8000 -v $(pwd):/usr/src/app --name portfolio-container portfolio flask run -h 0.0.0.0 -p 8000`
-
-SSH into a docker container:  
-`docker exec -it {container-name} /bin/sh`
-
-# Google Cloud Run
-
-Note: must have GCP IAM credentials to push to cloud
-
-Create a tagged docker image  
-`docker tag image-id gcr.io/steel-index-323816/portfolio<#>`
-
-Push docker image to Google Cloud Registry  
-`docker push gcr.io/steel-index-323816/portfolio<#>`
-
-# Gmail for Account Creation
-
-[SMPT Gmail Login Issues fix](https://serverfault.com/questions/635139/how-to-fix-send-mail-authorization-failed-534-5-7-14)
+# compile to build folder
+npm run build
+```

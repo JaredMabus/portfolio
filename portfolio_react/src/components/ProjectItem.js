@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-
+// Images
 import InfometrixCard from "../images/InfometrixCard.svg";
 import InfometrixLogo from "../images/infometrixDarkCompact.svg";
 import SoundklipsCard from "../images/SoundklipsCard.svg";
@@ -11,27 +11,15 @@ const ProjectContainer = styled.div`
   flex-direction: column;
   justify-self: center;
   align-self: center;
-  // justify-content: center;
-  // align-items: center;
   width: 100%;
-  height: auto;
   padding: 0 0px;
   flex-wrap: no-wrap;
-  // margin: 0 5px;
-  // border: 1px solid blue;
-  // background-color: white;
-  // border-radius: 5px;
 `;
 
 const ProjectWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  // justify-content: start;
-  // align-items: start;
-  // border-bottom: 1px solid lightgrey;
   width: 100%;
-  height: auto;
-  max-height: ;
 `;
 
 const ProjectContent = styled.div`
@@ -39,10 +27,7 @@ const ProjectContent = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: start;
-  // border: 1px solid green;
   flex-1;
-  // width: 100%;
-  height: auto;
   flex-wrap: wrap;
   padding: 50px 0;
 
@@ -54,19 +39,11 @@ const ProjectContent = styled.div`
 
 const ProjectCardWrapper = styled.div`
   display: flex;
-  // flex-direction: column;
-  // justify-content: center;
-  // align-items: center;
-  // border: 1px solid brown;
-  // flex: 1;
-  // flex-shrink: 1;
-  // width: 100%;
   min-width: 288px;
-  // max-width: 450px;
   height: auto;
   min-height: 360px;
   max-height: 360px;
-  // padding: 500px 0;
+
   margin: 0 auto;
   border-radius: 5px;
   border: 2px solid rgba(0, 0, 0, 0.1);
@@ -102,6 +79,48 @@ const ProjectCardWrapper = styled.div`
     opacity: 1;
   }
 
+  &:hover .code-btn {
+    display: flex;
+    // opacity: 1;
+    transition: ease-in-out 500ms; 
+  }
+
+  .code-btn {
+    position: absolute;
+    display: none; 
+    bottom: 5px;
+    right: 5px;  
+    justify-self: start;
+    align-self: center;
+    // opacity: 0; 
+    justify-content: center;
+    align-items; center; 
+    padding: 8px;
+    color: white;
+    background-color:#f6773d;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: .7em;   
+    cursor: pointer;
+    transition: ease-in-out 350ms; 
+    border: 2px solid #f6773d;
+    width: 75px;  
+
+    a {
+      color: white;  
+    }
+
+    &:hover {
+      color: #f6773d;
+      background-color: white;
+      border: 2px solid #f6773d;
+      transform: scale(0.99);
+      a {
+        color:#f6773d 
+      } 
+    }  
+  }
+
   @media only screen and (max-width: 550px) {
     margin: 0;
   }
@@ -111,17 +130,7 @@ const CardHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  // width: 450px;
-  // min-width: 288px;
-  // max-width: 400px;
   width: 100%;
-  height: auto;
-  // max-height: 375px;
-  // border: 1px solid red;
-
-  @media only screen and (max-width: 550px) {
-    width: 100%;
-  }
 `;
 
 const ProjectHeader = styled.div`
@@ -129,15 +138,11 @@ const ProjectHeader = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  // flex: 1;
   width: 100%;
-  // max-width: 150px;
-  height: auto;
   border-bottom: 3px solid;
   padding: 5px 0;
   transition: ease-in-out 500ms;
   padding: 20px 0;
-
   border-image: linear-gradient(
       to right,
       rgb(54, 68, 79, 0.1) 25%,
@@ -150,10 +155,7 @@ const ProjectHeader = styled.div`
   img {
     transition: filter ease-in-out 350ms;
     height: 60px;
-    // height: auto;
-    // width: 100%;
     max-width: 250px;
-    // filter: grayscale(100%);
   }
 `;
 
@@ -162,12 +164,7 @@ const ProjectCard = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  // border: 1px solid yellow;
-  // flex: 1;
   width: 100%;
-  // width: 450px;
-  // min-width: 325px;
-  // max-width: 450px;
   height: 250px;
   min-height: 250px;
   max-height: 350px;
@@ -182,12 +179,10 @@ const ProjectCard = styled.div`
   }
 
   @media only screen and (max-width: 934px) {
-    // width: 288px;
-    min-width: 100%;
     min-width: 500px;
   }
+
   @media only screen and (max-width: 525px) {
-    // width: 288px;
     min-width: 350px;
   }
 `;
@@ -199,12 +194,9 @@ const ProjectText = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  // border: 1px solid red;
   flex: 1;
   flex-shrink: 0;
-  // width: 550px;
   min-width: 300px;
-  // min-width: 550px;
   max-width: 800px;
   height: auto;
   padding: 10px 15px;
@@ -248,9 +240,7 @@ const ProjectItem = () => {
                       <img src={InfometrixLogo} alt="infometrix"></img>
                     </div>
                   </ProjectHeader>
-
                   <ProjectCard className="project-card">
-                    {/* <img src={InfometrixCard} alt="infometrix card"></img> */}
                     <div
                       className="card-image-bg"
                       style={{
@@ -261,10 +251,13 @@ const ProjectItem = () => {
                       }}
                     ></div>
                   </ProjectCard>
-                </CardHeaderWrapper>
+                  <div><a href="https://github.com/JaredMabus?tab=repositories" 
+          target="_blank"
+          rel="noopener noreferrer"><div className="code-btn">Code</div></a></div>
+                </CardHeaderWrapper> 
               </ProjectCardWrapper>
-            </a>
-            <ProjectText>
+            </a>            
+            <ProjectText>           
               <p>
                 <strong>Infometrix</strong> is a data analytics and
                 visualization website. It provides dashboards on topics
@@ -296,10 +289,9 @@ const ProjectItem = () => {
                     inconsistent update times
                   </p>
                 </li>
-
                 <li>
                   <p>
-                    <strong>Solution:</strong> Created more robust ETL scripts
+                    <strong>Solution:</strong> Created more more robust ETL pipeline
                     when extracting from data source
                   </p>
                 </li>
@@ -311,6 +303,7 @@ const ProjectItem = () => {
       <ProjectContainer>
         <ProjectWrapper>
           <ProjectContent>
+            <div>
             <a
               href="https://soundklips.com/"
               target="_blank"
@@ -333,8 +326,12 @@ const ProjectItem = () => {
                     ></div>
                   </ProjectCard>
                 </CardHeaderWrapper>
+                <div><a href="https://github.com/soundklips" 
+          target="_blank"
+          rel="noopener noreferrer"><div className="code-btn">Code</div></a></div>
               </ProjectCardWrapper>
             </a>
+            </div>
             <ProjectText>
               <p>
                 <strong>Soundklips</strong> is an audio sample sharing and
@@ -370,7 +367,7 @@ const ProjectItem = () => {
                 </li>
                 <li>
                   <p>
-                    <strong>Solution:</strong> Created RestfulAPI to extract
+                    <strong>Solution:</strong> Created RestfulAPI to extract an
                     audio file's peak meta data and rendered the audio peaks
                     using React waveform module
                   </p>

@@ -10,7 +10,7 @@ def handle_404(e):
     return render_template("index.html")
 
 # API routes
-@app.route('/api', methods=["GET"])
+@app.route('/api/test', methods=["GET"])
 def api_test():
     return {"message":"hello world"}
 
