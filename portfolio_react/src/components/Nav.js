@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -8,10 +8,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import PersonIcon from "@mui/icons-material/Person";
+import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
 const NavContainer = styled.div`
   position: sticky;
-  top:0; 
+  top: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -27,15 +28,14 @@ const NavContainer = styled.div`
   padding: 2px 10% 0 10%;
   background-color: #fff;
   border-bottom: 3px solid;
-  z-index:1;
-  box-shadow: 0 0 25px 3px rgba(0,0,0,.1); 
+  z-index: 1;
+  box-shadow: 0 0 25px 3px rgba(0, 0, 0, 0.1);
   border-image: linear-gradient(
       to right,
       rgba(227, 230, 228, 1) 75%,
       rgba(227, 230, 228, 0.8) 25%
     )
     2;
-   
 `;
 
 const NavLinkWrapper = styled.div`
@@ -260,7 +260,7 @@ const Nav = () => {
 
   const accessibilityScroll = (id) => {
     const section = document.querySelector(`#${id}`);
-    section.scrollIntoView({behavior: "smooth", block: "start" });
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (

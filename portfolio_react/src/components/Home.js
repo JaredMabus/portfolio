@@ -8,8 +8,7 @@ import Project from "./Project";
 import ProfilePic from "../images/ProfilePic.png";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import SectionSplitBG from "../images/SectionSplit.svg";
-// import SectionSplitBG from "../images/SectionSplitCurved.svg";
+import SectionSplitBG from "../images/SectionSplitShadow.svg";
 
 const HomePage = styled.div`
   display: flex;
@@ -164,7 +163,7 @@ const SectionSplit = styled.div`
   background-repeat: no-repeat;
   x-overflow: hidden;
   border-radius: 50p;
-  margin: 150px 0 0 0;
+  margin: 150px 0 50px 0;
 
   img {
     max-width: 100%;
@@ -191,6 +190,7 @@ const Home = () => {
               spy={true}
               smooth={true}
               duration={1000}
+              offset={-100}
               tabIndex="0"
               title="View Projects"
               onKeyDown={(e) => {

@@ -1,0 +1,9 @@
+version: "3.8"
+services:
+  portfolio-image3:
+    build: .
+    command:
+      - gunicorn -b 0.0.0.0:8080 main:app
+      - service nginx start
+    ports:
+      - "8000:80"

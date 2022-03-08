@@ -2,16 +2,17 @@
 
 A landing page for posting my projects.
 
-## Tech Stack 
-* <strong>React:</strong> create-react-app, styled-components
-* <strong>Python:</strong> Flask, poetry
-* <strong>Docker</strong>
-* <strong>Cloud:</strong> GC Run and GC Build
+## Tech Stack
 
+- <strong>React:</strong> create-react-app, styled-components
+- <strong>Python:</strong> Flask, poetry
+- <strong>Docker</strong>
+- <strong>Cloud:</strong> GC Run and GC Build
 
 ## Running Poetry Dev Virtual Env
 
 `Installing Poetry`
+
 ```zsh
 pip install poetry==1.1.7
 
@@ -21,11 +22,13 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poet
 ```
 
 `Installing Python dependencies`
+
 ```zsh
 poetry install
 ```
 
 `Running Virtual Env`
+
 ```zsh
 # start
 poetry shell
@@ -34,13 +37,16 @@ poetry shell
 exit
 ```
 
-## Start Flask Dev Server
+## Start Flask dev server
+
 `Run "main.py" default port 8000`
+
 ```zsh
 python3 main.py
 ```
 
-## Node Create-React-App Dev
+## Start Node local host dev
+
 `Start React Dev Server`
 
 ```zsh
@@ -50,3 +56,19 @@ npm start
 # compile to build folder
 npm run build
 ```
+
+# Docker
+
+## Build
+
+docker build -t portfolio-image .
+
+## Run
+
+docker run -it -p 8000:8000 --name portfolio-container portfolio-image /bin/sh
+
+gunicorn -b 0.0.0.0:8080 main:app
+
+docker run -it -p 8000:80 -v $(pwd)/proxy:/etc/nginx/conf.d --name portfolio-container3 portfolio-image3 /bin/sh
+
+docker run -it -p 8000:80 --name portfolio-container portfolio-image

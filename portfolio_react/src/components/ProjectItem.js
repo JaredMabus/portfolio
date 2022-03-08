@@ -43,7 +43,6 @@ const ProjectCardWrapper = styled.div`
   height: auto;
   min-height: 360px;
   max-height: 360px;
-
   margin: 0 auto;
   border-radius: 5px;
   border: 2px solid rgba(0, 0, 0, 0.1);
@@ -92,15 +91,14 @@ const ProjectCardWrapper = styled.div`
     right: 5px;  
     justify-self: start;
     align-self: center;
-    // opacity: 0; 
     justify-content: center;
     align-items; center; 
     padding: 8px;
-    color: white;
-    background-color:#f6773d;
+    color: #fff;
+    background-color:rgb(246,119,61,.90);
     border-radius: 5px;
     font-weight: 700;
-    font-size: .7em;   
+    font-size: .8em;   
     cursor: pointer;
     transition: ease-in-out 350ms; 
     border: 2px solid #f6773d;
@@ -115,10 +113,31 @@ const ProjectCardWrapper = styled.div`
       background-color: white;
       border: 2px solid #f6773d;
       transform: scale(0.99);
+
       a {
-        color:#f6773d 
+        color:#f6773d; 
       } 
     }  
+  }
+
+  .design-btn {
+    position: absolute;
+    display: none; 
+    bottom: 5px;
+    right: 85px;
+    background-color: rgb(249,178,57, .90);
+    border: 2px solid rgb(249,178,57, .90);
+
+    &:hover {
+      color: rgb(249,178,57,1);
+      background-color: white;
+      border: 2px solid rgb(249,178,57, 1);
+      transform: scale(0.99);
+
+      a {
+        color:#f6773d; 
+      } 
+    }   
   }
 
   @media only screen and (max-width: 550px) {
@@ -139,6 +158,8 @@ const ProjectHeader = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-width: 288px;
+  max-width: 100%;
   border-bottom: 3px solid;
   padding: 5px 0;
   transition: ease-in-out 500ms;
@@ -155,11 +176,14 @@ const ProjectHeader = styled.div`
   img {
     transition: filter ease-in-out 350ms;
     height: 60px;
-    max-width: 250px;
+    // width: 100%;
+    // min-width: 250px;
+    // max-width: 100%;
   }
 `;
 
 const ProjectCard = styled.div`
+  // border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -172,18 +196,20 @@ const ProjectCard = styled.div`
 
   .card-image-bg {
     transition: ease-in-out 500ms;
+    // flex: 1;
     width: 100%;
-    max-width: 100%;
+    min-width: 100%;
+    // max-width: 100%;
     height: 100%;
     opacity: 0.9;
   }
 
   @media only screen and (max-width: 934px) {
-    min-width: 500px;
+    min-width: 100%;
   }
 
   @media only screen and (max-width: 525px) {
-    min-width: 350px;
+    min-width: 288px;
   }
 `;
 
@@ -228,13 +254,13 @@ const ProjectItem = () => {
       <ProjectContainer>
         <ProjectWrapper>
           <ProjectContent>
-            <a
-              href="http://www.infometrix.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ProjectCardWrapper>
-                <CardHeaderWrapper className="card-header-wrap">
+            <ProjectCardWrapper>
+              <CardHeaderWrapper className="card-header-wrap">
+                <a
+                  href="http://www.infometrix.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ProjectHeader className="card-header">
                     <div>
                       <img src={InfometrixLogo} alt="infometrix"></img>
@@ -251,13 +277,25 @@ const ProjectItem = () => {
                       }}
                     ></div>
                   </ProjectCard>
-                  <div><a href="https://github.com/JaredMabus?tab=repositories" 
-          target="_blank"
-          rel="noopener noreferrer"><div className="code-btn">Code</div></a></div>
-                </CardHeaderWrapper> 
-              </ProjectCardWrapper>
-            </a>            
-            <ProjectText>           
+                </a>
+                <a
+                  href="https://github.com/JaredMabus?tab=repositories"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="code-btn">Code</div>
+                </a>
+                <a
+                  href="https://www.figma.com/file/MDAcBypWWsR2sJzEswsnNj/Infometrix?node-id=232%3A2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="code-btn design-btn">Design</div>
+                </a>
+              </CardHeaderWrapper>
+            </ProjectCardWrapper>
+
+            <ProjectText>
               <p>
                 <strong>Infometrix</strong> is a data analytics and
                 visualization website. It provides dashboards on topics
@@ -274,7 +312,7 @@ const ProjectItem = () => {
                 </li>
                 <li>
                   <p>
-                    <strong>Web Stack:</strong> React, Flask, MySQL,
+                    <strong>Tech Stack:</strong> React, Flask, MySQL,
                     mysql-connector, and NGINX
                   </p>
                 </li>
@@ -283,7 +321,7 @@ const ProjectItem = () => {
                     <strong>Cloud:</strong> AWS RDS and EC2
                   </p>
                 </li>
-                <li>
+                {/* <li>
                   <p>
                     <strong>Challenge:</strong> Scrapping web data with
                     inconsistent update times
@@ -291,10 +329,10 @@ const ProjectItem = () => {
                 </li>
                 <li>
                   <p>
-                    <strong>Solution:</strong> Created more more robust ETL pipeline
-                    when extracting from data source
+                    <strong>Solution:</strong> Created more more robust ETL
+                    pipeline when extracting from data source
                   </p>
-                </li>
+                </li> */}
               </ul>
             </ProjectText>
           </ProjectContent>
@@ -304,41 +342,52 @@ const ProjectItem = () => {
         <ProjectWrapper>
           <ProjectContent>
             <div>
-            <a
-              href="https://soundklips.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
               <ProjectCardWrapper>
                 <CardHeaderWrapper className="card-header-wrap">
-                  <ProjectHeader className="card-header">
-                    <img src={SoundklipsLogo} alt="infometrix"></img>
-                  </ProjectHeader>
-                  <ProjectCard className="project-card">
-                    <div
-                      className="card-image-bg"
-                      style={{
-                        backgroundImage: `url("${SoundklipsCard}")`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        backgroundRepeat: "no-repeat",
-                      }}
-                    ></div>
-                  </ProjectCard>
+                  <a
+                    href="https://soundklips.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ProjectHeader className="card-header">
+                      <img src={SoundklipsLogo} alt="infometrix"></img>
+                    </ProjectHeader>
+                    <ProjectCard className="project-card">
+                      <div
+                        className="card-image-bg"
+                        style={{
+                          backgroundImage: `url("${SoundklipsCard}")`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></div>
+                    </ProjectCard>
+                  </a>
                 </CardHeaderWrapper>
-                <div><a href="https://github.com/soundklips" 
-          target="_blank"
-          rel="noopener noreferrer"><div className="code-btn">Code</div></a></div>
+                <a
+                  href="https://github.com/soundklips"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="code-btn">Code</div>
+                </a>
+                <a
+                  href="https://www.figma.com/file/OuAqKXbe0c6jrW62jQBm5S/SoudKlips?node-id=20%3A4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="code-btn design-btn">Design</div>
+                </a>
               </ProjectCardWrapper>
-            </a>
             </div>
             <ProjectText>
               <p>
                 <strong>Soundklips</strong> is an audio sample sharing and
-                management website. This project aims to provide a platform for
-                musicians, audio engineers, producers, and sound designers to
-                share audio files with one another. It's a work in progress and
-                I plan on adding new features over time.
+                management website. The goal of this project is to provide a
+                platform for musicians, audio engineers, producers, and sound
+                designers to share audio files with one another. It's a work in
+                progress and I plan on adding more features over time.
               </p>
               <ul>
                 <li>
@@ -350,7 +399,7 @@ const ProjectItem = () => {
                 </li>
                 <li>
                   <p>
-                    <strong>Web Stack:</strong> React, Flask, Docker,
+                    <strong>Tech Stack:</strong> React, Flask, Docker,
                     PostgreSQL, and SQLAlchemy
                   </p>
                 </li>
@@ -360,7 +409,7 @@ const ProjectItem = () => {
                     Build
                   </p>
                 </li>
-                <li>
+                {/* <li>
                   <p>
                     <strong>Challenge:</strong> Displaying audio wave forms
                   </p>
@@ -371,7 +420,7 @@ const ProjectItem = () => {
                     audio file's peak meta data and rendered the audio peaks
                     using React waveform module
                   </p>
-                </li>
+                </li> */}
               </ul>
             </ProjectText>
           </ProjectContent>

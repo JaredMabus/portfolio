@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ThemeProvider } from "styled-components";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { GlobalStyle, light, dark } from "./styles/components";
 import Home from "./components/Home";
-import Project from "./components/Project";
-
-const About = () => {
-  return (
-    <>
-      <h1>About</h1>
-      <Link to="/">About</Link>
-    </>
-  );
-};
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -27,7 +22,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Project />} />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Router>
       </ThemeProvider>
