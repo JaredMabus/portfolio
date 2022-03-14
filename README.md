@@ -21,13 +21,13 @@ pip install poetry==1.1.7
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ```
 
-`Installing Python dependencies`
+`Install Python dependencies`
 
 ```zsh
 poetry install
 ```
 
-`Running Virtual Env`
+`Run Virtual Env`
 
 ```zsh
 # start
@@ -45,9 +45,7 @@ exit
 python3 main.py
 ```
 
-## Start Node local host dev
-
-`Start React Dev Server`
+## Start Node dev server
 
 ```zsh
 #start server port 3000

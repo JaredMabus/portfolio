@@ -29,9 +29,7 @@ COPY ./proxy/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080 80
 
-RUN service nginx start
-
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "main:app"]
+CMD ["/bin/sh", "./start.sh"]
 
 
 
