@@ -1,73 +1,72 @@
-# Soundklips
+# Portfolio Landing Page
 
-# Summary
+A landing page for posting my projects.
 
-Soundklips is a web project that allows users to uplaod, share, and find other user's audio samples. Users can bundle their sounds into "collections" and share them with other users.
+## Tech Stack
 
-### Features
+- <strong>React:</strong> create-react-app, styled-components
+- <strong>Python:</strong> Flask, poetry
+- <strong>Docker</strong>
+- <strong>Cloud:</strong> GC Run and GC Build
 
-- Login and email verification
-- Audio sample file management with GCS (upload, delete, and edit)
-- User settings for dark and light mode
-- Audio waveforms for peak amplitude levels
+## Running Poetry Dev Virtual Env
 
-### Problems
+`Installing Poetry`
 
-1. Python audio library Librosa doesn't allow reading of mp3 binary from Werkzueg's FileStorage stream.
+```zsh
+pip install poetry==1.1.7
 
-### Solutions:
+# or with curl
 
-1. Write mp3 audio files to folder, read from file, and then remove the file after meta data is uploaded.
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+```
 
-# Python Poetry Environment
+`Install Python dependencies`
 
-If poetry isn't installed on machine  
-`curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -`
+```zsh
+poetry install
+```
 
-Could also install with pip instead  
-`pip install poetry==1.1.7 `
+`Run Virtual Env`
 
-Install python dependencies  
-`poetry install `
+```zsh
+# start
+poetry shell
 
-Activate poetry virual environment  
-`poetry shell`
+# stop
+exit
+```
 
-# Flask Dev Server
+## Start Flask dev server
 
-Starts server at port 8000 by default  
-`python3 main.py`
+`Run "main.py" default port 8000`
 
-Start using Gunicorn  
-`gunicorn --bind localhost:8000 main:app`
+```zsh
+python3 main.py
+```
+
+## Start Node dev server
+
+```zsh
+#start server port 3000
+npm start
+
+# compile to build folder
+npm run build
+```
 
 # Docker
 
-Create docker image:
-(-t allows you to name the image)  
-`docker build -t soundklips-image .`
+## Build
 
-Create and run container from new image:  
-`docker run -p 8000:8000 --name soundklips-container soundklips-image1`
+docker build -t portfolio-image .
 
-Run flask dev server  
-`docker run -it -p 8000:8000 -v $(pwd)/app:/usr/src/app/app:ro --name soudnklips-container soundklips-image flask run -h 0.0.0.0 -p 8000`
+## Run
 
-`docker run -it -p 8000:8000 -v $(pwd):/usr/src/app --name soudnklips-container soundklips flask run -h 0.0.0.0 -p 8000`
+docker run -it -p 8000:8000 --name portfolio-container portfolio-image /bin/sh
 
-SSH into a docker container:  
-`docker exec -it {container-name} /bin/sh`
+gunicorn -b 0.0.0.0:8080 main:app
 
-# Google Cloud Run
+docker run -it -p 8000:80 -v $(pwd)/proxy:/etc/nginx/conf.d --name portfolio-container3 portfolio-image3 /bin/sh
 
-Note: must have GCP IAM credentials to push to cloud
-
-Create a tagged docker image  
-`docker tag image-id gcr.io/steel-index-323816/soundklips<#>`
-
-Push docker image to Google Cloud Registry  
-`docker push gcr.io/steel-index-323816/soundklips<#>`
-
-# Gmail for Account Creation
-
-[SMPT Gmail Login Issues fix](https://serverfault.com/questions/635139/how-to-fix-send-mail-authorization-failed-534-5-7-14)
+docker run -it -p 8000:80 --name portfolio-container portfolio-image
