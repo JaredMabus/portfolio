@@ -4,7 +4,7 @@ FROM python:3.8
 # args would set these env variables
 ENV POETRY_VERSION=1.1.7 \
     FLASK_APP=main:app \
-    FLASK_ENV=development \
+    FLASK_ENV=development 
 
 
 WORKDIR /usr/src/app
