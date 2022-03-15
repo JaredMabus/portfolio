@@ -28,7 +28,7 @@ RUN apt update && apt install -y nginx
 COPY . .
 COPY ./proxy/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8080 80
+EXPOSE 80
 
 CMD ["/bin/sh", "./start.sh"]
 
