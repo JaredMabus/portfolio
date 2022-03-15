@@ -30,7 +30,8 @@ COPY ./proxy/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
 
-CMD ["/bin/sh", "./start.sh"]
+# CMD ["/bin/sh", "./start.sh"]
+CMD ["gunicorn", "-b", "0.0.0.0:8080", "main:app"]
 
 
 
