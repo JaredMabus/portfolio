@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7e0e8869.css",
+    "main.js": "/static/js/main.9b3b9fe5.js",
+    "static/media/InfometrixCard.svg": "/static/media/InfometrixCard.33d426c5842390d167bc349826ed0a29.svg",
+    "static/media/ProfilePic.png": "/static/media/ProfilePic.a9e46e32abcf487c3836.png",
+    "static/media/SKLogoFullNotLevel.svg": "/static/media/SKLogoFullNotLevel.73be9e7898e0af18bc0203a64b37ebe4.svg",
+    "static/media/SoundklipsCard.svg": "/static/media/SoundklipsCard.589156b96e2a40a56a4c2f3bbcbc18e3.svg",
+    "static/media/infometrixDarkCompact.svg": "/static/media/infometrixDarkCompact.699332d0e5e7f835e795f30044f6d66f.svg",
+    "static/media/SectionSplitShadow.svg": "/static/media/SectionSplitShadow.4e3b7938ec4d5fa0a2b2de3f85de3593.svg",
+    "index.html": "/index.html",
+    "main.7e0e8869.css.map": "/static/css/main.7e0e8869.css.map",
+    "main.9b3b9fe5.js.map": "/static/js/main.9b3b9fe5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7e0e8869.css",
+    "static/js/main.9b3b9fe5.js"
+  ]
+}
