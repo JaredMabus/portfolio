@@ -6,7 +6,6 @@ ENV POETRY_VERSION=1.1.7 \
     FLASK_APP=main:app \
     FLASK_ENV=development 
 
-
 WORKDIR /usr/src/app
 
 # Install poetry
@@ -21,15 +20,11 @@ COPY poetry.lock pyproject.toml ./
 # Install dependencies
 RUN poetry install --no-dev
 
-RUN apt update && apt install -y nginx
-
 # Copy rest of repo
 COPY . .
-COPY ./proxy/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 8080
 
-# CMD ["/bin/sh", "./start.sh"]
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "main:app"]
 
 

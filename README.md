@@ -63,10 +63,10 @@ docker build -t portfolio-image .
 
 ## Run
 
-docker run -it -p 8000:8000 --name portfolio-container portfolio-image /bin/sh
+docker run -it -p 8080:8080 --name portfolio-container portfolio-image /bin/sh
 
 gunicorn -b 0.0.0.0:8080 main:app
 
-docker run -it -p 8000:80 -v $(pwd)/proxy:/etc/nginx/conf.d --name portfolio-container3 portfolio-image3 /bin/sh
+docker run -it -p 8080:8080 -v $(pwd)/proxy:/etc/nginx/conf.d --name portfolio-container3 portfolio-image3 /bin/sh
 
-docker run -it -p 8000:80 --name portfolio-container portfolio-image
+docker run -it -p 8080:8080 --name portfolio-container portfolio-image
