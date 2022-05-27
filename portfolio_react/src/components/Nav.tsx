@@ -10,7 +10,7 @@ import ViewSidebarIcon from "@mui/icons-material/ViewSidebar";
 import PersonIcon from "@mui/icons-material/Person";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 
-const NavContainer = styled.div`
+const NavContainer = styled.div<SideBarComponent>`
   position: sticky;
   top: 0;
   display: flex;
@@ -135,7 +135,11 @@ const Socials = styled.div`
   }
 `;
 
-const SideBarNavContainer = styled.div`
+interface SideBarOptions {
+  sidebar: boolean;
+}
+
+const SideBarNavContainer = styled.div<SideBarOptions>`
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -258,9 +262,9 @@ const Nav = () => {
     setSideBarStatus(!sidebar);
   };
 
-  const accessibilityScroll = (id) => {
+  const accessibilityScroll = (id: string) => {
     const section = document.querySelector(`#${id}`);
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    section && section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -269,8 +273,8 @@ const Nav = () => {
         <div className="close-sidebar">
           <CloseIcon
             onClick={() => toggleSideBar()}
-            tabIndex="0"
-            onKeyDown={(e) => {
+            tabIndex={0}
+            onKeyDown={(e: any) => {
               e.key === "Enter" ? toggleSideBar() : console.log();
             }}
           />
@@ -285,11 +289,9 @@ const Nav = () => {
               offset={-100}
               duration={1000}
               onClick={() => toggleSideBar()}
-              tabIndex="0"
+              tabIndex={0}
               onKeyDown={(e) => {
-                e.key === "Enter"
-                  ? accessibilityScroll(item.scroll)
-                  : console.log();
+                e.key === "Enter" && accessibilityScroll(item.scroll);
               }}
             >
               <div className="nav-link sidebar">
@@ -319,7 +321,7 @@ const Nav = () => {
           <div className="nav-menu-btn">
             <MenuIcon
               onClick={() => toggleSideBar()}
-              tabIndex="0"
+              tabIndex={0}
               onKeyDown={(e) => {
                 e.key === "Enter" && toggleSideBar();
               }}
@@ -334,7 +336,7 @@ const Nav = () => {
                 smooth={true}
                 offset={-100}
                 duration={1000}
-                tabIndex="0"
+                tabIndex={0}
                 onKeyDown={(e) => {
                   e.key === "Enter" && accessibilityScroll(item.scroll);
                 }}

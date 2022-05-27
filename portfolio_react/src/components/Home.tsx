@@ -171,9 +171,9 @@ const SectionSplit = styled.div`
 `;
 
 const Home = () => {
-  const accessibilityScroll = (id) => {
+  const accessibilityScroll = (id: string = "top") => {
     const section = document.querySelector(`#${id}`);
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    section && section.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   return (
     <>
@@ -191,7 +191,7 @@ const Home = () => {
               smooth={true}
               duration={1000}
               offset={-100}
-              tabIndex="0"
+              tabIndex={0}
               title="View Projects"
               onKeyDown={(e) => {
                 e.key === "Enter" && accessibilityScroll("projects");
@@ -213,7 +213,7 @@ const Home = () => {
             className="scroll-top-btn"
             title="Scroll To Top"
             onClick={() => scroll.scrollToTop()}
-            tabIndex="0"
+            tabIndex={0}
             onKeyDown={(e) => {
               e.key === "Enter" && accessibilityScroll("top-nav");
             }}

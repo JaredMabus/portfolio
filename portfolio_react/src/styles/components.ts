@@ -1,7 +1,7 @@
 import React from "react";
-import { styled, createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from "styled-components";
 
-export const light = {
+export const light: CustomStyles = {
   main1: "#E5E5E5", //darkest
   main2: "#FAFAFA", // 2nd darkest
   main3: "#fff", // 3rd darkest
@@ -12,7 +12,7 @@ export const light = {
   content: "#E5E5E5",
 };
 
-export const dark = {
+export const dark: CustomStyles = {
   main1: "#212121", //darkest
   main2: "#303030", // 2nd darkest
   main3: "#424242", // 3rd darkest
@@ -23,7 +23,7 @@ export const dark = {
   content: "#424242",
 };
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<CustomGlobal>`
 * {
     margin: 0;
     padding: 0;
