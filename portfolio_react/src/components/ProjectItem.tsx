@@ -366,7 +366,7 @@ const ProjectItem = () => {
                   </a>
                 </CardHeaderWrapper>
                 <a
-                  href="https://github.com/soundklips"
+                  href="https://github.com/JaredMabus?tab=repositories"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

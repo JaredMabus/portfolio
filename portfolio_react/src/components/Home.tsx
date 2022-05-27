@@ -66,7 +66,7 @@ const InfoContainer = styled.div`
     min-width: 175px;
     max-width: 175px;
     padding: 20px 10px 20px 20px;
-    margin: 20px 0 0 0;
+    margin: 0 0 0 0;
     color: ${(props) => props.theme.fontColor};
     border: 2px solid #f6773d;
     background-color: white;
@@ -86,6 +86,12 @@ const InfoContainer = styled.div`
       //   height: 15px;
       padding: 1px 0 0 3px;
       margin: 0 0 0 2px;
+    }
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 
@@ -185,22 +191,28 @@ const Home = () => {
             <hr></hr>
             <h3> Web Developer | Data Analyst</h3>
             <p>Below are some of the projects I've been working on.</p>
-            <ScrollLink
-              to="projects"
-              spy={true}
-              smooth={true}
-              duration={1000}
-              offset={-100}
-              tabIndex={0}
-              title="View Projects"
-              onKeyDown={(e) => {
-                e.key === "Enter" && accessibilityScroll("projects");
+
+            <div
+              className="project-btn"
+              onClick={() => {
+                accessibilityScroll("projects");
               }}
             >
-              <div className="project-btn">
+              <ScrollLink
+                to="projects"
+                spy={true}
+                smooth={true}
+                duration={1000}
+                offset={-100}
+                tabIndex={0}
+                title="View Projects"
+                onKeyDown={(e) => {
+                  e.key === "Enter" && accessibilityScroll("projects");
+                }}
+              >
                 Projects <ArrowForwardIosIcon />
-              </div>
-            </ScrollLink>
+              </ScrollLink>
+            </div>
           </InfoText>
           <div id="prof-img">
             <img src={ProfilePic} alt="profile" />
