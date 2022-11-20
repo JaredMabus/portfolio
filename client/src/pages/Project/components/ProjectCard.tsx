@@ -8,8 +8,6 @@ import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
 // Types
 import { ProjectData } from "../projectData";
 
-
-
 // Added 'any' type per https://github.com/mui/material-ui/issues/22699
 const CardButton: any = styled(Button)(({ theme }) => ({
   display: "flex",
@@ -26,26 +24,16 @@ const CardButton: any = styled(Button)(({ theme }) => ({
 }));
 
 interface PropTypes {
-  data: ProjectData
+  data: ProjectData;
   children?: React.ReactNode;
 }
 
-const HasLink:React.FC<PropTypes> = (props)=> {
-  return (
-    <>
-    {props.data.url === null 
-      ? props.children 
-      : <a href={props.data.url}>{props.children}</a>}
-   </>
-  )
-}
-
-const ProjectCard = ({data}:PropTypes) => {
+const ProjectCard = ({ data }: PropTypes) => {
   const theme = useTheme();
 
   return (
     <>
-     <HasLink data={data}>
+      <a href={data.url} target="_blank" rel="noreferrer">
         <Paper
           sx={{
             position: "relative",
@@ -104,7 +92,14 @@ const ProjectCard = ({data}:PropTypes) => {
               direction="row"
               spacing={1}
             >
-              <CardButton target="_blank" href={data.githubUrl}>
+              <CardButton
+                onClick={() => {
+                  typeof data.githubUrl === "string" &&
+                    window.open(data.githubUrl, "_blank");
+                }}
+                // target="_blank"
+                // href={data.githubUrl}
+              >
                 <GitHubIcon />
                 Code
               </CardButton>
@@ -158,7 +153,7 @@ const ProjectCard = ({data}:PropTypes) => {
               }}
             /> */}
         </Paper>
-        </HasLink>
+      </a>
     </>
   );
 };
