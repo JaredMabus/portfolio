@@ -14,7 +14,7 @@ const Socials = () => {
           justifyContent: "center",
           alignItems: "center",
           px: 0.5,
-          pt: 2,
+          pt: 1.5,
           mr: 1,
           borderRadius: "0px 0px 4px 4px",
           backgroundColor: "#78E3B1",
