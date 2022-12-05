@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
 import path from "path";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
-const port = process.env.port || 3001;
+const port = process.env.EXPRESS_PORT || 3001;
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
