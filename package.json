@@ -8,6 +8,7 @@
     "start": "node ./server/dist/server.js",
     "build": "cd server && npm run build && cd ../client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
+    "postinstall": "npm run build",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "watch": "cd server && npm run watch"
   },
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/JaredMabus/portfolio#readme",
   "dependencies": {
     "concurrently": "^7.5.0",
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "typescript": "^4.9.3"
   }
 }
