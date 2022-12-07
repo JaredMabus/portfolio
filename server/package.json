@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon server.ts"
+    "start": "node ./dist/server.js",
+    "watch": "nodemon server.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +20,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "dotenv": "^16.0.3"
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   }
 }

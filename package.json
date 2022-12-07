@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd server && npm start",
-    "build": "cd client && npm run build",
-    "install": "cd client && npm i",
+    "start": "node ./server/dist/server.js",
+    "build": "cd server && npm run build && cd ../client && npm run build",
+    "install": "cd server && npm i && cd ../client && npm i",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "server": "cd server && npm run watch"
+    "watch": "cd server && npm run watch"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/JaredMabus/portfolio#readme",
   "dependencies": {
-    "concurrently": "^7.5.0"
+    "concurrently": "^7.5.0",
+    "dotenv": "^16.0.3"
   }
 }

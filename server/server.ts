@@ -6,14 +6,22 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(express.static(path.resolve(__dirname, "../client/build")));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../client/build")));
+} else {
+  app.use(express.static(path.join(__dirname, "../client/build")));
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("*", (req, res) => {
   try {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+    if (process.env.NODE_ENV === "production") {
+      res.sendFile(path.join(__dirname, "../../client/build/index.html"));
+    } else {
+      res.sendFile(path.join(__dirname, "../client/build/index.html"));
+    }
   } catch (err) {
     res.status(500);
     throw new Error("could not send index.html");
