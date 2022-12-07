@@ -9,7 +9,9 @@
     "build": "cd server && npm run build && cd ../client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "watch": "cd server && npm run watch"
+    "watch": "cd server && npm run watch",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc"
   },
   "repository": {
     "type": "git",
