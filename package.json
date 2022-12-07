@@ -8,7 +8,6 @@
     "start": "node ./server/dist/server.js",
     "build": "cd server && npm run build && cd ../client && npm run build",
     "install": "cd server && npm i && cd ../client && npm i",
-    "postinstall": "npm run build",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "watch": "cd server && npm run watch"
   },
