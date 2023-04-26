@@ -78,7 +78,7 @@ export const resumeData: ResumeDataType[] = [
         employer: "Indigital",
         location: "Shakopee, MN",
         position: "Data Analyst",
-        startDate: "10/1/2020",
+        startDate: "11/1/2020",
         endDate: "8/1/2022",
         jobSummary:
           "Contracted with Ameriprise to work on a large department consolidation project and to improve material review workflow processes.",
