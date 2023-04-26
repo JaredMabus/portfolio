@@ -40,7 +40,7 @@ const ProjectGrid = ({ data }: Props) => {
             <Grid
               xs={12}
               sm={6}
-              lg={4}
+              lg={6}
               sx={{
                 transition: "150ms ease-in-out",
                 ":hover ": {
