@@ -41,7 +41,7 @@ export const resumeData: ResumeDataType[] = [
     id: 1,
     title: "Summary",
     content:
-      "Web developer and data analyst with two years of experience improving and implementing business intelligence solutions. Earned a certificate in Full Stack Web Development from the University of Minnesota Coding Bootcamp. Passionate about building web apps and has proven ability in applying UI design, MVC development, and database management skills to solve business needs.",
+      "Web developer and data analyst with three years of experience improving and implementing business intelligence solutions. Holds a Full Stack Web Development certificate from the University of Minnesota Coding Bootcamp. Adept in building dynamic web applications, passionate about developing creative solutions to address business needs. Skilled in UI design, MVC development, and database management.",
   },
   {
     id: 2,
@@ -52,7 +52,6 @@ export const resumeData: ResumeDataType[] = [
         items: [
           "React",
           "Express",
-          "Node",
           "TypeScript",
           "Redux",
           "Jest",
@@ -65,13 +64,30 @@ export const resumeData: ResumeDataType[] = [
       { category: "UI/Design", items: ["Figma"] },
       { category: "Version Control", items: ["Git"] },
       { category: "Database", items: ["MySQL", "PostgreSQL", "MongoDB"] },
-      { category: "Data Visualization", items: ["Power Bi", "Tableau"] },
+      {
+        category: "Data Visualization",
+        items: ["Power Bi", "Tableau", "Excel"],
+      },
     ],
   },
   {
     id: 3,
     title: "Professional Experience",
     jobs: [
+      {
+        employer: "Indigital",
+        location: "Shakopee, MN",
+        position: "Data Analyst",
+        startDate: "10/1/2020",
+        endDate: "8/1/2022",
+        jobSummary:
+          "Contracted with Ameriprise to work on a large department consolidation project and to improve material review workflow processes.",
+        content: [
+          "Designed Power BI dashboards to consolidate reporting for CRM and web usage data",
+          "Analyzed Google Analytics and CRM data allowing for more BI-focused digital marketing campaigns",
+          "Created AWS compute instance to manage and normalize Excel and CSV reports using ETL Python scripts",
+        ],
+      },
       {
         employer: "Ameriprise Financial",
         location: "Minneapolis, MN",
@@ -93,6 +109,13 @@ export const resumeData: ResumeDataType[] = [
     id: 4,
     title: "Education",
     institution: [
+      {
+        name: "University of Minnesota - Coding Bootcamp",
+        location: "Minneapolis, MN",
+        degree: "Certificate in Full Stack Web Development",
+        startDate: "",
+        endDate: "12/2/2022",
+      },
       {
         name: "University of Northern Iowa",
         location: "Cedar Falls, IA",

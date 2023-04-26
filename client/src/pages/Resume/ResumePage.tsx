@@ -41,11 +41,12 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
         data.skills.map((tech: TechCategoryType) => (
           <Stack
             key={tech.category}
+            // spacing={}
             sx={{
               alignItems: "center",
               p: 1,
               m: 0.5,
-              maxHeight: 164,
+              maxHeight: 400,
               border: `2px solid ${theme.palette.primary.main}80`,
               borderRadius: 3,
             }}
@@ -103,7 +104,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
     >
       {data.jobs &&
         data.jobs.map((job) => (
-          <Stack key={job.employer} sx={{ width: "100%" }}>
+          <Stack key={job.employer} sx={{ width: "100%", py: 2 }}>
             <Stack
               sx={{ width: "100%", justifyContent: "space-between", mb: 2 }}
               direction="row"
@@ -116,7 +117,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                   <Typography
                     sx={{ mr: 1, fontWeight: 700 }}
                     align="center"
-                    variant="subtitle1"
+                    variant="h6"
                   >
                     {job.employer},
                   </Typography>
@@ -213,12 +214,12 @@ export default function ResumePage() {
             top: 20,
           }}
         >
-          <a href="Resume_old.pdf" download>
+          {/* <a href="Resume_old.pdf" download>
             <Button>
               <DownloadIcon fontSize="small" />
               Download
             </Button>
-          </a>
+          </a> */}
         </Box>
         <Stack
           sx={{
@@ -253,6 +254,17 @@ export default function ResumePage() {
                 textDecoration: "none",
                 color: theme.palette.text.primary,
               }}
+              href="https://www.linkedin.com/in/jaredmabusth"
+              target="_blank"
+              rel="noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a
+              style={{
+                textDecoration: "none",
+                color: theme.palette.text.primary,
+              }}
               href="https://github.com/JaredMabus"
               target="_blank"
               rel="noreferrer"
@@ -262,7 +274,7 @@ export default function ResumePage() {
             <Typography variant="body1">Minneapolis, MN</Typography>
           </Stack>
           {resumeData.map((section) => (
-            <Stack sx={{ py: 2 }} key={section.id}>
+            <Stack spacing={2} sx={{ py: 2 }} key={section.id}>
               <Typography
                 sx={{
                   fontWeight: 600,
@@ -275,6 +287,7 @@ export default function ResumePage() {
               </Typography>
               {section.title === "Summary" && (
                 <Typography
+                  variant="body1"
                   sx={{
                     justifySelf: "center",
                     alignSelf: "start",

@@ -5,6 +5,7 @@ import SocialNetwork from "../../assets/images/SocialNetwork.svg";
 import NoteTaker from "../../assets/images/NoteTaker.svg";
 import FindingFido from "../../assets/images/FindingFido.svg";
 import WorkoutApp from "../../assets/images/workoutApp.svg";
+import soundklipsImage from "../../assets/images/soundklips.png";
 // ICONS
 import { FaReact, FaNodeJs, FaPython } from "react-icons/fa";
 import { SiMongodb, SiMysql, SiPostgresql, SiTypescript } from "react-icons/si";
@@ -31,7 +32,7 @@ export const projectData: ProjectData[] = [
     title: "Workout App",
     desc: "Single-page weight lifting app providing the ability to track progress, plan a routine, and get insight into workout patterns and metrics",
     techStack: [FaReact, FaNodeJs, SiMongodb, SiTypescript],
-    url: "https://workout-apps.herokuapp.com/login",
+    url: "https://liftx.tech",
     githubUrl: "https://github.com/JaredMabus/workout-app",
     designUrl:
       "https://www.figma.com/file/mldBX6frzxztR1hKO0itJm/Workout-app?node-id=0%3A1&t=Wn1oiGVr5bm8mgjX-1",
@@ -44,34 +45,34 @@ export const projectData: ProjectData[] = [
     title: "Soundklips",
     desc: "Single-page audio sample sharing and management website. This project aims to provide a platform to find and share audio files.",
     techStack: [FaReact, FaPython, SiPostgresql, SiTypescript],
-    url: "https://jaredmabus.github.io/code-quiz/",
-    githubUrl: "https://github.com/JaredMabus/code-quiz",
-    designUrl: null,
-    docUrl: null,
-    img: CodeQuiz,
-  },
-  {
-    id: 3,
-    title: "PWA Text Editor",
-    desc: "Just Another Text Editor (JATE) is a Progressive Web App where the user can edit a text like file within the browser.",
-    techStack: [],
     url: "",
-    githubUrl: "https://github.com/JaredMabus/pwa-text-editor",
+    githubUrl: "https://github.com/JaredMabus/soundklips-proj",
     designUrl: null,
     docUrl: null,
-    img: JATE,
+    img: soundklipsImage,
   },
-  {
-    id: 4,
-    title: "Social Network",
-    desc: "The social network API application allows users to create an account, add friends, post their thoughts, and share reactions to other user's thoughts.",
-    techStack: [],
-    url: "",
-    githubUrl: "https://github.com/JaredMabus/social-network",
-    designUrl: null,
-    docUrl: null,
-    img: SocialNetwork,
-  },
+  // {
+  //   id: 3,
+  //   title: "PWA Text Editor",
+  //   desc: "Just Another Text Editor (JATE) is a Progressive Web App where the user can edit a text like file within the browser.",
+  //   techStack: [],
+  //   url: "",
+  //   githubUrl: "https://github.com/JaredMabus/pwa-text-editor",
+  //   designUrl: null,
+  //   docUrl: null,
+  //   img: JATE,
+  // },
+  // {
+  //   id: 4,
+  //   title: "Social Network",
+  //   desc: "The social network API application allows users to create an account, add friends, post their thoughts, and share reactions to other user's thoughts.",
+  //   techStack: [],
+  //   url: "",
+  //   githubUrl: "https://github.com/JaredMabus/social-network",
+  //   designUrl: null,
+  //   docUrl: null,
+  //   img: SocialNetwork,
+  // },
   // {
   //   id: 5,
   //   title: "Note Taker App",
