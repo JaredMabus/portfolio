@@ -80,8 +80,7 @@ export const resumeData: ResumeDataType[] = [
         position: "Data Analyst",
         startDate: "11/1/2020",
         endDate: "8/1/2022",
-        jobSummary:
-          "Contracted with Ameriprise to work on a large department consolidation project and to improve material review workflow processes.",
+        jobSummary: "",
         content: [
           "Designed Power BI dashboards to consolidate reporting for CRM and web usage data",
           "Analyzed Google Analytics and CRM data allowing for more BI-focused digital marketing campaigns",
