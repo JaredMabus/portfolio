@@ -35,7 +35,7 @@ export const projectData: ProjectData[] = [
     url: "https://liftx.tech",
     githubUrl: "https://github.com/JaredMabus/workout-app",
     designUrl:
-      "https://www.figma.com/file/mldBX6frzxztR1hKO0itJm/Workout-app?node-id=0%3A1&t=Wn1oiGVr5bm8mgjX-1",
+      "https://www.figma.com/file/gI9GyUSB9m8SmKCgO88ykB/workout-app?type=design&node-id=2919%3A2781&t=ELC1aTzAyshfiuQs-1",
     docUrl: null,
     img: WorkoutApp,
     icon: LifterIcon,
@@ -44,7 +44,7 @@ export const projectData: ProjectData[] = [
     id: 2,
     title: "Soundklips",
     desc: "Single-page audio sample sharing and management website. This project aims to provide a platform to find and share audio files.",
-    techStack: [FaReact, FaPython, SiPostgresql, SiTypescript],
+    techStack: [FaReact, FaPython, SiPostgresql],
     url: "",
     githubUrl: "https://github.com/JaredMabus/soundklips-proj",
     designUrl: null,
