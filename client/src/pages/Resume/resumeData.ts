@@ -55,14 +55,19 @@ export const resumeData: ResumeDataType[] = [
           "TypeScript",
           "Redux",
           "Jest",
+        ],
+      },
+      { category: "Web Development", items: ["HTML", "CSS"] },
+      { category: "Python", items: ["Flask","SQLAlchemy", "pytest", "poetry" ] },
+      { category: "UI/Design", items: ["Figma"] },
+      { category: "Version Control", items: ["Git"] },
+      {
+        category: "ORM/ODM",
+        items: [
           "Mongoose",
           "Sequelize",
         ],
       },
-      { category: "Web Development", items: ["HTML", "CSS"] },
-      { category: "Python", items: ["SQLAlchemy", "pytest", "poetry"] },
-      { category: "UI/Design", items: ["Figma"] },
-      { category: "Version Control", items: ["Git"] },
       { category: "Database", items: ["MySQL", "PostgreSQL", "MongoDB"] },
       {
         category: "Data Visualization",
