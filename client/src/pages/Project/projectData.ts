@@ -32,7 +32,7 @@ export const projectData: ProjectData[] = [
     title: "Workout App",
     desc: "Single-page weight lifting app providing the ability to track progress, plan a routine, and get insight into workout patterns and metrics",
     techStack: [FaReact, FaNodeJs, SiMongodb, SiTypescript],
-    url: "https://liftx.tech",
+    url: "http://liftx.tech",
     githubUrl: "https://github.com/JaredMabus/workout-app",
     designUrl:
       "https://www.figma.com/file/gI9GyUSB9m8SmKCgO88ykB/workout-app?type=design&node-id=2919%3A2781&t=ELC1aTzAyshfiuQs-1",
