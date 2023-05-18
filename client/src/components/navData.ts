@@ -18,11 +18,11 @@ export const navData: NavDataType[] = [
         name: "Projects",
         url: "/projects",
     },
-    {
-        id: 2,
-        name: "Contact",
-        url: "/contact",
-    },
+    // {
+    //     id: 2,
+    //     name: "Contact",
+    //     url: "/contact",
+    // },
     {
         id: 3,
         name: "Resume",

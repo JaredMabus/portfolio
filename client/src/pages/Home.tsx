@@ -51,8 +51,8 @@ const Home = () => {
                 borderTop: `3px solid ${theme.palette.secondary.light}`,
               }}
             >
-              <Typography variant="h6">
-                Click to see some of my projects.
+              <Typography variant="subtitle1">
+                Check out some of my recent projects
               </Typography>
               <Button
                 sx={{

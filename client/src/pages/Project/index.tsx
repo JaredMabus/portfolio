@@ -3,37 +3,60 @@ import ProjectGrid from "./components/ProjectGrid";
 import { projectData } from "./projectData";
 import { Typography, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { grey } from "@mui/material/colors";
 
 const Project = () => {
   const theme = useTheme();
   return (
     <PageContainer>
       <Stack
-        sx={{ minWidth: "100%", display: "flex", mt: 2, p: 1 }}
-        direction="column"
+        sx={{ 
+          // justifySelf: "center",
+          flexDirection: {xs: "column", sm: "row"},
+          justifyContent: "center",
+          mt: 2, 
+          p: 1,
+          pt: 3,
+        }}
       >
-        <Stack sx={{ p: 1, mb: 1 }}>
+        <Stack sx={{ 
+            p: {xs: 1, sm: 4}, 
+            mb: 1,
+            alignItems: {xs: "center", sm: "end"},
+            borderRight: {
+              xs: "none",
+              sm: `3px solid ${
+                theme.palette.mode === "dark"
+                  ? theme.palette.primary.light
+                  : grey[200]
+              }`
+              
+            },
+            borderBottom: {
+              xs: `3px solid ${
+                theme.palette.mode === "dark"
+                  ? theme.palette.primary.light
+                  : grey[200]
+              }`,
+              sm: "none"
+            },
+          }}>
           <Typography
-            sx={{ alignSelf: "start", flex: 1, fontWeight: 600 }}
+            sx={{fontWeight: 600 }}
             variant="h4"
           >
-            Projects
+            Websites
           </Typography>
-          {/* <Typography
-            sx={{
-              alignSelf: "start",
-              py: 0.5,
-              px: 1,
-              flex: 1,
-              color: theme.palette.text.secondary,
-              fontWeight: 600,
-            }}
-            variant="subtitle1"
-          >
-            Here are some of the projects I've been working on.
-          </Typography> */}
         </Stack>
-        <ProjectGrid data={projectData} />
+        <Stack
+          sx={{
+            p: 3, 
+            // flex: 1,
+          }}
+        >
+          <ProjectGrid data={projectData} />
+        </Stack>
+        
       </Stack>
     </PageContainer>
   );

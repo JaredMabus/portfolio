@@ -43,6 +43,7 @@ const ProjectCard = ({ data }: PropTypes) => {
       <a href={data.url} target="_blank" rel="noreferrer">
         <Paper
           sx={{
+            maxWidth: 500, 
             position: "relative",
             display: "flex",
             flexDirection: "column",

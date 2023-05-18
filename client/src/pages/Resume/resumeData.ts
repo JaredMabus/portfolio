@@ -11,7 +11,7 @@ export interface TechCategoryType {
 
 export interface JobsType {
   employer: string;
-  location: string;
+  location?: string;
   position: string;
   startDate: string;
   endDate: string;
@@ -81,7 +81,7 @@ export const resumeData: ResumeDataType[] = [
     jobs: [
       {
         employer: "Indigital",
-        location: "Shakopee, MN",
+        // location: "Shakopee, MN",
         position: "Data Analyst",
         startDate: "11/1/2020",
         endDate: "8/1/2022",
@@ -94,7 +94,7 @@ export const resumeData: ResumeDataType[] = [
       },
       {
         employer: "Ameriprise Financial",
-        location: "Minneapolis, MN",
+        // location: "Minneapolis, MN",
         position: "Business Analyst",
         startDate: "10/1/2019",
         endDate: "6/1/2020",

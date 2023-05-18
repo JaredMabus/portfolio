@@ -119,7 +119,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                     align="center"
                     variant="h6"
                   >
-                    {job.employer},
+                    {job.employer}
                   </Typography>
                   <Typography align="center" variant="body2">
                     {job.location}
@@ -229,6 +229,7 @@ export default function ResumePage() {
           <Typography variant="h4">Jared Mabusth</Typography>
           <Stack
             sx={{
+              alignSelf: "start",
               gap: { xs: 1, sm: 2 },
               mt: 0.4,
               mb: 0.7,
@@ -237,7 +238,7 @@ export default function ResumePage() {
             }}
             divider={<Divider orientation="vertical" flexItem />}
           >
-            <Link
+            {/* <Link
               to=""
               style={{
                 textDecoration: "none",
@@ -248,7 +249,7 @@ export default function ResumePage() {
               }
             >
               jwmabusth@gmail.com
-            </Link>
+            </Link> */}
             <a
               style={{
                 textDecoration: "none",
@@ -271,7 +272,7 @@ export default function ResumePage() {
             >
               GitHub
             </a>
-            <Typography variant="body1">Minneapolis, MN</Typography>
+            {/* <Typography variant="body1">Minneapolis, MN</Typography> */}
           </Stack>
           {resumeData.map((section) => (
             <Stack spacing={2} sx={{ py: 2 }} key={section.id}>

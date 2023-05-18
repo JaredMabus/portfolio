@@ -42,7 +42,7 @@ export const projectData: ProjectData[] = [
   },
   {
     id: 2,
-    title: "Soundklips",
+    title: "Soundklips (work in progress)",
     desc: "Single-page audio sample sharing and management website. This project aims to provide a platform to find and share audio files.",
     techStack: [FaReact, FaPython, SiPostgresql],
     url: "",

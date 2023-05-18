@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import { animated, useTransition } from "@react-spring/web";
@@ -26,21 +26,10 @@ const ProjectGrid = ({ data }: Props) => {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          flex: 1,
-          pt: 3,
-          pb: 10,
-        }}
-      >
         <Grid container direction="row" spacing={4}>
           {transitions((style, project) => (
             <Grid
               xs={12}
-              sm={6}
-              lg={6}
               sx={{
                 transition: "150ms ease-in-out",
                 ":hover ": {
@@ -54,7 +43,6 @@ const ProjectGrid = ({ data }: Props) => {
             </Grid>
           ))}
         </Grid>
-      </Box>
     </>
   );
 };
