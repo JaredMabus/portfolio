@@ -26,23 +26,26 @@ const ProjectGrid = ({ data }: Props) => {
 
   return (
     <>
-        <Grid container direction="row" spacing={4}>
-          {transitions((style, project) => (
-            <Grid
-              xs={12}
-              sx={{
-                transition: "150ms ease-in-out",
-                ":hover ": {
-                  transform: "scale(1.01)",
-                },
-              }}
-            >
-              <animated.div style={style} className="item">
-                <ProjectCard key={project.id} data={project} />
-              </animated.div>
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container direction="row" spacing={4}>
+        {transitions((style, project) => (
+          <Grid
+            wrap={"wrap"}
+            xs={12}
+            sm={12}
+            md={6}
+            // sx={{
+            //   transition: "150ms ease-in-out",
+            //   ":hover ": {
+            //     transform: "scale(1.01)",
+            //   },
+            // }}
+          >
+            <animated.div style={style} className="item">
+              <ProjectCard key={project.id} data={project} />
+            </animated.div>
+          </Grid>
+        ))}
+      </Grid>
     </>
   );
 };

@@ -5,10 +5,12 @@ import {
   IconButton,
   Stack,
   Paper,
+  Link,
+  alpha,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
@@ -40,10 +42,11 @@ const ProjectCard = ({ data }: PropTypes) => {
 
   return (
     <>
-      <a href={data.url} target="_blank" rel="noreferrer">
+      <Link href={data.url} target="_blank" rel="noreferrer">
         <Paper
           sx={{
-            maxWidth: 500, 
+            minWidth: 300,
+            maxWidth: 500,
             position: "relative",
             display: "flex",
             flexDirection: "column",
@@ -72,16 +75,35 @@ const ProjectCard = ({ data }: PropTypes) => {
               direction="row"
               id="card-menu"
               sx={{
-                display: "flex",
+                // flexWrap: "wrap",
+                height: 63,
+                minHeight: 63,
+                maxWidth: "100%",
                 alignItems: "start",
                 justifyContent: "space-between",
                 backgroundColor: theme.palette.secondary.main,
                 borderRadius: "4px 4px 0px 0px",
                 p: 1.5,
                 m: 0,
-                height: 63,
-                minHeight: 63,
                 borderBottom: `3px solid ${theme.palette.primary.dark}`,
+                borderImage:
+                  theme.palette.mode === "dark"
+                    ? `linear-gradient(
+                      to right,
+                      ${alpha(theme.palette.primary.main, 1)},
+                      ${alpha(theme.palette.primary.main, 0.5)},
+                      ${alpha(theme.palette.primary.main, 0.7)},
+                      ${alpha(theme.palette.primary.dark, 1)}
+                    )
+                    4;`
+                    : `linear-gradient(
+                      to right,
+                      ${alpha(theme.palette.primary.main, 1)},
+                      ${alpha(theme.palette.primary.main, 0.5)},
+                      ${alpha(theme.palette.primary.main, 0.7)},
+                      ${alpha(theme.palette.primary.dark, 1)},
+                      )
+                      4;`,
               }}
             >
               <Typography
@@ -101,25 +123,27 @@ const ProjectCard = ({ data }: PropTypes) => {
                 direction="row"
                 spacing={1}
               >
-                <CardButton
-                  onClick={() => {
-                    typeof data.githubUrl === "string" &&
-                      window.open(data.githubUrl, "_blank");
-                  }}
+                <Link
+                  href={data.githubUrl || "#"}
+                  target="_blank"
+                  rel="noreferrer"
                 >
-                  <GitHubIcon />
-                  Code
-                </CardButton>
-                {data.designUrl && (
-                  <CardButton
-                    onClick={() => {
-                      typeof data.designUrl === "string" &&
-                        window.open(data.designUrl, "_blank");
-                    }}
-                  >
-                    <BrushOutlinedIcon />
-                    Design
+                  <CardButton>
+                    <GitHubIcon />
+                    Code
                   </CardButton>
+                </Link>
+                {data.designUrl && (
+                  <Link
+                    href={data.designUrl || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <CardButton>
+                      <BrushOutlinedIcon />
+                      Design
+                    </CardButton>
+                  </Link>
                 )}
               </Stack>
             </Stack>
@@ -152,14 +176,6 @@ const ProjectCard = ({ data }: PropTypes) => {
               }}
             >
               <Stack>
-                {/* {data.icon && (
-                  <Box
-                    component="img"
-                    sx={{ height: 40, width: 40 }}
-                    src={data.icon}
-                    alt="icon"
-                  />
-                )} */}
                 <Typography align="left" variant="body1">
                   {data.desc}
                 </Typography>
@@ -169,25 +185,12 @@ const ProjectCard = ({ data }: PropTypes) => {
                 spacing={2}
                 sx={{
                   alignSelf: "end",
-                  // "& #react-icon": {
-                  //   color: "#5CCFEE",
-                  // },
-                  // "& #node-icon": {
-                  //   color: "#83BB05",
-                  // },
-                  // "& #mongo-icon": {
-                  //   color: "#4CA53F",
-                  // },
-                  // "& #ts-icon": {
-                  //   color: "#3472BB",
-                  // },
                   "& > svg": {
                     fontSize: "1.8rem",
                   },
                 }}
               >
                 {data.techStack.map((Component: any, key: any) => (
-                  // console.log(item)
                   <Component key={key} id={Component.id} />
                 ))}
               </Stack>
@@ -202,13 +205,13 @@ const ProjectCard = ({ data }: PropTypes) => {
                 height: "100%",
                 minHeight: "300px",
                 maxHeight: "300px",
-                filter: `contrast(.6)`,
+                filter: `contrast(.7)`,
                 objectFit: "cover",
               }}
             />
           </Stack>
         </Paper>
-      </a>
+      </Link>
     </>
   );
 };

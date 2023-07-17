@@ -11,6 +11,7 @@ import {
   Divider,
   Chip,
 } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -203,7 +204,16 @@ export default function ResumePage() {
           mb: 10,
           maxWidth: 1000,
           borderRadius: 2,
-          boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
+          // boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
+          border:
+            theme.palette.mode === "dark"
+              ? `1px solid transparent`
+              : `1px solid ${grey[300]}`,
+
+          boxShadow:
+            theme.palette.mode === "dark"
+              ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
+              : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
         }}
       >
         <Box

@@ -43,7 +43,7 @@ const Home = () => {
             }}
           >
             <Typography variant="h3">Hi, I'm Jared 👋 </Typography>
-            <Typography variant="h5">Web Developer</Typography>
+            <Typography variant="h5">Full Stack Developer</Typography>
             <Box
               sx={{
                 mt: 1,

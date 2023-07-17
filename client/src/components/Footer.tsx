@@ -19,13 +19,7 @@ const FooterContainer = styled(Box)(
 const Footer = () => {
   return (
     <FooterContainer>
-      {/* <Box
-                sx={{
-                    width: '100%'
-                }}
-            > */}
       <Socials />
-      {/* </Box> */}
     </FooterContainer>
   );
 };

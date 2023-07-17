@@ -12,6 +12,8 @@ import { SiMongodb, SiMysql, SiPostgresql, SiTypescript } from "react-icons/si";
 // PROJECT ICONS
 import LifterIcon from "../../assets/images/LifterIcon.svg";
 import React from "react";
+import HeroSection from "../../assets/images/hero-section.svg";
+import LiftIconText from "../../assets/images/LiftIconText.svg";
 
 export interface ProjectData {
   id: number;
@@ -22,6 +24,7 @@ export interface ProjectData {
   designUrl: string | null;
   docUrl: null;
   img: any;
+  titleImg?: any;
   techStack: string[] | [] | React.FC[];
   icon?: string | null;
 }
@@ -37,12 +40,13 @@ export const projectData: ProjectData[] = [
     designUrl:
       "https://www.figma.com/file/gI9GyUSB9m8SmKCgO88ykB/workout-app?type=design&node-id=2919%3A2781&t=ELC1aTzAyshfiuQs-1",
     docUrl: null,
-    img: WorkoutApp,
+    img: HeroSection,
+    titleImg: LiftIconText,
     icon: LifterIcon,
   },
   {
     id: 2,
-    title: "Soundklips (work in progress)",
+    title: "Soundklips",
     desc: "Single-page audio sample sharing and management website. This project aims to provide a platform to find and share audio files.",
     techStack: [FaReact, FaPython, SiPostgresql],
     url: "",
