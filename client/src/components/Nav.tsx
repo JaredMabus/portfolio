@@ -130,6 +130,7 @@ const Nav = () => {
               alignItems: "center",
               px: 0.5,
               py: 0.5,
+              pt: 1,
               borderRadius: "4px 10px 4px 10px",
               backgroundColor:
                 theme.palette.mode === "dark"
