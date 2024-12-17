@@ -1,0 +1,32 @@
+name: pages-github-deployment
+
+on:
+  push:
+    branches:
+      - main # Trigger the workflow on pushes to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x # Automatically resolves the latest Node.js 16 version
+          cache: "npm" # Cache npm dependencies for faster builds
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy
+        run: |
+          git config --global user.name "Jared"
+          git config --global user.email "${{ secrets.EMAIL }}"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          npm run deploy
+        env:
+          CI: false # Ensures proper behavior in CI environments
