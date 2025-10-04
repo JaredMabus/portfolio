@@ -20,6 +20,28 @@ Here are the tools and technologies I use to bring projects to life:
 - **UI/UX**: Figma, Material UI, styled-components.
 - **Data Analysis**: Power BI, Tableau, Excel, Pandas.
 
+## **Development**
+
+This project now uses [Vite](https://vitejs.dev/) with TypeScript and Yarn for a faster developer experience.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (version 18 or newer is recommended)
+- [Yarn](https://yarnpkg.com/) (Classic)
+
+### Installation
+
+```bash
+yarn install
+```
+
+### Available Scripts
+
+- `yarn dev` – Start the development server with hot module replacement.
+- `yarn build` – Type-check and generate an optimized production build.
+- `yarn preview` – Preview the production build locally.
+- `yarn test` – Run unit tests with Vitest and Testing Library.
+
 ---
 
 Thank you for visiting my portfolio repository! Feel free to explore the projects and provide feedback or reach out with questions. Let’s build something amazing together.
