@@ -10,13 +10,11 @@ import { ThemeProvider, CssBaseline, GlobalStyles } from "@mui/material";
 import * as page from "./pages";
 import { GlobalStyle, themeDark, themeLight } from "@/styles/theme";
 
-// 1. Define a specific type for your context value
 interface ThemeContextType {
   light: boolean;
   toggleTheme: () => void;
 }
 
-// 2. Provide a default value that matches the type
 export const ThemeContext = createContext<ThemeContextType>({
   light: false,
   toggleTheme: () => {},
