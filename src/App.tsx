@@ -1,13 +1,28 @@
-import { useState, createContext, useEffect, useLayoutEffect } from "react";
+import React, {
+  useState,
+  createContext,
+  useEffect,
+  useLayoutEffect,
+} from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider, CssBaseline, GlobalStyles } from "@mui/material";
+
 import * as page from "./pages";
-import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import { themeLight, themeDark } from "./styles/style";
+import { GlobalStyle, themeDark, themeLight } from "@/styles/theme";
 
-export const ThemeContext = createContext<any>("value");
+// 1. Define a specific type for your context value
+interface ThemeContextType {
+  light: boolean;
+  toggleTheme: () => void;
+}
 
-function App() {
+// 2. Provide a default value that matches the type
+export const ThemeContext = createContext<ThemeContextType>({
+  light: false,
+  toggleTheme: () => {},
+});
+
+export default function App() {
   const [light, setTheme] = useState(false);
 
   const toggleTheme = () => {
@@ -38,20 +53,21 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ light, toggleTheme }}>
-      <MuiThemeProvider theme={light ? themeLight : themeDark}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<page.Home />} />
-            <Route path="/projects" element={<page.Project />} />
-            {/* <Route path="/contact" element={<page.Contact />} /> */}
-            <Route path="/resume" element={<page.Resume />} />
-            <Route path="*" element={<page.Home />} />
-          </Routes>
-        </BrowserRouter>
-      </MuiThemeProvider>
+      <React.Fragment>
+        <GlobalStyles styles={GlobalStyle} />
+        <ThemeProvider theme={light ? themeLight : themeDark}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<page.Home />} />
+              <Route path="/projects" element={<page.Project />} />
+              {/* <Route path="/contact" element={<page.Contact />} /> */}
+              <Route path="/resume" element={<page.Resume />} />
+              <Route path="*" element={<page.Home />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </React.Fragment>
     </ThemeContext.Provider>
   );
 }
-
-export default App;
