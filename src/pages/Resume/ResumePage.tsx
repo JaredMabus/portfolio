@@ -29,6 +29,7 @@ interface Props {
 
 const TechnicalSkills: React.FC<Props> = ({ data }) => {
   const theme = useTheme();
+
   return (
     <Stack
       direction="row"
@@ -139,11 +140,13 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                   year: "numeric",
                   month: "short",
                 })}
-                -{" "}
-                {new Date(job.endDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                })}
+                {" - "}
+                {job.endDate === "Present"
+                  ? "Present"
+                  : new Date(job.endDate).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                    })}
               </Typography>
             </Stack>
             {job.jobSummary.length > 0 && (
@@ -187,68 +190,64 @@ const Education: React.FC<Props> = ({ data }) => {
 export default function ResumePage() {
   const theme = useTheme();
   return (
-    <>
-      <Stack
-        sx={{
-          position: "relative",
-          justifySelf: "center",
-          alignSelf: "center",
-          backgroundColor:
-            theme.palette.mode === "dark"
-              ? theme.palette.secondary.main
-              : "#fff",
-          px: { xs: 3, sm: 7 },
-          pt: 7,
-          pb: 20,
-          mt: 5,
-          mb: 10,
-          maxWidth: 1000,
-          borderRadius: 2,
-          // boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
-          border:
-            theme.palette.mode === "dark"
-              ? `1px solid transparent`
-              : `1px solid ${grey[300]}`,
+    <Stack
+      sx={{
+        position: "relative",
+        justifySelf: "center",
+        alignSelf: "center",
+        backgroundColor: theme.palette.surfaceContainer.main,
+        px: { xs: 3, sm: 7 },
+        pt: 7,
+        pb: 20,
+        mt: 5,
+        mb: 10,
+        maxWidth: { xs: "100%", sm: 600, md: 900 },
+        borderRadius: 2,
+        // boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
+        border:
+          theme.palette.mode === "dark"
+            ? `1px solid transparent`
+            : `1px solid ${theme.palette.border.light}`,
 
-          boxShadow:
-            theme.palette.mode === "dark"
-              ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
-              : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
+        boxShadow:
+          theme.palette.mode === "dark"
+            ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
+            : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          justifySelf: "end",
+          alignSelf: "end",
+          top: 20,
         }}
       >
-        <Box
-          sx={{
-            position: "absolute",
-            justifySelf: "end",
-            alignSelf: "end",
-            top: 20,
-          }}
-        >
-          {/* <a href="Resume_old.pdf" download>
+        {/* <a href="Resume_old.pdf" download>
             <Button>
               <DownloadIcon fontSize="small" />
               Download
             </Button>
           </a> */}
-        </Box>
+      </Box>
+      <Stack
+        sx={{
+          p: 1,
+        }}
+      >
+        <Typography variant="h4">Jared Mabusth</Typography>
         <Stack
           sx={{
-            p: 1,
+            alignSelf: "start",
+            gap: { xs: 1, sm: 2 },
+            mt: 0.4,
+            mb: 0.7,
+            pl: 0.5,
+            flexDirection: { xs: "column", sm: "row" },
           }}
+          divider={<Divider orientation="vertical" flexItem />}
         >
-          <Typography variant="h4">Jared Mabusth</Typography>
-          <Stack
-            sx={{
-              alignSelf: "start",
-              gap: { xs: 1, sm: 2 },
-              mt: 0.4,
-              mb: 0.7,
-              pl: 0.5,
-              flexDirection: { xs: "column", sm: "row" },
-            }}
-            divider={<Divider orientation="vertical" flexItem />}
-          >
-            {/* <Link
+          {/* <Link
               to=""
               style={{
                 textDecoration: "none",
@@ -260,66 +259,65 @@ export default function ResumePage() {
             >
               jwmabusth@gmail.com
             </Link> */}
-            <a
-              style={{
-                textDecoration: "none",
-                color: theme.palette.text.primary,
-              }}
-              href="https://www.linkedin.com/in/jaredmabusth"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
-            <a
-              style={{
-                textDecoration: "none",
-                color: theme.palette.text.primary,
-              }}
-              href="https://github.com/JaredMabus"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-            {/* <Typography variant="body1">Minneapolis, MN</Typography> */}
-          </Stack>
-          {resumeData.map((section) => (
-            <Stack spacing={2} sx={{ py: 2 }} key={section.id}>
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  width: "100%",
-                  borderBottom: `1px solid ${theme.palette.secondary.light}`,
-                }}
-                variant="h5"
-              >
-                {section.title}
-              </Typography>
-              {section.title === "Summary" && (
-                <Typography
-                  variant="body1"
-                  sx={{
-                    justifySelf: "center",
-                    alignSelf: "start",
-                    maxWidth: 800,
-                    p: 1,
-                  }}
-                >
-                  {section.content}
-                </Typography>
-              )}
-              {section.title === "Technical Skills" && (
-                <TechnicalSkills data={section} />
-              )}
-              {section.title === "Professional Experience" && (
-                <ProfessionalExperience data={section} />
-              )}
-              {section.title === "Education" && <Education data={section} />}
-            </Stack>
-          ))}
+          <a
+            style={{
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+            }}
+            href="https://www.linkedin.com/in/jaredmabusth"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+          <a
+            style={{
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+            }}
+            href="https://github.com/JaredMabus"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+          {/* <Typography variant="body1">Minneapolis, MN</Typography> */}
         </Stack>
+        {resumeData.map((section) => (
+          <Stack spacing={2} sx={{ py: 2 }} key={section.id}>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                width: "100%",
+                borderBottom: `1px solid ${theme.palette.secondary.light}`,
+              }}
+              variant="h5"
+            >
+              {section.title}
+            </Typography>
+            {section.title === "Summary" && (
+              <Typography
+                variant="body1"
+                sx={{
+                  justifySelf: "center",
+                  alignSelf: "start",
+                  maxWidth: 800,
+                  p: 1,
+                }}
+              >
+                {section.content}
+              </Typography>
+            )}
+            {section.title === "Technical Skills" && (
+              <TechnicalSkills data={section} />
+            )}
+            {section.title === "Professional Experience" && (
+              <ProfessionalExperience data={section} />
+            )}
+            {section.title === "Education" && <Education data={section} />}
+          </Stack>
+        ))}
       </Stack>
-    </>
+    </Stack>
   );
 }

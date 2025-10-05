@@ -110,7 +110,7 @@ const lightThemeColors = {
   surfaceBright: neutral.n98,
   surfaceContainerLowest: neutral.n100,
   surfaceContainerLow: neutral.n95,
-  surfaceContainer: neutral.n95,
+  surfaceContainer: neutral.n99,
   surfaceContainerHigh: neutral.n80,
   surfaceContainerHighest: neutral.n80,
 };
@@ -353,7 +353,7 @@ export let themeLight = createTheme(theme, {
     border: theme.palette.augmentColor({
       color: {
         main: lightThemeColors.border,
-        light: lighten(lightThemeColors.border, 0.7),
+        light: lighten(lightThemeColors.border, 0.8),
         dark: darken(lightThemeColors.border, 0.15),
       },
     }),
@@ -455,16 +455,16 @@ export let themeLight = createTheme(theme, {
       styleOverrides: `
         *::-webkit-scrollbar { width: 14px; }
         *::-webkit-scrollbar-track {
-          border: 1px solid ${lightThemeColors.surfaceBright};
+          border: 1px solid ${lightThemeColors.background};
           background-color: ${lightThemeColors.background};
         }
         *::-webkit-scrollbar-thumb {
           border: 2px solid ${lightThemeColors.background};
-          background-color: ${darken(lightThemeColors.surfaceDim, 0.1)};
+          background-color: ${darken(lightThemeColors.surfaceContainer, 0.25)};
           border-radius: 10px;
         }
         *::-webkit-scrollbar-thumb:hover { 
-        background-color: ${darken(lightThemeColors.surfaceDim, 0.05)}; }
+        background-color: ${darken(lightThemeColors.surfaceDim, 0.25)}; }
       `,
     },
     MuiTextField: {
@@ -686,19 +686,16 @@ export let themeDark = createTheme(theme, {
       styleOverrides: `
         *::-webkit-scrollbar { width: 14px; }
         *::-webkit-scrollbar-track {
-          border: 1px solid ${darkThemeColors.surfaceContainerHighest};
+          border: 1px solid ${darkThemeColors.background};
           background-color: ${darkThemeColors.background};
         }
         *::-webkit-scrollbar-thumb {
           border: 2px solid ${darkThemeColors.background};
-          background-color: ${lighten(
-            darkThemeColors.surfaceContainerHighest,
-            0.1
-          )};
+          background-color: ${lighten(darkThemeColors.surfaceContainer, 0.1)};
           border-radius: 10px;
         }
         *::-webkit-scrollbar-thumb:hover { 
-        background-color: ${themeLight.palette.background.default}; }
+        background-color: ${lighten(darkThemeColors.surfaceContainer, 0.25)}; }
       `,
     },
     MuiSvgIcon: {

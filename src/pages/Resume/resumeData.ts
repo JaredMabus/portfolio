@@ -49,24 +49,17 @@ export const resumeData: ResumeDataType[] = [
     skills: [
       {
         category: "JavaScript",
-        items: [
-          "React",
-          "Express",
-          "TypeScript",
-          "Redux",
-          "Jest",
-        ],
+        items: ["React", "Express", "TypeScript", "Redux", "Jest"],
       },
       { category: "Web Development", items: ["HTML", "CSS"] },
-      { category: "Python", items: ["Flask","SQLAlchemy", "pytest", "poetry" ] },
+      {
+        category: "Python",
+        items: ["FastAPI", "Flask", "SQLAlchemy", "pytest", "poetry"],
+      },
       { category: "UI/Design", items: ["Figma"] },
-      { category: "Version Control", items: ["Git"] },
       {
         category: "ORM/ODM",
-        items: [
-          "Mongoose",
-          "Sequelize",
-        ],
+        items: ["beanie", "Mongoose", "Sequelize"],
       },
       { category: "Database", items: ["MySQL", "PostgreSQL", "MongoDB"] },
       {
@@ -81,7 +74,7 @@ export const resumeData: ResumeDataType[] = [
     jobs: [
       {
         employer: "Indigital",
-        // location: "Shakopee, MN",
+        location: "Shakopee, MN",
         position: "Data Analyst",
         startDate: "11/1/2020",
         endDate: "8/1/2022",
@@ -94,7 +87,7 @@ export const resumeData: ResumeDataType[] = [
       },
       {
         employer: "Ameriprise Financial",
-        // location: "Minneapolis, MN",
+        location: "Minneapolis, MN",
         position: "Business Analyst",
         startDate: "10/1/2019",
         endDate: "6/1/2020",
