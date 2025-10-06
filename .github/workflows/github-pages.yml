@@ -3,7 +3,7 @@ name: pages-github-deployment
 on:
   push:
     branches:
-      - main # Trigger the workflow on pushes to the 'main' branch
+      - main
 
 jobs:
   deploy:
@@ -16,8 +16,8 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x # Automatically resolves the latest Node.js 16 version
-          cache: "yarn" # Cache npm dependencies for faster builds
+          node-version: 18.x
+          cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -34,4 +34,4 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           yarn deploy
         env:
-          CI: false # Ensures proper behavior in CI environments
+          CI: false
