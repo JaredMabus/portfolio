@@ -4,17 +4,13 @@ import {
   Stack,
   Typography,
   TextField,
-  FormControl,
-  Input,
-  FormHelperText,
-  InputLabel,
   Divider,
   Chip,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
-import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material/styles";
 import DownloadIcon from "@mui/icons-material/Download";
+
+import { useTheme } from "@mui/material/styles";
+import useDocumentTitle from "@/utils/useDocumentTitle";
 import {
   resumeData,
   ResumeDataType,
@@ -29,6 +25,7 @@ interface Props {
 
 const TechnicalSkills: React.FC<Props> = ({ data }) => {
   const theme = useTheme();
+  useDocumentTitle("Resume");
 
   return (
     <Stack

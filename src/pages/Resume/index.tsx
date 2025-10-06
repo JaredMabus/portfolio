@@ -1,19 +1,8 @@
-import { useState } from "react";
-import PageContainer from "../../components/PageContainer";
-import { Link } from "react-router-dom";
-import {
-  Button,
-  Stack,
-  Typography,
-  TextField,
-  FormControl,
-  Input,
-  FormHelperText,
-  InputLabel,
-} from "@mui/material";
+import { Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { useSpring, animated } from "@react-spring/web";
-// import {resumeData} from "./resumeData";
+
+import PageContainer from "../../components/PageContainer";
 import ResumePage from "./ResumePage";
 
 export default function Resume() {

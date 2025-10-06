@@ -1,16 +1,17 @@
-import PageContainer from "../components/PageContainer";
-import AboutMe from "../components/AboutMe";
 import { Box, Typography, Button } from "@mui/material";
-import avatar from "../assets/images/ProfilePic.svg";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useSpring, animated } from "@react-spring/web";
 import { useTheme } from "@mui/material/styles";
 
-import { useSpring, animated } from "@react-spring/web";
+import useDocumentTitle from "@/utils/useDocumentTitle";
+import PageContainer from "@/components/PageContainer";
+import AboutMe from "@/components/AboutMe";
+import avatar from "@/assets/images/ProfilePic.svg";
 
-const Home = () => {
-  // Access theme prop using useTheme hook
+export default function Home() {
   const theme = useTheme();
+  useDocumentTitle("About Me");
 
   const animateStyles = useSpring({
     from: { x: 0, y: 10, opacity: 0 },
@@ -93,6 +94,4 @@ const Home = () => {
       </animated.div>
     </PageContainer>
   );
-};
-
-export default Home;
+}

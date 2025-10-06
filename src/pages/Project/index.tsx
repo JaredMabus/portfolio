@@ -5,8 +5,12 @@ import { Typography, Stack, alpha } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { grey } from "@mui/material/colors";
 
-const Project = () => {
+import useDocumentTitle from "@/utils/useDocumentTitle";
+
+export default function Project() {
   const theme = useTheme();
+  useDocumentTitle("Projects");
+
   return (
     <PageContainer>
       <Stack
@@ -57,6 +61,4 @@ const Project = () => {
       </Stack>
     </PageContainer>
   );
-};
-
-export default Project;
+}
