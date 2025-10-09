@@ -1,33 +1,43 @@
+import { Box, Container, useTheme } from "@mui/material";
+
 import Footer from "./Footer";
-import Nav from "./Nav";
-import { Container } from "@mui/material";
+import Header from "./Header";
 
 interface Props {
   children: React.ReactNode;
 }
 
-const PageTemplate: React.FC<Props> = (props) => {
+export default function PageContainer(props: Props) {
+  const theme = useTheme();
+
   return (
     <Container
-      sx={{ width: "100%", minHeight: "100vh" }}
-      maxWidth={false}
+      component="main"
       disableGutters={true}
+      maxWidth={false}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+      }}
     >
+      <Header />
       <Container
+        component="main"
+        maxWidth="lg"
+        disableGutters={true}
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          width: "100%",
           minHeight: "100vh",
+          flexGrow: 1,
+          mt: "70px",
         }}
-        maxWidth="xl"
       >
-        <Nav />
         {props.children}
       </Container>
       <Footer />
     </Container>
   );
-};
-
-export default PageTemplate;
+}

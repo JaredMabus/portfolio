@@ -50,8 +50,8 @@ export default function App() {
   }, []);
 
   return (
-    <ThemeContext.Provider value={{ light, toggleTheme }}>
-      <React.Fragment>
+    <React.Fragment>
+      <ThemeContext.Provider value={{ light, toggleTheme }}>
         <GlobalStyles styles={GlobalStyle} />
         <ThemeProvider theme={light ? themeLight : themeDark}>
           <CssBaseline />
@@ -59,13 +59,12 @@ export default function App() {
             <Routes>
               <Route path="/" element={<page.Home />} />
               <Route path="/projects" element={<page.Project />} />
-              {/* <Route path="/contact" element={<page.Contact />} /> */}
               <Route path="/resume" element={<page.Resume />} />
               <Route path="*" element={<page.Home />} />
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
-      </React.Fragment>
-    </ThemeContext.Provider>
+      </ThemeContext.Provider>
+    </React.Fragment>
   );
 }

@@ -5,6 +5,9 @@ import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    include: ["@mui/material/Tooltip", "@emotion/styled"],
+  },
   server: {
     port: 3000,
   },

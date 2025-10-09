@@ -56,18 +56,28 @@ export default function Home() {
                 Check out some of my recent projects
               </Typography>
               <Button
+                component={Link}
+                to="/projects"
+                variant="contained"
+                color="primary"
                 sx={{
+                  color: theme.palette.text.primary,
+                  backgroundColor: theme.palette.primary.main,
+                  fontWeight: 500,
+                  fontSize: "1rem",
+                  textTransform: "none",
                   mt: 1,
+                  p: 1.5,
+                  borderRadius: 10,
                   alignSelf: "start",
                   width: 150,
                   display: "flex",
                   justifyContent: "space-around",
                   alignItems: "center",
+                  ":hover": {
+                    backgroundColor: theme.palette.primary.dark,
+                  },
                 }}
-                component={Link}
-                to="/projects"
-                variant="contained"
-                color="primary"
               >
                 Projects <ArrowForwardIosIcon fontSize="small" />
               </Button>

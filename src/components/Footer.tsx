@@ -1,27 +1,23 @@
-import Box from "@mui/material/Box";
+import { Stack } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import Socials from "./Socials";
-import { styled } from "@mui/material/styles";
 
-const FooterContainer = styled(Box)(
-  ({ theme }) => `
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: start;
-        height: 125px;
-        width: 100%;
-        margin: 0;
-        padding: 0; 
-        background-color: ${theme.palette.secondary.light}
-    `
-);
-
-const Footer = () => {
+export default function Footer() {
+  const theme = useTheme();
   return (
-    <FooterContainer>
+    <Stack
+      sx={{
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "start",
+        height: 125,
+        width: "100%",
+        margin: 0,
+        padding: 0,
+        backgroundColor: theme.palette.surface.dark,
+      }}
+    >
       <Socials />
-    </FooterContainer>
+    </Stack>
   );
-};
-
-export default Footer;
+}

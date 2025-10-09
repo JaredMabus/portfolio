@@ -116,7 +116,7 @@ const lightThemeColors = {
 };
 
 const darkThemeColors = {
-  primary: "#78E3B1",
+  primary: "#58B488",
   onPrimary: "#000000",
   primaryContainer: "#58B488",
   onPrimaryContainer: "#A2EBC8",
@@ -285,6 +285,21 @@ let theme = createTheme({
   },
   breakpoints: { values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 } },
   shape: { borderRadius: 4 },
+  components: {
+    MuiTooltip: {
+      defaultProps: {
+        placement: "bottom",
+        arrow: true,
+        enterDelay: 500,
+        slotProps: {
+          popper: {
+            sx: { pointerEvents: "none" },
+            modifiers: [{ name: "offset", options: { offset: [0, -8] } }],
+          },
+        },
+      },
+    },
+  },
 });
 
 export let themeLight = createTheme(theme, {
@@ -506,15 +521,6 @@ export let themeLight = createTheme(theme, {
         },
       },
     },
-    MuiTooltip: {
-      defaultProps: {
-        slotProps: {
-          popper: {
-            modifiers: [{ name: "offset", options: { offset: [0, 8] } }],
-          },
-        },
-      },
-    },
   },
 });
 
@@ -711,15 +717,6 @@ export let themeDark = createTheme(theme, {
           backgroundColor: darkThemeColors.surfaceContainer,
           color: darkThemeColors.onSurface,
           borderColor: darkThemeColors.outline,
-        },
-      },
-    },
-    MuiTooltip: {
-      defaultProps: {
-        slotProps: {
-          popper: {
-            modifiers: [{ name: "offset", options: { offset: [0, 8] } }],
-          },
         },
       },
     },

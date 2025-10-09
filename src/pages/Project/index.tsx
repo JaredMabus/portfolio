@@ -13,52 +13,12 @@ export default function Project() {
 
   return (
     <PageContainer>
-      <Stack
-        sx={{
-          flexDirection: { xs: "column", sm: "row" },
-          justifyContent: "center",
-          mt: 2,
-          p: 1,
-          pt: 3,
-          mb: 20,
-        }}
-      >
-        <Stack
-          sx={{
-            p: { xs: 1, sm: 2 },
-            mb: 1,
-            minHeight: { xs: "auto", sm: 800 },
-            alignItems: { xs: "center", sm: "end" },
-            borderRight: {
-              xs: "none",
-              sm: `3px solid ${
-                theme.palette.mode === "dark"
-                  ? alpha(theme.palette.primary.main, 0.6)
-                  : alpha(theme.palette.primary.main, 0.2)
-              }`,
-            },
-            borderBottom: {
-              xs: `3px solid ${
-                theme.palette.mode === "dark"
-                  ? alpha(theme.palette.primary.main, 0.6)
-                  : alpha(theme.palette.primary.main, 0.8)
-              }`,
-              sm: "none",
-            },
-          }}
-        >
-          <Typography sx={{ fontWeight: 600 }} variant="h4">
-            Websites
-          </Typography>
-        </Stack>
-        <Stack
-          sx={{
-            p: 3,
-          }}
-        >
-          <ProjectGrid data={projectData} />
-        </Stack>
+      <Stack direction="row" sx={{ width: "100%" }}>
+        <Typography sx={{ fontWeight: 600 }} variant="h3">
+          Projects
+        </Typography>
       </Stack>
+      <ProjectGrid data={projectData} />
     </PageContainer>
   );
 }
