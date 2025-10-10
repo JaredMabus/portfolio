@@ -101,7 +101,7 @@ const lightThemeColors = {
   onSurface: neutral.n10,
   surfaceVariant: neutralVariant.nv90,
   onSurfaceVariant: neutralVariant.nv30,
-  outline: neutralVariant.nv90,
+  outline: neutralVariant.nv80,
   border: neutral.n50,
   inverseOnSurface: neutral.n95,
   inverseSurface: neutral.n20,
@@ -281,11 +281,92 @@ export const GlobalStyle = {
 let theme = createTheme({
   typography: {
     fontFamily: ["Montserrat", "sans-serif"].join(","),
-    button: { fontWeight: 600, textTransform: "none" },
+    // DISPLAY
+    h1: {
+      fontSize: 57,
+      lineHeight: 1.1228,
+      letterSpacing: "-0.004386em",
+      fontWeight: 400,
+    },
+    h2: { fontSize: 45, lineHeight: 1.1556, letterSpacing: 0, fontWeight: 400 },
+    h3: { fontSize: 36, lineHeight: 1.2222, letterSpacing: 0, fontWeight: 400 },
+
+    // HEADLINES
+    h4: { fontSize: 32, lineHeight: 1.25, letterSpacing: 0, fontWeight: 400 },
+    h5: { fontSize: 28, lineHeight: 1.2857, letterSpacing: 0, fontWeight: 400 },
+    h6: { fontSize: 24, lineHeight: 1.3333, letterSpacing: 0, fontWeight: 400 },
+
+    // TITLES
+    subtitle1: {
+      fontSize: 22,
+      lineHeight: 1.2727,
+      letterSpacing: 0,
+      fontWeight: 400,
+    },
+    subtitle2: {
+      fontSize: 18,
+      lineHeight: 1.5,
+      letterSpacing: "0.009375em",
+      fontWeight: 500,
+    },
+
+    body1: {
+      fontSize: 16,
+      lineHeight: 1.5,
+      letterSpacing: "0.03125em",
+      fontWeight: 400,
+    },
+    body2: {
+      fontSize: 14,
+      lineHeight: 1.4286,
+      letterSpacing: "0.017857em",
+      fontWeight: 400,
+    },
+
+    // LABELS
+    button: {
+      fontSize: 14,
+      lineHeight: 1.4286,
+      letterSpacing: "0.007143em",
+      fontWeight: 500,
+      textTransform: "none",
+    },
+    caption: {
+      fontSize: 12,
+      lineHeight: 1.3333,
+      letterSpacing: "0.041667em",
+      fontWeight: 500,
+    },
+    overline: {
+      fontSize: 14,
+      lineHeight: 1.4286,
+      letterSpacing: "0.007143em",
+      fontWeight: 500,
+      textTransform: "none",
+    },
   },
   breakpoints: { values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 } },
   shape: { borderRadius: 4 },
   components: {
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          h1: "h1",
+          h2: "h2",
+          h3: "h2",
+          h4: "h3",
+          h5: "h4",
+          h6: "h5",
+          subtitle1: "h6",
+          subtitle2: "p",
+          body1: "p",
+          body2: "p",
+          button: "span",
+          caption: "span",
+          overline: "span",
+        },
+      },
+    },
     MuiTooltip: {
       defaultProps: {
         placement: "bottom",
@@ -355,14 +436,14 @@ export let themeLight = createTheme(theme, {
     }),
     text: {
       primary: lightThemeColors.onBackground,
-      secondary: lightThemeColors.onSurfaceVariant,
+      secondary: lighten(lightThemeColors.onBackground, 0.2),
       disabled: alpha(lightThemeColors.onBackground, 0.4),
     },
     outline: theme.palette.augmentColor({
       color: {
         main: lightThemeColors.outline,
-        light: lighten(lightThemeColors.outline, 0.85),
-        dark: darken(lightThemeColors.outline, 1),
+        light: darken(lightThemeColors.outline, 0.1),
+        dark: lighten(lightThemeColors.outline, 0.5),
       },
     }),
     border: theme.palette.augmentColor({
@@ -577,14 +658,14 @@ export let themeDark = createTheme(theme, {
     }),
     text: {
       primary: darkThemeColors.onBackground,
-      secondary: darkThemeColors.onSurfaceVariant,
+      secondary: darken(darkThemeColors.onBackground, 0.15),
       disabled: alpha(darkThemeColors.onBackground, 0.4),
     },
     outline: theme.palette.augmentColor({
       color: {
         main: darkThemeColors.outline,
-        light: darken(darkThemeColors.outline, 0.3),
-        dark: lighten(darkThemeColors.outline, 0.4),
+        light: lighten(darkThemeColors.outline, 0.1),
+        dark: darken(darkThemeColors.outline, 0.1),
       },
     }),
     border: theme.palette.augmentColor({

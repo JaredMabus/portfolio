@@ -23,7 +23,7 @@ import LightDarkSwitch from "./ThemeSwitchBtn";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { navData, NavDataType } from "./navData";
+import { navData, NavDataType } from "./data/navData";
 
 interface Props {
   item: NavDataType;
@@ -44,7 +44,8 @@ const NavItem: React.FC<Props> = ({ item }) => {
           alignItems: "center",
           color: theme.palette.text.secondary,
 
-          padding: theme.spacing(2, 2, 1, 2),
+          padding: theme.spacing(2, 1.5, 1, 1.5),
+          border: `2px solid transparent`,
           borderBottom: "2px solid transparent",
 
           whiteSpace: "nowrap",
@@ -60,13 +61,13 @@ const NavItem: React.FC<Props> = ({ item }) => {
           },
           "&.active": {
             color: theme.palette.primary.main,
-            borderColor: theme.palette.primary.main,
+            borderBottom: `2px solid ${theme.palette.primary.main}`,
           },
         }}
       >
         {item.name}
       </Box>
-      <Divider />
+      <Divider orientation="vertical" variant="middle" />
     </>
   );
 };
@@ -74,9 +75,7 @@ const NavItem: React.FC<Props> = ({ item }) => {
 export default function Header() {
   const theme = useTheme();
   const { toggleTheme } = useContext(ThemeContext);
-  const [state, setState] = useState({
-    left: false,
-  });
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -87,22 +86,21 @@ export default function Header() {
   });
 
   const toggleDrawer =
-    (anchor: any, open: any) => (event: React.KeyboardEvent<HTMLElement>) => {
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
         event.type === "keydown" &&
-        (event.key === "Tab" || event.key === "Shift")
+        ((event as React.KeyboardEvent).key === "Tab" ||
+          (event as React.KeyboardEvent).key === "Shift")
       ) {
         return;
       }
-      setState({ ...state, [anchor]: open });
+      setDrawerOpen(open);
     };
 
   const SocialIconButtonStyles = {
     height: 48,
     width: 48,
-    px: 1,
-    py: 0.5,
-    mx: 0.5,
+    ml: 1,
     borderRadius: "15px",
     border: `1px solid ${alpha(theme.palette.border.main, 0.4)}`,
     backgroundColor: alpha(theme.palette.surface.dark, 0.4),
@@ -175,7 +173,7 @@ export default function Header() {
         >
           <Stack
             sx={{
-              display: { xs: "none", sm: state.left ? "none" : "flex" },
+              display: { xs: "none", sm: isDrawerOpen ? "none" : "flex" },
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
@@ -186,7 +184,7 @@ export default function Header() {
             ))}
           </Stack>
           <SideNav
-            state={state}
+            open={isDrawerOpen}
             toggleDrawer={toggleDrawer}
             navData={navData}
           />

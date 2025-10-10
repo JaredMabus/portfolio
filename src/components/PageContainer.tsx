@@ -25,7 +25,7 @@ export default function PageContainer(props: Props) {
       <Container
         component="main"
         maxWidth="lg"
-        disableGutters={true}
+        disableGutters={false}
         sx={{
           display: "flex",
           flexDirection: "column",

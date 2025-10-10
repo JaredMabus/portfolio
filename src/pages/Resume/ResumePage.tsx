@@ -1,11 +1,12 @@
 import {
   Box,
   Button,
+  Divider,
+  Chip,
   Stack,
   Typography,
   TextField,
-  Divider,
-  Chip,
+  alpha,
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 
@@ -18,6 +19,7 @@ import {
   JobsType,
   InstitutionsType,
 } from "./resumeData";
+import { Key } from "@mui/icons-material";
 
 interface Props {
   data: ResumeDataType;
@@ -40,19 +42,18 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
         data.skills.map((tech: TechCategoryType) => (
           <Stack
             key={tech.category}
-            // spacing={}
             sx={{
               alignItems: "center",
               p: 1,
               m: 0.5,
               maxHeight: 400,
-              border: `2px solid ${theme.palette.primary.main}80`,
+              border: `1px solid ${theme.palette.outline.main}`,
               borderRadius: 3,
             }}
           >
             <Typography
-              sx={{ mb: 0.5, mx: 0.2, fontSize: ".8rem", fontWeight: 700 }}
-              variant="body1"
+              sx={{ mb: 0.5, mx: 0.2, fontWeight: 700 }}
+              variant="body2"
             >
               {tech.category}:
             </Typography>
@@ -103,9 +104,9 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
     >
       {data.jobs &&
         data.jobs.map((job) => (
-          <Stack key={job.employer} sx={{ width: "100%", py: 2 }}>
+          <Stack key={job.employer} sx={{ width: "100%", mb: 5 }}>
             <Stack
-              sx={{ width: "100%", justifyContent: "space-between", mb: 2 }}
+              sx={{ width: "100%", justifyContent: "space-between", mb: 1 }}
               direction="row"
             >
               <Stack>
@@ -114,25 +115,29 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                   direction="row"
                 >
                   <Typography
-                    sx={{ mr: 1, fontWeight: 700 }}
-                    align="center"
-                    variant="h6"
+                    variant="subtitle2"
+                    sx={{ mr: 1, fontWeight: 600 }}
                   >
                     {job.employer}
                   </Typography>
-                  <Typography align="center" variant="body2">
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      fontWeight: 500,
+                      color: theme.palette.text.secondary,
+                    }}
+                  >
                     {job.location}
                   </Typography>
-                  <Typography align="center" variant="body2"></Typography>
                 </Stack>
                 <Typography
-                  variant="subtitle1"
-                  sx={{ fontWeight: 700, fontStyle: "italic" }}
+                  variant="body1"
+                  sx={{ fontWeight: 500, fontStyle: "italic" }}
                 >
                   {job.position}
                 </Typography>
               </Stack>
-              <Typography sx={{ fontWeight: 600 }} variant="body1">
+              <Typography sx={{ fontWeight: 600, pt: 0.5 }} variant="body1">
                 {new Date(job.startDate).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
@@ -147,14 +152,16 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
               </Typography>
             </Stack>
             {job.jobSummary.length > 0 && (
-              <Typography variant="body1">{job.jobSummary}</Typography>
+              <Typography variant="body1" sx={{ pl: 1, pb: 0.5 }}>
+                {job.jobSummary}
+              </Typography>
             )}
             <Box sx={{ p: 0.5, pl: 3 }}>
               <ul>
                 {job.content &&
-                  job.content.map((item: string) => (
-                    <li key={item}>
-                      <Typography>{item}</Typography>
+                  job.content.map((jobContent: string, key: number) => (
+                    <li key={key}>
+                      <Typography variant="body1">{jobContent}</Typography>
                     </li>
                   ))}
               </ul>
@@ -219,14 +226,7 @@ export default function ResumePage() {
           alignSelf: "end",
           top: 20,
         }}
-      >
-        {/* <a href="Resume_old.pdf" download>
-            <Button>
-              <DownloadIcon fontSize="small" />
-              Download
-            </Button>
-          </a> */}
-      </Box>
+      ></Box>
       <Stack
         sx={{
           p: 1,
@@ -242,20 +242,16 @@ export default function ResumePage() {
             pl: 0.5,
             flexDirection: { xs: "column", sm: "row" },
           }}
-          divider={<Divider orientation="vertical" flexItem />}
-        >
-          {/* <Link
-              to=""
-              style={{
-                textDecoration: "none",
-                color: theme.palette.text.primary,
+          divider={
+            <Divider
+              orientation="vertical"
+              flexItem
+              sx={{
+                borderColor: theme.palette.outline.main,
               }}
-              onClick={() =>
-                window.location.assign("mailto:jwmabusth@gmail.com")
-              }
-            >
-              jwmabusth@gmail.com
-            </Link> */}
+            />
+          }
+        >
           <a
             style={{
               textDecoration: "none",
@@ -283,12 +279,15 @@ export default function ResumePage() {
         {resumeData.map((section) => (
           <Stack spacing={2} sx={{ py: 2 }} key={section.id}>
             <Typography
+              variant="subtitle1"
               sx={{
                 fontWeight: 600,
-                width: "100%",
-                borderBottom: `1px solid ${theme.palette.secondary.light}`,
+                pb: 0.5,
+                borderBottom: `2px solid ${alpha(
+                  theme.palette.outline.light,
+                  0.8
+                )}`,
               }}
-              variant="h5"
             >
               {section.title}
             </Typography>

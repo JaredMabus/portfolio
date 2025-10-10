@@ -1,4 +1,5 @@
 import {
+  Box,
   Typography,
   Button,
   Divider,
@@ -13,7 +14,6 @@ import { Link, LinkProps } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { ElementType } from "react";
 
-import StyledTooltip from "@/components/Tooltips";
 // ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
@@ -22,16 +22,15 @@ import { ProjectData } from "../projectData";
 // --- Props Interface ---
 interface CardContainerProps {
   data: ProjectData;
-  component: ElementType;
+  component?: ElementType;
 }
 type CardContainerLinkProps = CardContainerProps & LinkProps;
-
 type CardButtonProps = ButtonProps & LinkProps;
 
-const CardContainer = styled(Link, {
+const CardContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== "data",
-})<CardContainerLinkProps>(({ theme, data }) => ({
-  minWidth: 284,
+})<CardContainerProps>(({ theme, data }) => ({
+  minWidth: 250,
   height: 350,
   position: "relative",
   display: "flex",
@@ -40,7 +39,7 @@ const CardContainer = styled(Link, {
   color: theme.palette.text.secondary,
   borderRadius: "16px",
   boxShadow: theme.shadows[9],
-  cursor: "pointer",
+  // cursor: "pointer",
   overflow: "hidden",
   "&:hover #card-header": {
     borderColor: theme.palette.primary.main,
@@ -141,15 +140,13 @@ interface PropTypes {
 export default function ProjectCard({ data }: PropTypes) {
   const theme = useTheme();
 
-  const tooltipDelay = 500;
-
   return (
     <CardContainer
       data={data}
-      component={Link}
-      to={data.url}
-      target="_blank"
-      rel="noreferrer"
+      // component={Link}
+      // to={data.url}
+      // target="_blank"
+      // rel="noreferrer"
     >
       <CardHeader id="card-header">
         <Typography

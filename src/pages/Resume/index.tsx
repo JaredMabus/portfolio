@@ -14,14 +14,12 @@ export default function Resume() {
   });
 
   return (
-    <>
-      <PageContainer>
-        <animated.div style={animateStyles}>
-          <Stack sx={{ justifySelf: "center", height: "100%" }}>
-            <ResumePage />
-          </Stack>
-        </animated.div>
-      </PageContainer>
-    </>
+    <PageContainer>
+      <animated.div style={animateStyles}>
+        <Stack sx={{ justifySelf: "center", height: "100%" }}>
+          <ResumePage />
+        </Stack>
+      </animated.div>
+    </PageContainer>
   );
 }
