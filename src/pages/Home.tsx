@@ -58,7 +58,7 @@ export default function Home() {
                 gap: 2,
                 mt: 1,
                 py: 2,
-                borderTop: `2px solid ${theme.palette.outline.dark}`,
+                borderTop: `2px solid ${theme.palette.outline.low}`,
               }}
             >
               <Typography
@@ -146,7 +146,6 @@ export default function Home() {
             sx={{
               gap: 2,
               width: { xs: "100%", sm: "75%", md: "60%" },
-              borderTop: `2px solid ${theme.palette.outline.dark}`,
               justifyContent: "center",
               py: 2,
               px: 1,

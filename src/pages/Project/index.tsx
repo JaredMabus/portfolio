@@ -1,6 +1,6 @@
 import PageContainer from "../../components/PageContainer";
 import ProjectGrid from "./components/ProjectGrid";
-import { projectData } from "./projectData";
+import { projectData } from "./data/projectData";
 import { Typography, Stack, Divider } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -17,7 +17,7 @@ export default function Project() {
           Projects
         </Typography>
       </Stack>
-      <Divider />
+      <Divider sx={{ borderColor: theme.palette.border.low }} />
       <ProjectGrid data={projectData} />
     </PageContainer>
   );

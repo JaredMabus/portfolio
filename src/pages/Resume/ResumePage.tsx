@@ -5,10 +5,9 @@ import {
   Chip,
   Stack,
   Typography,
-  TextField,
   alpha,
 } from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
+import { Link } from "react-router-dom";
 
 import { useTheme } from "@mui/material/styles";
 import useDocumentTitle from "@/utils/useDocumentTitle";
@@ -18,8 +17,7 @@ import {
   TechCategoryType,
   JobsType,
   InstitutionsType,
-} from "./resumeData";
-import { Key } from "@mui/icons-material";
+} from "./data/resumeData";
 
 interface Props {
   data: ResumeDataType;
@@ -85,10 +83,6 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
   );
 };
 
-// interface ProfessionalProps {
-//   data: ResumeDataType
-// }
-
 const ProfessionalExperience: React.FC<Props> = ({ data }) => {
   const theme = useTheme();
 
@@ -106,16 +100,25 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
         data.jobs.map((job) => (
           <Stack key={job.employer} sx={{ width: "100%", mb: 5 }}>
             <Stack
-              sx={{ width: "100%", justifyContent: "space-between", mb: 1 }}
-              direction="row"
+              sx={{
+                flexDirection: { xs: "column", sm: "row" },
+                width: "100%",
+                alignItems: { xs: "start", sm: "baseline" },
+                justifyContent: "space-between",
+                mt: 1,
+                mb: 2,
+              }}
             >
               <Stack>
                 <Stack
-                  sx={{ width: "100%", alignItems: "baseline" }}
-                  direction="row"
+                  sx={{
+                    flexDirection: { xs: "column", sm: "row" },
+                    alignItems: "baseline",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   <Typography
-                    variant="subtitle2"
+                    variant="subtitle1"
                     sx={{ mr: 1, fontWeight: 600 }}
                   >
                     {job.employer}
@@ -125,6 +128,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                     sx={{
                       fontWeight: 500,
                       color: theme.palette.text.secondary,
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {job.location}
@@ -132,24 +136,44 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                 </Stack>
                 <Typography
                   variant="body1"
-                  sx={{ fontWeight: 500, fontStyle: "italic" }}
+                  sx={{
+                    fontWeight: 600,
+                    fontStyle: "italic",
+                    whiteSpace: "nowrap",
+                  }}
                 >
                   {job.position}
                 </Typography>
               </Stack>
-              <Typography sx={{ fontWeight: 600, pt: 0.5 }} variant="body1">
-                {new Date(job.startDate).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                })}
-                {" - "}
-                {job.endDate === "Present"
-                  ? "Present"
-                  : new Date(job.endDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                    })}
-              </Typography>
+              <Stack
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: 500,
+                    justifySelf: "end",
+                    whiteSpace: "nowrap",
+                    fontSize: ".95rem",
+                  }}
+                >
+                  {new Date(job.startDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                  })}
+                  {" - "}
+                  {job.endDate === "Present"
+                    ? "Present"
+                    : new Date(job.endDate).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                      })}
+                </Typography>
+              </Stack>
             </Stack>
             {job.jobSummary.length > 0 && (
               <Typography variant="body1" sx={{ pl: 1, pb: 0.5 }}>
@@ -200,14 +224,13 @@ export default function ResumePage() {
         justifySelf: "center",
         alignSelf: "center",
         backgroundColor: theme.palette.surfaceContainer.main,
-        px: { xs: 3, sm: 7 },
+        px: { xs: 1, sm: 5, md: 7 },
         pt: 7,
         pb: 20,
         mt: 5,
         mb: 10,
         maxWidth: { xs: "100%", sm: 600, md: 900 },
         borderRadius: 2,
-        // boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
         border:
           theme.palette.mode === "dark"
             ? `1px solid transparent`
@@ -219,73 +242,81 @@ export default function ResumePage() {
             : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          justifySelf: "end",
-          alignSelf: "end",
-          top: 20,
-        }}
-      ></Box>
       <Stack
         sx={{
           p: 1,
         }}
       >
-        <Typography variant="h4">Jared Mabusth</Typography>
-        <Stack
-          sx={{
-            alignSelf: "start",
-            gap: { xs: 1, sm: 2 },
-            mt: 0.4,
-            mb: 0.7,
-            pl: 0.5,
-            flexDirection: { xs: "column", sm: "row" },
-          }}
-          divider={
-            <Divider
-              orientation="vertical"
-              flexItem
+        <Stack>
+          <Typography variant="h4">Jared Mabusth</Typography>
+          <Stack
+            sx={{
+              alignSelf: "start",
+              gap: { xs: 0.5, sm: 1.5 },
+              mt: { xs: 0.5, sm: 1 },
+              pl: 0.5,
+              flexDirection: { xs: "column", sm: "row" },
+            }}
+            divider={
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{
+                  borderColor: theme.palette.outline.main,
+                }}
+              />
+            }
+          >
+            <Box
+              component={Link}
+              to="https://www.linkedin.com/in/jaredmabusth"
+              target="_blank"
+              rel="noreferrer"
               sx={{
-                borderColor: theme.palette.outline.main,
+                textDecoration: "none",
+                color: theme.palette.text.primary,
+                transition: theme.transitions.create(["color"], {
+                  duration: theme.transitions.duration.standard,
+                  easing: theme.transitions.easing.easeInOut,
+                }),
+                ":hover": {
+                  color: theme.palette.primary.main,
+                },
               }}
-            />
-          }
-        >
-          <a
-            style={{
-              textDecoration: "none",
-              color: theme.palette.text.primary,
-            }}
-            href="https://www.linkedin.com/in/jaredmabusth"
-            target="_blank"
-            rel="noreferrer"
-          >
-            LinkedIn
-          </a>
-          <a
-            style={{
-              textDecoration: "none",
-              color: theme.palette.text.primary,
-            }}
-            href="https://github.com/JaredMabus"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-          {/* <Typography variant="body1">Minneapolis, MN</Typography> */}
+            >
+              LinkedIn
+            </Box>
+            <Box
+              component={Link}
+              to="https://github.com/JaredMabus"
+              target="_blank"
+              rel="noreferrer"
+              sx={{
+                textDecoration: "none",
+                color: theme.palette.text.primary,
+                transition: theme.transitions.create(["color"], {
+                  duration: theme.transitions.duration.standard,
+                  easing: theme.transitions.easing.easeInOut,
+                }),
+                ":hover": {
+                  color: theme.palette.primary.main,
+                },
+              }}
+            >
+              GitHub
+            </Box>
+          </Stack>
         </Stack>
         {resumeData.map((section) => (
-          <Stack spacing={2} sx={{ py: 2 }} key={section.id}>
+          <Stack spacing={2} sx={{ pb: 2, pt: 3 }} key={section.id}>
             <Typography
-              variant="subtitle1"
+              variant="h6"
               sx={{
                 fontWeight: 600,
-                pb: 0.5,
-                borderBottom: `2px solid ${alpha(
-                  theme.palette.outline.light,
-                  0.8
+                mb: 1,
+                borderBottom: `1px solid ${alpha(
+                  theme.palette.outline.main,
+                  1
                 )}`,
               }}
             >

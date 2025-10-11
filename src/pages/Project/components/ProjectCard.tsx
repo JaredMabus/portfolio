@@ -17,7 +17,7 @@ import { ElementType } from "react";
 // ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
 import BrushOutlinedIcon from "@mui/icons-material/BrushOutlined";
-import { ProjectData } from "../projectData";
+import { ProjectData } from "../data/projectData";
 
 // --- Props Interface ---
 interface CardContainerProps {
@@ -27,9 +27,9 @@ interface CardContainerProps {
 type CardContainerLinkProps = CardContainerProps & LinkProps;
 type CardButtonProps = ButtonProps & LinkProps;
 
-const CardContainer = styled(Box, {
+const CardContainer = styled(Link, {
   shouldForwardProp: (prop) => prop !== "data",
-})<CardContainerProps>(({ theme, data }) => ({
+})<CardContainerProps | CardContainerLinkProps>(({ theme, data }) => ({
   minWidth: 250,
   height: 350,
   position: "relative",
@@ -143,10 +143,10 @@ export default function ProjectCard({ data }: PropTypes) {
   return (
     <CardContainer
       data={data}
-      // component={Link}
-      // to={data.url}
-      // target="_blank"
-      // rel="noreferrer"
+      component={Link}
+      to={data.url}
+      target="_blank"
+      rel="noreferrer"
     >
       <CardHeader id="card-header">
         <Typography

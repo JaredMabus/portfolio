@@ -2,7 +2,7 @@ import ProjectCard from "./ProjectCard";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import { animated, useTransition } from "@react-spring/web";
-import { ProjectData } from "../projectData";
+import { ProjectData } from "../data/projectData";
 
 interface Props {
   data: ProjectData[];

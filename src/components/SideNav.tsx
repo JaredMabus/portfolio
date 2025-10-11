@@ -64,8 +64,8 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
           onClick={toggleDrawer(false)}
           sx={{
             mx: 0.2,
-            height: 36,
-            width: 36,
+            height: 48,
+            width: 48,
             borderRadius: "15px",
             boxSizing: "border-box",
             border: `1px solid ${alpha(theme.palette.border.dark, 0.2)}`,
@@ -159,8 +159,8 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
         sx={{
           display: { xs: "flex", sm: "none" },
           mx: 0.2,
-          height: 36,
-          width: 36,
+          height: 48,
+          width: 48,
           borderRadius: "15px",
           boxSizing: "border-box",
           border: `1px solid ${alpha(theme.palette.border.dark, 0.2)}`,
