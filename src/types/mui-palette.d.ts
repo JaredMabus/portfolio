@@ -1,11 +1,41 @@
 // src/types/mui-palette.d.ts
-import type {} from "@mui/material/styles"; // ensures module is resolvable
+import type {} from "@mui/material/styles";
+
+export type StateLayer = {
+  hover: string;
+  selected: string;
+  focus: string;
+  focusVisible: string;
+  outlinedBorder: string;
+  dragged: string;
+  disabled: string;
+  disabledBg: string;
+};
 
 declare module "@mui/material/styles" {
-  // What you read at runtime: theme.palette.<key>.main
+  interface PaletteColor {
+    high: string;
+    low: string;
+    state: StateLayer;
+  }
+
+  interface SimplePaletteColorOptions {
+    high?: string;
+    low?: string;
+    state?: Partial<StateLayer>;
+  }
+
+  interface PaletteColorOptions {
+    high?: string;
+    low?: string;
+    state?: Partial<StateLayer>;
+  }
+
   interface Palette {
-    // Standard + your custom chromatic containers
     tertiary: PaletteColor;
+    neutral: PaletteColor;
+
+    // Custom chromatic containers
     primaryContainer: Palette["primary"];
     onPrimaryContainer: Palette["primary"];
     secondaryContainer: Palette["primary"];
@@ -31,7 +61,7 @@ declare module "@mui/material/styles" {
 
     // Neutrals & roles
     onBackground: Palette["primary"];
-    surface: Palette["primary"];
+    surface: PaletteColor;
     onSurface: Palette["primary"];
     surfaceVariant: Palette["primary"];
     onSurfaceVariant: Palette["primary"];
@@ -43,17 +73,17 @@ declare module "@mui/material/styles" {
     // Surface containers
     surfaceDim: Palette["primary"];
     surfaceBright: Palette["primary"];
-    surfaceContainerLowest: Palette["primary"];
-    surfaceContainerLow: Palette["primary"];
-    surfaceContainer: Palette["primary"];
-    surfaceContainerHigh: Palette["primary"];
-    surfaceContainerHighest: Palette["primary"];
+    surfaceContainerLowest: PaletteColor;
+    surfaceContainerLow: PaletteColor;
+    surfaceContainerGlass: PaletteColor;
+    surfaceContainer: PaletteColor;
+    surfaceContainerHigh: PaletteColor;
+    surfaceContainerHighest: PaletteColor;
   }
 
-  // What you pass into createTheme({ palette: { ... } })
   interface PaletteOptions {
-    // Standard + your custom chromatic containers
     tertiary?: PaletteOptions["primary"];
+    neutral?: PaletteOptions["primary"];
 
     primaryContainer?: PaletteOptions["primary"];
     onPrimaryContainer?: PaletteOptions["primary"];
@@ -64,7 +94,6 @@ declare module "@mui/material/styles" {
     errorContainer?: PaletteOptions["primary"];
     onErrorContainer?: PaletteOptions["primary"];
 
-    // Fixed brand set
     primaryFixed?: PaletteOptions["primary"];
     onPrimaryFixed?: PaletteOptions["primary"];
     primaryFixedDim?: PaletteOptions["primary"];
@@ -78,7 +107,6 @@ declare module "@mui/material/styles" {
     tertiaryFixedDim?: PaletteOptions["primary"];
     onTertiaryFixedVariant?: PaletteOptions["primary"];
 
-    // Neutrals & roles
     onBackground?: PaletteOptions["primary"];
     surface?: PaletteOptions["primary"];
     onSurface?: PaletteOptions["primary"];
@@ -89,28 +117,37 @@ declare module "@mui/material/styles" {
     inverseOnSurface?: PaletteOptions["primary"];
     inverseSurface?: PaletteOptions["primary"];
 
-    // Surface containers
     surfaceDim?: PaletteOptions["primary"];
     surfaceBright?: PaletteOptions["primary"];
     surfaceContainerLowest?: PaletteOptions["primary"];
     surfaceContainerLow?: PaletteOptions["primary"];
+    surfaceContainerGlass?: PaletteOptions["primary"];
     surfaceContainer?: PaletteOptions["primary"];
     surfaceContainerHigh?: PaletteOptions["primary"];
     surfaceContainerHighest?: PaletteOptions["primary"];
   }
+}
 
-  interface PaletteColor {
-    high: string;
-    low: string;
+declare module "@mui/material/Button" {
+  interface ButtonPropsColorOverrides {
+    neutral: true;
+    tertiary: true;
   }
+}
 
-  // Write side (what createTheme accepts)
-  interface SimplePaletteColorOptions {
-    high?: string;
-    low?: string;
+declare module "@mui/material/IconButton" {
+  interface IconButtonPropsColorOverrides {
+    neutral: true;
+    tertiary: true;
   }
-  interface PaletteColorOptions {
-    high?: string;
-    low?: string;
+  interface IconButtonOwnProps {
+    variant?: "outlined" | "filled" | "standard";
+  }
+}
+
+declare module "@mui/material/Chip" {
+  interface ChipPropsColorOverrides {
+    neutral: true;
+    tertiary: true;
   }
 }

@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, CssBaseline, GlobalStyles } from "@mui/material";
 
 import * as page from "./pages";
+import PageContainer from "./components/PageContainer";
 import { GlobalStyle, themeDark, themeLight } from "@/styles/theme";
 
 interface ThemeContextType {
@@ -31,10 +32,15 @@ export default function App() {
   };
 
   const setInitialTheme = () => {
-    const initialThemeMq = window.matchMedia("(prefers-color-scheme: light)");
-    if (initialThemeMq.matches) {
-      setTheme(true);
-      localStorage.setItem("theme", "light");
+    if (typeof window !== "undefined" && window.matchMedia) {
+      const initialThemeMq = window.matchMedia("(prefers-color-scheme: light)");
+      if (initialThemeMq.matches) {
+        setTheme(true);
+        localStorage.setItem("theme", "light");
+      } else {
+        setTheme(false);
+        localStorage.setItem("theme", "dark");
+      }
     } else {
       setTheme(false);
       localStorage.setItem("theme", "dark");
@@ -57,10 +63,12 @@ export default function App() {
           <CssBaseline />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<page.Home />} />
-              <Route path="/projects" element={<page.Project />} />
-              <Route path="/resume" element={<page.Resume />} />
-              <Route path="*" element={<page.Home />} />
+              <Route element={<PageContainer />}>
+                <Route path="/" element={<page.Home />} />
+                <Route path="/projects" element={<page.Project />} />
+                <Route path="/resume" element={<page.Resume />} />
+                <Route path="*" element={<page.Home />} />
+              </Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

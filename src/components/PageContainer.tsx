@@ -1,15 +1,15 @@
-import { Box, Container, useTheme } from "@mui/material";
+import React from "react";
+import { Container } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 import Footer from "./Footer";
 import Header from "./Header";
 
 interface Props {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function PageContainer(props: Props) {
-  const theme = useTheme();
-
   return (
     <Container
       component="main"
@@ -35,9 +35,10 @@ export default function PageContainer(props: Props) {
           mt: "70px",
         }}
       >
-        {props.children}
+        {props.children ?? <Outlet />}
       </Container>
       <Footer />
     </Container>
   );
 }
+

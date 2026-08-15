@@ -1,4 +1,3 @@
-import PageContainer from "../../components/PageContainer";
 import ProjectGrid from "./components/ProjectGrid";
 import { projectData } from "./data/projectData";
 import { Typography, Stack, Divider } from "@mui/material";
@@ -11,14 +10,14 @@ export default function Project() {
   useDocumentTitle("Projects");
 
   return (
-    <PageContainer>
+    <>
       <Stack direction="row" sx={{ width: "100%", mt: 5 }}>
-        <Typography sx={{ fontWeight: 600 }} variant="h3">
+        <Typography sx={{ fontWeight: 600, mb: 5 }} variant="h3">
           Projects
         </Typography>
       </Stack>
-      <Divider sx={{ borderColor: theme.palette.border.low }} />
+      {/* <Divider sx={{ borderColor: theme.palette.border.low }} /> */}
       <ProjectGrid data={projectData} />
-    </PageContainer>
+    </>
   );
 }

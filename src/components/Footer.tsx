@@ -6,15 +6,16 @@ export default function Footer() {
   const theme = useTheme();
   return (
     <Stack
+      component="footer"
       sx={{
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "start",
-        height: 125,
+        height: 120,
         width: "100%",
         margin: 0,
         padding: 0,
-        backgroundColor: theme.palette.surface.dark,
+        backgroundColor: theme.palette.surfaceContainerLow.main,
       }}
     >
       <Socials />

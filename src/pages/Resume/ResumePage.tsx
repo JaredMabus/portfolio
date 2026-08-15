@@ -1,11 +1,10 @@
+import React from "react";
 import {
   Box,
-  Button,
   Divider,
   Chip,
   Stack,
   Typography,
-  alpha,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -15,8 +14,6 @@ import {
   resumeData,
   ResumeDataType,
   TechCategoryType,
-  JobsType,
-  InstitutionsType,
 } from "./data/resumeData";
 
 interface Props {
@@ -42,15 +39,16 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             key={tech.category}
             sx={{
               alignItems: "center",
-              p: 1,
+              p: 1.5,
               m: 0.5,
               maxHeight: 400,
+              backgroundColor: theme.palette.surfaceContainerLow.main,
               border: `1px solid ${theme.palette.outline.main}`,
               borderRadius: 3,
             }}
           >
             <Typography
-              sx={{ mb: 0.5, mx: 0.2, fontWeight: 700 }}
+              sx={{ mb: 1, mx: 0.2, fontWeight: 700, color: theme.palette.text.primary }}
               variant="body2"
             >
               {tech.category}:
@@ -58,24 +56,23 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             <Stack
               direction="row"
               sx={{
-                maxWidth: 130,
+                maxWidth: 140,
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: 1,
+                gap: 0.75,
               }}
             >
-              {tech.items.map((item) => {
-                return (
-                  <Chip
-                    key={item}
-                    sx={{ m: 0 }}
-                    size="small"
-                    variant="outlined"
-                    label={item}
-                  />
-                );
-              })}
+              {tech.items.map((item) => (
+                <Chip
+                  key={item}
+                  sx={{ m: 0 }}
+                  size="small"
+                  variant="outlined"
+                  color="neutral"
+                  label={item}
+                />
+              ))}
             </Stack>
           </Stack>
         ))}
@@ -119,7 +116,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                 >
                   <Typography
                     variant="subtitle1"
-                    sx={{ mr: 1, fontWeight: 600 }}
+                    sx={{ mr: 1, fontWeight: 600, color: theme.palette.text.primary }}
                   >
                     {job.employer}
                   </Typography>
@@ -140,6 +137,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                     fontWeight: 600,
                     fontStyle: "italic",
                     whiteSpace: "nowrap",
+                    color: theme.palette.text.secondary,
                   }}
                 >
                   {job.position}
@@ -159,6 +157,7 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                     justifySelf: "end",
                     whiteSpace: "nowrap",
                     fontSize: ".95rem",
+                    color: theme.palette.text.secondary,
                   }}
                 >
                   {new Date(job.startDate).toLocaleDateString("en-US", {
@@ -197,7 +196,6 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
 };
 
 const Education: React.FC<Props> = ({ data }) => {
-  const theme = useTheme();
   return (
     <Stack
       direction="column"
@@ -224,31 +222,22 @@ export default function ResumePage() {
         justifySelf: "center",
         alignSelf: "center",
         backgroundColor: theme.palette.surfaceContainer.main,
-        px: { xs: 1, sm: 5, md: 7 },
+        px: { xs: 2, sm: 5, md: 7 },
         pt: 7,
         pb: 20,
         mt: 5,
         mb: 10,
-        maxWidth: { xs: "100%", sm: 600, md: 900 },
-        borderRadius: 2,
-        border:
-          theme.palette.mode === "dark"
-            ? `1px solid transparent`
-            : `1px solid ${theme.palette.border.light}`,
-
-        boxShadow:
-          theme.palette.mode === "dark"
-            ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
-            : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
+        maxWidth: { xs: "100%", sm: 650, md: 900 },
+        borderRadius: 3,
+        border: `1px solid ${theme.palette.outline.main}`,
+        boxShadow: theme.shadows[3],
       }}
     >
-      <Stack
-        sx={{
-          p: 1,
-        }}
-      >
+      <Stack sx={{ p: 1 }}>
         <Stack>
-          <Typography variant="h4">Jared Mabusth</Typography>
+          <Typography variant="h4" sx={{ fontWeight: 700 }}>
+            Jared Mabusth
+          </Typography>
           <Stack
             sx={{
               alignSelf: "start",
@@ -314,10 +303,8 @@ export default function ResumePage() {
               sx={{
                 fontWeight: 600,
                 mb: 1,
-                borderBottom: `1px solid ${alpha(
-                  theme.palette.outline.main,
-                  1
-                )}`,
+                borderBottom: `1px solid ${theme.palette.outline.main}`,
+                color: theme.palette.text.primary,
               }}
             >
               {section.title}

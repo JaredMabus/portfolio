@@ -4,10 +4,10 @@ Welcome to my portfolio repository! I am a **Full-Stack Developer** and **Data A
 
 ## **About Me**
 
-- 🎓 **Full Stack Web Development Certificate** from the **University of Minnesota Coding Bootcamp**.
-- 📊 Three years of experience in **data analysis** and **business intelligence**.
-- 💻 Proficient in both front-end and back-end development with a focus on building scalable, well-documented applications.
-- 🚀 I enjoy learning and implementing new technologies, continuously improving my skills through personal projects.
+- **Full Stack Web Development Certificate** from the **University of Minnesota Coding Bootcamp**.
+- Three years of experience in **data analysis** and **business intelligence**.
+- Proficient in both front-end and back-end development with a focus on building scalable, well-documented applications.
+- I enjoy learning and implementing new technologies, continuously improving my skills through personal projects.
 
 ## **Skills**
 
@@ -21,8 +21,6 @@ Here are the tools and technologies I use to bring projects to life:
 - **Data Analysis**: Power BI, Tableau, Excel, Pandas.
 
 ## **Development**
-
-This project now uses [Vite](https://vitejs.dev/) with TypeScript and Yarn for a faster developer experience.
 
 ### Prerequisites
 

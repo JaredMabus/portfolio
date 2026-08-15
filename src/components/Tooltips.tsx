@@ -3,14 +3,16 @@ import { styled } from "@mui/material/styles";
 
 export const StyledTooltip = styled(Tooltip)<TooltipProps>(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    padding: theme.spacing(1),
-    color: theme.palette.text.primary,
-    fontWeight: "bold",
-    fontSize: ".7rem",
-    backgroundColor: theme.palette.surface.light,
+    padding: theme.spacing(0.75, 1.25),
+    color: theme.palette.inverseOnSurface.main,
+    fontWeight: 500,
+    fontSize: "0.75rem",
+    backgroundColor: theme.palette.inverseSurface.main,
+    borderRadius: 8,
+    boxShadow: theme.shadows[2],
   },
   [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.surface.light,
+    color: theme.palette.inverseSurface.main,
   },
   [`& .${tooltipClasses.tooltipPlacementBottom}`]: {
     right: "0px",
@@ -19,23 +21,3 @@ export const StyledTooltip = styled(Tooltip)<TooltipProps>(({ theme }) => ({
 }));
 
 export default StyledTooltip;
-
-// export const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
-//   <Tooltip {...props} classes={{ popper: className }} />
-// ))(({ theme }) => ({
-//   [`& .${tooltipClasses.tooltip}`]: {
-//     padding: theme.spacing(1),
-//     color: theme.palette.text.primary,
-//     fontWeight: "bold",
-//     fontSize: ".7rem",
-//     backgroundColor: theme.palette.surface.light,
-//   },
-//   [`& .${tooltipClasses.arrow}`]: {
-//     color: theme.palette.surface.light,
-//   },
-//   "& .MuiTooltip-popper":{
-
-//   }
-// }));
-
-// export default StyledTooltip;

@@ -1,3 +1,4 @@
+import React, { ElementType } from "react";
 import {
   Box,
   Typography,
@@ -5,14 +6,12 @@ import {
   Divider,
   Stack,
   ButtonProps,
-  Paper,
   Tooltip,
   useTheme,
   alpha,
 } from "@mui/material";
 import { Link, LinkProps } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { ElementType } from "react";
 
 // ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -22,14 +21,12 @@ import { ProjectData } from "../data/projectData";
 // --- Props Interface ---
 interface CardContainerProps {
   data: ProjectData;
-  component?: ElementType;
 }
-type CardContainerLinkProps = CardContainerProps & LinkProps;
 type CardButtonProps = ButtonProps & LinkProps;
 
-const CardContainer = styled(Link, {
+const CardContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== "data",
-})<CardContainerProps | CardContainerLinkProps>(({ theme, data }) => ({
+})<CardContainerProps>(({ theme, data }) => ({
   minWidth: 250,
   height: 350,
   position: "relative",
@@ -38,15 +35,31 @@ const CardContainer = styled(Link, {
   justifyContent: "start",
   color: theme.palette.text.secondary,
   borderRadius: "16px",
-  boxShadow: theme.shadows[9],
-  // cursor: "pointer",
+  border: `1px solid ${theme.palette.outline.main}`,
+  boxShadow: theme.shadows[3],
   overflow: "hidden",
+  cursor: "pointer",
+  transition: theme.transitions.create(
+    ["box-shadow", "border-color", "transform"],
+    {
+      duration: theme.transitions.duration.short,
+      easing: theme.transitions.easing.easeInOut,
+    }
+  ),
+  "&:hover": {
+    borderColor: theme.palette.primary.main,
+    boxShadow: theme.shadows[8],
+  },
   "&:hover #card-header": {
     borderColor: theme.palette.primary.main,
   },
   "&:hover #card-content, &:hover #card-btn-stack": {
     visibility: "visible",
     opacity: 1,
+  },
+  "&:focus-visible": {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: "2px",
   },
   "&::before": {
     content: '""',
@@ -75,13 +88,12 @@ const CardHeader = styled(Stack)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "start",
   justifyContent: "space-between",
-  backgroundColor: theme.palette.surface.main,
+  backgroundColor: theme.palette.surfaceContainer.main,
   padding: theme.spacing(2, 2, 1, 2),
-  borderBottom: `3px solid ${theme.palette.border.dark}`,
-  transition: theme.transitions.create(["borderColor"], {
+  borderBottom: `2px solid ${theme.palette.outline.main}`,
+  transition: theme.transitions.create(["border-color", "background-color"], {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,
-    delay: 500,
   }),
 }));
 
@@ -90,13 +102,17 @@ const CardContent = styled(Stack)(({ theme }) => ({
   opacity: 0,
   width: "100%",
   height: "100%",
-  padding: theme.spacing(2, 4),
+  padding: theme.spacing(2, 3),
   justifyContent: "space-between",
-  backgroundColor: theme.palette.surface.dark,
-  transition: theme.transitions.create(["opacity", "visibility"], {
-    duration: theme.transitions.duration.standard,
-    easing: theme.transitions.easing.easeInOut,
-  }),
+  backgroundColor: alpha(theme.palette.surfaceContainerHigh.main, 0.95),
+  backdropFilter: "blur(6px)",
+  transition: theme.transitions.create(
+    ["opacity", "visibility", "background-color"],
+    {
+      duration: theme.transitions.duration.standard,
+      easing: theme.transitions.easing.easeInOut,
+    }
+  ),
 
   [theme.breakpoints.only("xs")]: {
     padding: theme.spacing(2, 2),
@@ -111,24 +127,30 @@ const CardFooter = styled(Stack)({
 });
 
 const CardLinkButton = styled(Button)<CardButtonProps>(({ theme }) => ({
-  border: `1px solid ${alpha(theme.palette.primary.dark, 0.05)}`,
+  border: `1px solid ${theme.palette.outline.main}`,
   color: theme.palette.text.secondary,
-  transition: theme.transitions.create(["color", "borderColor"], {
-    duration: theme.transitions.duration.standard,
-    easing: theme.transitions.easing.easeInOut,
-  }),
+  padding: "4px 12px",
+  fontSize: "0.85rem",
+  borderRadius: "16px",
+  transition: theme.transitions.create(
+    ["color", "border-color", "background-color"],
+    {
+      duration: theme.transitions.duration.short,
+      easing: theme.transitions.easing.easeInOut,
+    }
+  ),
   "&:hover": {
     color: theme.palette.primary.main,
-    borderColor: alpha(theme.palette.primary.dark, 0.2),
+    borderColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.state.hover,
     "& .MuiSvgIcon-root": {
       color: theme.palette.primary.main,
     },
   },
   "& .MuiSvgIcon-root": {
     fontSize: "1.1rem",
-    transition: theme.transitions.create(["color", "borderColor"], {
-      duration: theme.transitions.duration.standard,
-      easing: theme.transitions.easing.easeInOut,
+    transition: theme.transitions.create("color", {
+      duration: theme.transitions.duration.short,
     }),
   },
 }));
@@ -140,13 +162,27 @@ interface PropTypes {
 export default function ProjectCard({ data }: PropTypes) {
   const theme = useTheme();
 
+  const handleCardClick = () => {
+    if (data.url) {
+      window.open(data.url, "_blank", "noreferrer");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      handleCardClick();
+    }
+  };
+
   return (
     <CardContainer
       data={data}
-      component={Link}
-      to={data.url}
-      target="_blank"
-      rel="noreferrer"
+      onClick={handleCardClick}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      role="link"
+      aria-label={`View ${data.title} live project`}
     >
       <CardHeader id="card-header">
         <Typography
@@ -154,11 +190,12 @@ export default function ProjectCard({ data }: PropTypes) {
           sx={{
             fontWeight: "bold",
             whiteSpace: "nowrap",
+            color: theme.palette.text.primary,
           }}
         >
           {data.title}
         </Typography>
-        <Divider />
+        <Divider sx={{ my: 1, borderColor: theme.palette.outline.main }} />
         <Stack
           id="card-btn-stack"
           sx={{ visibility: "visible" }}
@@ -172,7 +209,7 @@ export default function ProjectCard({ data }: PropTypes) {
               target="_blank"
               rel="noreferrer"
               startIcon={<GitHubIcon />}
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
             >
               Code
             </CardLinkButton>
@@ -185,7 +222,7 @@ export default function ProjectCard({ data }: PropTypes) {
                 target="_blank"
                 rel="noreferrer"
                 startIcon={<BrushOutlinedIcon />}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e: React.MouseEvent) => e.stopPropagation()}
               >
                 Design
               </CardLinkButton>
@@ -195,7 +232,11 @@ export default function ProjectCard({ data }: PropTypes) {
       </CardHeader>
 
       <CardContent id="card-content">
-        <Typography align="left" variant="body1">
+        <Typography
+          align="left"
+          variant="body1"
+          sx={{ color: theme.palette.text.primary }}
+        >
           {data.desc}
         </Typography>
         <CardFooter>

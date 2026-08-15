@@ -1,11 +1,10 @@
-import { Box, Button, Stack, Typography, alpha } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useSpring, animated } from "@react-spring/web";
 import { useTheme } from "@mui/material/styles";
 
 import useDocumentTitle from "@/utils/useDocumentTitle";
-import PageContainer from "@/components/PageContainer";
 import avatar from "@/assets/images/ProfilePic.svg";
 
 export default function Home() {
@@ -19,8 +18,7 @@ export default function Home() {
   });
 
   return (
-    <PageContainer>
-      <animated.div style={animateStyles}>
+    <animated.div style={animateStyles}>
         <Stack
           sx={{
             flexDirection: "row",
@@ -42,7 +40,7 @@ export default function Home() {
             }}
           >
             <Typography variant="h1" sx={{ fontWeight: 700 }}>
-              Hi, I'm Jared 👋{" "}
+              Hi, I'm Jared 👋
             </Typography>
             <Typography
               variant="subtitle1"
@@ -58,7 +56,7 @@ export default function Home() {
                 gap: 2,
                 mt: 1,
                 py: 2,
-                borderTop: `2px solid ${theme.palette.outline.low}`,
+                borderTop: `2px solid ${theme.palette.outline.main}`,
               }}
             >
               <Typography
@@ -77,26 +75,23 @@ export default function Home() {
                 endIcon={<ArrowForwardIosIcon fontSize="small" />}
                 sx={{
                   color: theme.palette.primary.contrastText,
-                  backgroundColor: alpha(theme.palette.primary.main, 0.95),
-                  fontWeight: 700,
+                  backgroundColor: theme.palette.primary.main,
+                  fontWeight: 600,
                   fontSize: "1rem",
-                  p: 1.5,
-                  borderRadius: 10,
-                  width: 150,
-                  boxShadow: `inset 10px 0 50px 10px rgba(0,0,0,0.2)`,
+                  py: 1.25,
+                  px: 3,
+                  borderRadius: 6,
+                  width: "auto",
+                  alignSelf: "flex-start",
                   transition: theme.transitions.create(
-                    ["background-color", "box-shadow"],
+                    ["background-color", "box-shadow", "transform"],
                     {
-                      duration: theme.transitions.duration.standard,
+                      duration: theme.transitions.duration.short,
                       easing: theme.transitions.easing.easeInOut,
                     }
                   ),
-                  "& .MuiSvgIcon-root": {
-                    color: theme.palette.primary.contrastText,
-                  },
-                  ":hover": {
-                    backgroundColor: theme.palette.primary.main,
-                    boxShadow: `inset 2px 0 2px 0 rgba(0,0,0,0.2)}`,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.high,
                   },
                 }}
               >
@@ -129,7 +124,7 @@ export default function Home() {
             justifySelf: "center",
             alignSelf: "center",
             px: 1,
-            mb: 30,
+            mb: 20,
           }}
         >
           <Typography
@@ -150,7 +145,6 @@ export default function Home() {
               py: 2,
               px: 1,
               mb: 10,
-
               "& p": { textWrap: "pretty" },
             }}
           >
@@ -171,6 +165,5 @@ export default function Home() {
           </Stack>
         </Stack>
       </animated.div>
-    </PageContainer>
   );
 }

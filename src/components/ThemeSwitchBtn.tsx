@@ -1,13 +1,13 @@
 import { styled, alpha } from "@mui/material/styles";
 import { Switch, useTheme } from "@mui/material";
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import { text } from "stream/consumers";
 
 const SwitchWrapper = styled("div")({
   position: "relative",
   width: 62,
   height: 34,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 });
 
 const StyledSwitch = styled(Switch)(({ theme }) => ({
@@ -28,10 +28,8 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: alpha(theme.palette.surface.light, 0.4),
-        ...theme.applyStyles("dark", {
-          backgroundColor: alpha(theme.palette.surface.light, 0.4),
-        }),
+        backgroundColor: theme.palette.surfaceContainerHigh.main,
+        borderColor: theme.palette.outline.main,
       },
     },
   },
@@ -39,6 +37,7 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: theme.palette.surface.main,
     width: 32,
     height: 32,
+    boxShadow: theme.shadows[1],
     "&::before": {
       content: "''",
       position: "absolute",
@@ -52,16 +51,14 @@ const StyledSwitch = styled(Switch)(({ theme }) => ({
         theme.palette.text.primary
       )}" d="M9.305 1.667V3.75h1.389V1.667h-1.39zm-4.707 1.95l-.982.982L5.09 6.072l.982-.982-1.473-1.473zm10.802 0L13.927 5.09l.982.982 1.473-1.473-.982-.982zM10 5.139a4.872 4.872 0 00-4.862 4.86A4.872 4.872 0 0010 14.862 4.872 4.872 0 0014.86 10 4.872 4.872 0 0010 5.139zm0 1.389A3.462 3.462 0 0113.471 10a3.462 3.462 0 01-3.473 3.472A3.462 3.462 0 016.527 10 3.462 3.462 0 0110 6.528zM1.665 9.305v1.39h2.083v-1.39H1.666zm14.583 0v1.39h2.084v-1.39h-2.084zM5.09 13.928L3.616 15.4l.982.982 1.473-1.473-.982-.982zm9.82 0l-.982.982 1.473 1.473.982-.982-1.473-1.473zM9.305 16.25v2.083h1.389V16.25h-1.39z"/></svg>')`,
     },
-    ...theme.applyStyles("dark", {
-      backgroundColor: theme.palette.surface.light,
-    }),
   },
   "& .MuiSwitch-track": {
     opacity: 1,
-    backgroundColor: "#aab4be",
+    backgroundColor: theme.palette.surfaceContainer.main,
+    border: `1px solid ${theme.palette.outline.main}`,
     borderRadius: 20 / 2,
-    ...theme.applyStyles("dark", {
-      backgroundColor: "#8796A5",
+    transition: theme.transitions.create(["background-color", "border-color"], {
+      duration: theme.transitions.duration.short,
     }),
   },
 }));
