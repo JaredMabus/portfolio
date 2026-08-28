@@ -40,8 +40,8 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             sx={{
               alignItems: "start",
               p: 1.5,
-              flexGrow: 1,
-              minWidth: 180,
+              width: "fit-content",
+              maxWidth: "100%",
               backgroundColor: theme.palette.surfaceContainer.main,
               border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               borderRadius: "10px",
@@ -49,8 +49,8 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             }}
           >
             <Typography
-              sx={{ fontWeight: 700, fontSize: "0.8rem", color: theme.palette.text.primary }}
-              variant="subtitle2"
+              sx={{ fontWeight: 700, color: theme.palette.text.primary }}
+              variant="body2"
             >
               {tech.category}
             </Typography>

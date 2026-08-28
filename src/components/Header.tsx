@@ -20,6 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import { ThemeContext } from "../App";
 import SideNav from "./SideNav";
 import LightDarkSwitch from "./ThemeSwitchBtn";
+import Logo from "./Logo";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -183,19 +184,41 @@ export default function Header() {
               py: { xs: 1.5, sm: 2 },
             }}
           >
+            {/* Left: Site Logo + Desktop Nav Items */}
             <Stack
-              sx={{
-                display: { xs: "none", sm: isDrawerOpen ? "none" : "flex" },
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 0.5,
-              }}
+              direction="row"
+              alignItems="center"
+              gap={{ xs: 1, sm: 2 }}
             >
-              {navData.map((item) => (
-                <NavItem key={item.id} item={item} />
-              ))}
+              <Box
+                component={Link}
+                to="/"
+                aria-label="Jared Mabusth Portfolio Home"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textDecoration: "none",
+                }}
+              >
+                <Logo size={32} />
+              </Box>
+
+              <Stack
+                sx={{
+                  display: { xs: "none", sm: isDrawerOpen ? "none" : "flex" },
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 0.5,
+                }}
+              >
+                {navData.map((item) => (
+                  <NavItem key={item.id} item={item} />
+                ))}
+              </Stack>
             </Stack>
+
             <SideNav
               open={isDrawerOpen}
               toggleDrawer={toggleDrawer}

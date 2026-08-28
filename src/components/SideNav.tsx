@@ -17,6 +17,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 
 import { NavDataType } from "./data/navData";
+import Logo from "./Logo";
 
 interface Props {
   navData: NavDataType[];
@@ -50,11 +51,19 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
           flexDirection: "row",
           wrap: "nowrap",
           alignItems: "center",
-          justifyContent: "end",
+          justifyContent: "space-between",
           py: { xs: 1.5, sm: 2 },
           px: { xs: 2, sm: 3 },
         }}
       >
+        <Box
+          component={NavLink}
+          to="/"
+          onClick={toggleDrawer(false)}
+          sx={{ display: "flex", alignItems: "center", textDecoration: "none" }}
+        >
+          <Logo size={28} />
+        </Box>
         <IconButton
           onClick={toggleDrawer(false)}
           sx={{
