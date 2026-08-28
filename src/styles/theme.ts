@@ -1135,6 +1135,45 @@ let theme = createTheme({
   },
 });
 
+export const bklitTokens = {
+  light: {
+    chart1: "#2E6B50",
+    chart2: "#428C6A",
+    chart3: "#6ABA94",
+    chart4: "#92D2B3",
+    chart5: "#BAE5D0",
+    scale01: "#E6F7F0",
+    scale02: "#BAE5D0",
+    scale03: "#92D2B3",
+    scale04: "#6ABA94",
+    scale05: "#428C6A",
+    linePrimary: "#6ABA94",
+    lineSecondary: "#92D2B3",
+    grid: "rgba(0, 0, 0, 0.07)",
+    background: "transparent",
+    tooltipBg: "rgba(18, 28, 22, 0.95)",
+    tooltipText: "#ffffff",
+  },
+  dark: {
+    chart1: "#6ABA94",
+    chart2: "#58A580",
+    chart3: "#468F6C",
+    chart4: "#367758",
+    chart5: "#275F44",
+    scale01: "#123324",
+    scale02: "#1D4A35",
+    scale03: "#367758",
+    scale04: "#6ABA94",
+    scale05: "#8EE0B9",
+    linePrimary: "#6ABA94",
+    lineSecondary: "#428C6A",
+    grid: "rgba(255, 255, 255, 0.08)",
+    background: "transparent",
+    tooltipBg: "rgba(18, 28, 22, 0.95)",
+    tooltipText: "#ffffff",
+  },
+};
+
 export let themeLight = createTheme(theme, {
   palette: {
     mode: "light",
@@ -1576,6 +1615,24 @@ export let themeLight = createTheme(theme, {
   components: {
     MuiCssBaseline: {
       styleOverrides: `
+        :root, body {
+          --chart-1: #2E6B50;
+          --chart-2: #428C6A;
+          --chart-3: #6ABA94;
+          --chart-4: #92D2B3;
+          --chart-5: #BAE5D0;
+          --chart-scale-01: #E6F7F0;
+          --chart-scale-02: #BAE5D0;
+          --chart-scale-03: #92D2B3;
+          --chart-scale-04: #6ABA94;
+          --chart-scale-05: #428C6A;
+          --chart-line-primary: #6ABA94;
+          --chart-line-secondary: #92D2B3;
+          --chart-grid: rgba(0, 0, 0, 0.07);
+          --chart-background: transparent;
+          --chart-tooltip-background: rgba(18, 28, 22, 0.95);
+          --chart-tooltip-text: #ffffff;
+        }
         body { color: ${lightThemeColors.surface.on}; }
         .material-symbol { color: inherit; }
         *::-webkit-scrollbar { width: 14px; }
@@ -2077,6 +2134,24 @@ export let themeDark = createTheme(theme, {
   components: {
     MuiCssBaseline: {
       styleOverrides: `
+        :root, body {
+          --chart-1: #6ABA94;
+          --chart-2: #58A580;
+          --chart-3: #468F6C;
+          --chart-4: #367758;
+          --chart-5: #275F44;
+          --chart-scale-01: #123324;
+          --chart-scale-02: #1D4A35;
+          --chart-scale-03: #367758;
+          --chart-scale-04: #6ABA94;
+          --chart-scale-05: #8EE0B9;
+          --chart-line-primary: #6ABA94;
+          --chart-line-secondary: #428C6A;
+          --chart-grid: rgba(255, 255, 255, 0.08);
+          --chart-background: transparent;
+          --chart-tooltip-background: rgba(18, 28, 22, 0.95);
+          --chart-tooltip-text: #ffffff;
+        }
         body { color: ${darkThemeColors.surface.on}; }
         .material-symbol { color: inherit; }
         *::-webkit-scrollbar { width: 14px; }

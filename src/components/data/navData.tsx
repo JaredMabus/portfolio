@@ -2,6 +2,7 @@ import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
 import HailOutlinedIcon from "@mui/icons-material/HailOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
+import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 
 export interface NavDataType {
   id: number;
@@ -28,5 +29,11 @@ export const navData: NavDataType[] = [
     name: "Resume",
     url: "/resume",
     icon: <ArticleOutlinedIcon />,
+  },
+  {
+    id: 3,
+    name: "Data",
+    url: "/data",
+    icon: <BarChartOutlinedIcon />,
   },
 ];

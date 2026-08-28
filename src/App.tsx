@@ -60,6 +60,7 @@ export default function App() {
               <Route path="/" element={<page.Home />} />
               <Route path="/projects" element={<page.Project />} />
               <Route path="/resume" element={<page.Resume />} />
+              <Route path="/data" element={<page.Data />} />
               <Route path="*" element={<page.Home />} />
             </Routes>
           </BrowserRouter>

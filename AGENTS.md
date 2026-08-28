@@ -103,10 +103,12 @@ portfolio/
 - Respects system preferences via `window.matchMedia('(prefers-color-scheme: light)')` when no stored preference exists.
 
 ### 4.4 Data-Driven Content
-- Portfolio project cards and resume entries are separated from view components:
+- Portfolio project cards, resume entries, charts, and navigation items are separated from view components:
   - Projects: `src/pages/Project/data/projectData.ts`
   - Resume & Experience: `src/pages/Resume/data/resumeData.ts`
+  - Data & Analytics: `src/pages/Data/data/chartData.ts`
   - Navigation items: `src/components/data/navData.tsx`
+  - Bklit Visualizations: `src/components/bklit/` (AreaChart, LineChart, BarChart, DonutChart, RadarChart, GaugeChart, HeatmapGrid, MetricCard)
 - When updating or adding content, modify the respective data structures rather than hardcoding into JSX.
 
 ### 4.5 Routing
@@ -114,6 +116,7 @@ portfolio/
   - `/` -> `Home`
   - `/projects` -> `Project`
   - `/resume` -> `Resume`
+  - `/data` -> `Data`
   - `*` -> Wildcard redirects back to `Home`
 
 ---
