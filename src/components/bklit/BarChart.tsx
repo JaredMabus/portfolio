@@ -153,7 +153,10 @@ export const BarChart: React.FC<BarChartProps> = ({
         width="100%"
         height="100%"
         viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-        style={{ overflow: "visible" }}
+        style={{
+          overflow: "visible",
+          cursor: hoverIndex !== null ? "pointer" : "default",
+        }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
@@ -387,6 +390,7 @@ export const BarChart: React.FC<BarChartProps> = ({
         visible={hoverIndex !== null}
         x={mousePos.x}
         y={mousePos.y}
+        containerWidth={dimensions.width}
         title={activeDataPoint ? String(activeDataPoint[categoryKey] ?? "") : undefined}
         items={tooltipItems}
       />

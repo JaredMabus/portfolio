@@ -4,6 +4,7 @@ import { useSpring, animated } from "@react-spring/web";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BackgroundGrid from "@/components/BackgroundGrid";
 
 export interface MainLayoutProps {
   children: React.ReactNode;
@@ -51,8 +52,10 @@ export default function MainLayout({
         flexDirection: "column",
         width: "100%",
         minHeight: "100dvh",
+        position: "relative",
       }}
     >
+      <BackgroundGrid />
       <Header />
       <Container
         component="main"

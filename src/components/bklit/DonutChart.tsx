@@ -217,6 +217,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({
         visible={hoverIndex !== null}
         x={mousePos.x}
         y={mousePos.y}
+        containerWidth={dimensions.width}
         title={activeSlice?.name}
         items={
           activeSlice

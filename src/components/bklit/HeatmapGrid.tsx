@@ -169,6 +169,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
         visible={hoveredCell !== null}
         x={mousePos.x}
         y={mousePos.y}
+        containerWidth={containerRef.current?.clientWidth || 600}
         title={hoveredCell?.date}
         items={
           hoveredCell

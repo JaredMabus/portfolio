@@ -32,7 +32,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
       sx={{
         width: "100%",
         borderRadius: "20px",
-        backgroundColor: theme.palette.surface.main,
+        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "light"
@@ -40,7 +40,8 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
             : "0 16px 36px -12px rgba(0, 0, 0, 0.35)",
         p: { xs: 2.5, md: 3 },
         position: "relative",
-        overflow: "hidden",
+        zIndex: 1,
+        overflow: "visible",
         display: "flex",
         flexDirection: "column",
         gap: 2,

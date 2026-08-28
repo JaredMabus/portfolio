@@ -65,8 +65,14 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       sx={{
         p: 2.5,
         borderRadius: "18px",
-        backgroundColor: theme.palette.surface.main,
+        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+        boxShadow:
+          theme.palette.mode === "light"
+            ? "0 2px 10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02)"
+            : "0 4px 16px rgba(0, 0, 0, 0.3)",
+        position: "relative",
+        zIndex: 1,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
@@ -77,8 +83,8 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           transform: "translateY(-2px)",
           boxShadow:
             theme.palette.mode === "light"
-              ? "0 12px 28px -8px rgba(106, 186, 148, 0.15)"
-              : "0 14px 32px -8px rgba(0, 0, 0, 0.4)",
+              ? "0 12px 28px -8px rgba(106, 186, 148, 0.18), 0 4px 12px rgba(0, 0, 0, 0.04)"
+              : "0 14px 32px -8px rgba(0, 0, 0, 0.45)",
         },
       }}
     >

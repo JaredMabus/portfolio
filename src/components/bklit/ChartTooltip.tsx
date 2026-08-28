@@ -2,12 +2,13 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { TooltipItem } from "./types";
 
-interface ChartTooltipProps {
+export interface ChartTooltipProps {
   visible: boolean;
   x: number;
   y: number;
   title?: string;
   items: TooltipItem[];
+  containerWidth?: number;
 }
 
 export const ChartTooltip: React.FC<ChartTooltipProps> = ({
@@ -16,6 +17,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   y,
   title,
   items,
+  containerWidth,
 }) => {
   const theme = useTheme();
 
@@ -26,18 +28,20 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
       sx={{
         position: "absolute",
         left: x + 16,
-        top: Math.max(12, y - 40),
+        top: Math.max(8, y - 40),
         pointerEvents: "none",
-        zIndex: 10,
-        backgroundColor: "var(--chart-tooltip-background, rgba(18, 28, 22, 0.95))",
-        color: "var(--chart-tooltip-text, #ffffff)",
-        backdropFilter: "blur(12px)",
+        zIndex: 999,
+        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
+        color: theme.palette.text.primary,
         borderRadius: "12px",
         padding: "12px 16px",
-        boxShadow: "0 12px 24px -4px rgba(0, 0, 0, 0.4), 0 4px 8px -2px rgba(0, 0, 0, 0.2)",
+        boxShadow:
+          theme.palette.mode === "dark"
+            ? "0 14px 32px rgba(0, 0, 0, 0.6), 0 4px 10px rgba(0, 0, 0, 0.3)"
+            : "0 12px 28px -4px rgba(0, 0, 0, 0.14), 0 4px 10px rgba(0, 0, 0, 0.06)",
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
-        minWidth: 140,
-        maxWidth: 240,
+        minWidth: 150,
+        maxWidth: 260,
         transition: "transform 0.08s ease-out, opacity 0.15s ease-in-out",
         transform: "translate3d(0, 0, 0)",
       }}
@@ -47,13 +51,13 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
           variant="caption"
           sx={{
             display: "block",
-            color: "rgba(255, 255, 255, 0.7)",
-            fontWeight: 600,
+            color: theme.palette.text.primary,
+            fontWeight: 700,
             letterSpacing: "0.04em",
             textTransform: "uppercase",
             mb: 0.75,
-            fontSize: "0.72rem",
-            borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+            fontSize: "0.74rem",
+            borderBottom: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
             pb: 0.5,
           }}
         >
@@ -79,14 +83,16 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
                   borderRadius: "50%",
                   backgroundColor: item.color,
                   boxShadow: `0 0 6px ${item.color}`,
+                  flexShrink: 0,
                 }}
               />
               <Typography
                 variant="body2"
                 sx={{
-                  color: "rgba(255, 255, 255, 0.85)",
+                  color: theme.palette.text.secondary,
                   fontSize: "0.8rem",
                   fontWeight: 500,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {item.name}
@@ -95,10 +101,11 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
             <Typography
               variant="body2"
               sx={{
-                color: "#ffffff",
+                color: theme.palette.text.primary,
                 fontSize: "0.85rem",
                 fontWeight: 700,
                 fontVariantNumeric: "tabular-nums",
+                whiteSpace: "nowrap",
               }}
             >
               {typeof item.value === "number" ? item.value.toLocaleString() : item.value}

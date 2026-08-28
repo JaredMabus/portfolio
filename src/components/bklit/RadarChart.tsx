@@ -263,6 +263,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         visible={hoverMetric !== null}
         x={mousePos.x}
         y={mousePos.y}
+        containerWidth={dimensions.width}
         title={hoverMetric ?? undefined}
         items={tooltipItems}
       />
