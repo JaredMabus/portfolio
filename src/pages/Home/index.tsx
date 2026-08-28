@@ -63,57 +63,66 @@ export default function Home() {
               Full Stack Developer
             </Typography>
             <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={2}
+              alignItems={{ xs: "stretch", sm: "center" }}
               sx={{
-                gap: 1.5,
-                pt: 2,
+                pt: 2.5,
                 borderTop: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  fontWeight: 600,
-                  fontSize: "0.85rem",
-                }}
-              >
-                View My Projects
-              </Typography>
               <Button
                 component={Link}
                 to="/projects"
                 variant="contained"
-                color="primary"
-                endIcon={<ArrowForwardIosIcon sx={{ fontSize: "14px !important" }} />}
+                endIcon={
+                  <ArrowForwardIosIcon
+                    sx={{
+                      fontSize: "15px !important",
+                      transition: "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  />
+                }
                 sx={{
-                  color: theme.palette.primary.contrastText,
+                  color: theme.palette.background.default,
                   backgroundColor: theme.palette.primary.main,
                   fontWeight: 700,
-                  fontSize: "0.875rem",
-                  py: 1,
-                  px: 2.5,
-                  borderRadius: "24px",
+                  fontSize: { xs: "1rem", sm: "1.05rem" },
+                  py: 1.5,
+                  px: 4,
+                  borderRadius: "32px",
+                  textTransform: "none",
+                  letterSpacing: "-0.01em",
                   width: "fit-content",
-                  boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
+                  boxShadow: `0 4px 16px ${theme.palette.primary.state.focus}`,
                   transition: theme.transitions.create(
-                    ["background-color", "box-shadow"],
+                    ["background-color", "box-shadow", "transform"],
                     {
                       duration: theme.transitions.duration.standard,
                       easing: theme.transitions.easing.easeInOut,
                     }
                   ),
                   "& .MuiSvgIcon-root": {
-                    color: theme.palette.primary.contrastText,
+                    color: theme.palette.background.default,
                   },
                   "&:hover": {
                     backgroundColor: theme.palette.primary.high,
-                    boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
+                    boxShadow: `0 8px 24px ${theme.palette.primary.state.focusVisible}`,
+                    transform: "translateY(-2px)",
+                    "& .MuiButton-endIcon .MuiSvgIcon-root": {
+                      transform: "translateX(4px)",
+                    },
+                  },
+                  "&:active": {
+                    transform: "translateY(0px)",
+                    boxShadow: `0 2px 8px ${theme.palette.primary.state.focus}`,
                   },
                   "&:focus-visible": {
                     outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
                   },
                 }}
               >
-                Projects
+                Explore Projects
               </Button>
             </Stack>
           </Stack>
