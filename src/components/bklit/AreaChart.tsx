@@ -241,7 +241,6 @@ export const AreaChart: React.FC<AreaChartProps> = ({
                 key={`area-${s.dataKey}`}
                 d={areaPath}
                 fill={gradId}
-                style={{ transition: "d 0.3s ease" }}
               />
             );
           })}
@@ -262,7 +261,6 @@ export const AreaChart: React.FC<AreaChartProps> = ({
                 strokeLinejoin="round"
                 style={{
                   filter: `drop-shadow(0 2px 8px ${color}33)`,
-                  transition: "d 0.3s ease",
                 }}
               />
             );

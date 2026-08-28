@@ -15,7 +15,7 @@ import {
   Slide,
   Tooltip,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, alpha } from "@mui/material/styles";
 
 import { ThemeContext } from "../App";
 import SideNav from "./SideNav";
@@ -32,6 +32,15 @@ interface Props {
 
 const NavItem: React.FC<Props> = ({ item }) => {
   const theme = useTheme();
+  const isLight = theme.palette.mode === "light";
+  const activeColor = isLight ? "#1B4D33" : theme.palette.primary.main;
+  const hoverColor = isLight ? "#245E41" : theme.palette.primary.main;
+  const activeBg = isLight
+    ? alpha(theme.palette.primary.main, 0.18)
+    : theme.palette.primary.state.selected;
+  const hoverBg = isLight
+    ? alpha(theme.palette.primary.main, 0.09)
+    : theme.palette.primary.state.hover;
 
   return (
     <>
@@ -46,8 +55,6 @@ const NavItem: React.FC<Props> = ({ item }) => {
           color: theme.palette.text.secondary,
 
           padding: theme.spacing(0.5, 1.25),
-          border: "2px solid transparent",
-          borderBottom: "2px solid transparent",
           borderRadius: "8px",
 
           whiteSpace: "nowrap",
@@ -55,20 +62,20 @@ const NavItem: React.FC<Props> = ({ item }) => {
           fontWeight: 600,
 
           transition: theme.transitions.create(
-            ["color", "border-color", "background-color"],
+            ["color", "background-color"],
             {
               duration: theme.transitions.duration.standard,
               easing: theme.transitions.easing.easeInOut,
             }
           ),
           "&:hover": {
-            color: theme.palette.primary.main,
-            backgroundColor: theme.palette.primary.state.hover,
+            color: hoverColor,
+            backgroundColor: hoverBg,
           },
           "&.active": {
-            color: theme.palette.primary.main,
-            borderBottom: `2px solid ${theme.palette.primary.main}`,
-            backgroundColor: theme.palette.primary.state.selected,
+            color: activeColor,
+            fontWeight: 700,
+            backgroundColor: activeBg,
           },
         }}
       >
@@ -156,17 +163,19 @@ export default function Header() {
           borderBottom: scrolled
             ? `1px solid ${theme.palette.outline.state.outlinedBorder}`
             : "1px solid transparent",
-          backdropFilter: scrolled ? "blur(12px)" : "none",
+          backdropFilter: scrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px)" : "none",
           transition: theme.transitions.create(
             [
               "background-color",
               "box-shadow",
               "border-color",
               "backdrop-filter",
+              "-webkit-backdrop-filter",
             ],
             {
-              duration: theme.transitions.duration.shortest,
-              easing: theme.transitions.easing.easeOut,
+              duration: theme.transitions.duration.standard,
+              easing: theme.transitions.easing.easeInOut,
             }
           ),
         }}
@@ -184,11 +193,12 @@ export default function Header() {
               py: { xs: 1.5, sm: 2 },
             }}
           >
-            {/* Left: Site Logo + Desktop Nav Items */}
+            {/* Left: Site Logo + Desktop Nav Items (hidden on xs mobile) */}
             <Stack
               direction="row"
               alignItems="center"
               gap={{ xs: 1, sm: 2 }}
+              sx={{ display: { xs: "none", sm: "flex" } }}
             >
               <Box
                 component={Link}
@@ -224,33 +234,33 @@ export default function Header() {
               toggleDrawer={toggleDrawer}
               navData={navData}
             />
+            {/* Right Controls: Theme Switch, Centered Divider, Paired Socials */}
             <Stack
-              direction={"row"}
-              sx={{
-                justifyContent: "center",
-                alignItems: "center",
-                gap: 1,
-              }}
+              direction="row"
+              alignItems="center"
             >
-              <Stack
-                sx={{
-                  borderRight: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
-                  pr: 1,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+              <IconButton
+                onClick={toggleTheme}
+                size="small"
+                sx={{ p: 0 }}
+                disableRipple
+                aria-label="Toggle theme"
               >
-                <IconButton
-                  onClick={toggleTheme}
-                  size="small"
-                  sx={{ p: 0 }}
-                  disableRipple
-                >
-                  <LightDarkSwitch />
-                </IconButton>
-              </Stack>
-              <Stack direction={"row"} sx={{ gap: 0.5 }}>
+                <LightDarkSwitch />
+              </IconButton>
+
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{
+                  height: 18,
+                  my: "auto",
+                  mx: { xs: 1, sm: 1.5 },
+                  borderColor: theme.palette.outline.state.outlinedBorder,
+                }}
+              />
+
+              <Stack direction="row" spacing={0.5} alignItems="center">
                 <Tooltip title="GitHub">
                   <IconButton
                     component={Link}

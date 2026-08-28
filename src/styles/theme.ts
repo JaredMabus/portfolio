@@ -419,8 +419,8 @@ function createGlassSurfaceRole(
 ): SurfaceRole {
   const opacity =
     mode === "light"
-      ? { low: 0.44, main: 0.58, high: 0.7 }
-      : { low: 0.32, main: 0.46, high: 0.58 };
+      ? { low: 0.82, main: 0.90, high: 0.96 }
+      : { low: 0.78, main: 0.88, high: 0.94 };
 
   return createSurfaceRole(
     alpha(mainSurface, opacity.main),
