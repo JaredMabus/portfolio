@@ -10,8 +10,8 @@ interface Props {
 
 const ProjectGrid = ({ data }: Props) => {
   const animateStyles = {
-    from: { x: 0, y: 20, opacity: 0 },
-    enter: { x: 0, y: 0, opacity: 1 },
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
   };
 
   const transitions = useTransition(data, {

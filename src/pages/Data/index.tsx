@@ -48,7 +48,7 @@ export default function DataPage() {
   const [activeChartType, setActiveChartType] = useState<"area" | "line">("area");
 
   return (
-    <MainLayout animatePage={false}>
+    <MainLayout animatePage={true}>
       <Box
         component="section"
         sx={{

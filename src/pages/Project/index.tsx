@@ -12,7 +12,7 @@ export default function Project() {
   useDocumentTitle("Projects");
 
   return (
-    <MainLayout animatePage={false}>
+    <MainLayout animatePage={true}>
       <Box
         component="section"
         sx={{

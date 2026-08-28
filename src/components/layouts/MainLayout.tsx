@@ -35,12 +35,12 @@ export default function MainLayout({
 }: MainLayoutProps) {
   const theme = useTheme();
 
-  // Animation for page transitions matching nav timing
+  // Pure opacity fade-in animation for page transitions
   const pageAnimate = useSpring({
-    from: { opacity: 0, y: 8 },
-    to: { opacity: 1, y: 0 },
+    from: { opacity: 0 },
+    to: { opacity: 1 },
     config: {
-      duration: theme.transitions.duration.standard, // 300ms matching nav button transitions
+      duration: theme.transitions.duration.standard, // 300ms
     },
   });
 
