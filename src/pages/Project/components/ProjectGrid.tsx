@@ -27,13 +27,12 @@ const ProjectGrid = ({ data }: Props) => {
     <Box sx={{ width: "100%" }}>
       <Grid
         container
-        maxWidth="lg"
         wrap="wrap"
         direction="row"
         spacing={4}
-        margin="auto"
         sx={{
           width: "100%",
+          margin: 0,
         }}
       >
         {transitions((style, project) => (

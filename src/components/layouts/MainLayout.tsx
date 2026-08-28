@@ -66,6 +66,7 @@ export default function MainLayout({
           alignSelf: "center",
           minWidth: 0,
           width: "100%",
+          minHeight: "100dvh",
           overflowY: mainContentOverflowY,
           mt: { xs: "72px", sm: "84px" },
         }}
