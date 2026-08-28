@@ -86,100 +86,111 @@ export default function Contact() {
   return (
     <>
       <MainLayout animatePage={true}>
-        <Stack sx={{ justifySelf: "center" }}>
-            <Stack
-              sx={{
-                width: { xs: "100%", sm: "80%", md: "55%" },
-                maxWidth: 480,
-                alignSelf: "center",
-                my: { xs: 4, sm: 6 },
-                px: { xs: 3, sm: 4 },
-                py: { xs: 3, sm: 4 },
-                gap: 2.5,
-                backgroundColor: theme.palette.surface.main,
-                boxShadow:
-                  theme.palette.mode === "dark"
-                    ? theme.shadows[3]
-                    : "0 8px 24px -4px rgba(0, 0, 0, 0.06)",
-                borderRadius: "16px",
-                border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
-              }}
-            >
-              <Typography sx={{ alignSelf: "start", fontWeight: 700, letterSpacing: "-0.01em" }} variant="h5">
-                Contact
-              </Typography>
-              <Stack sx={{ width: "100%", gap: 2.5 }}>
-                <FormControl error={error.name ? true : false}>
-                  <InputLabel htmlFor="name-input">Name</InputLabel>
-                  <Input
-                    type="text"
-                    id="name-input"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                  {error.name && (
-                    <FormHelperText id="name-input-ht">
-                      {error.name}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-                <FormControl error={error.email ? true : false}>
-                  <InputLabel htmlFor="email-input">Email</InputLabel>
-                  <Input
-                    type="email"
-                    id="email-input"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                  {error.email && (
-                    <FormHelperText id="name-input-ht">
-                      {error.email}
-                    </FormHelperText>
-                  )}
-                </FormControl>
-                <TextField
-                  id="message-input"
-                  name="message"
-                  value={formData.message}
+        <Box
+          component="section"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: { xs: 4, md: 6 },
+            pb: 8,
+            pt: { xs: 2, md: 4 },
+            width: "100%",
+            alignItems: "center",
+          }}
+        >
+          <Stack
+            component="form"
+            sx={{
+              width: { xs: "100%", sm: "80%", md: "55%" },
+              maxWidth: 480,
+              alignSelf: "center",
+              my: 0,
+              px: { xs: 3, sm: 4 },
+              py: { xs: 3, sm: 4 },
+              gap: 2.5,
+              backgroundColor: theme.palette.surface.main,
+              boxShadow:
+                theme.palette.mode === "dark"
+                  ? theme.shadows[3]
+                  : "0 8px 24px -4px rgba(0, 0, 0, 0.06)",
+              borderRadius: "16px",
+              border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+            }}
+          >
+            <Typography sx={{ alignSelf: "start", fontWeight: 700, letterSpacing: "-0.01em" }} variant="h5">
+              Contact
+            </Typography>
+            <Stack sx={{ width: "100%", gap: 2.5 }}>
+              <FormControl error={error.name ? true : false}>
+                <InputLabel htmlFor="name-input">Name</InputLabel>
+                <Input
+                  type="text"
+                  id="name-input"
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
-                  label="Message"
-                  multiline
-                  rows={4}
-                  maxRows={10}
-                  variant="outlined"
-                  error={error.message ? true : false}
-                  helperText={error.message ? `${error.message}` : ""}
                 />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  sx={{
-                    width: 200,
-                    height: 44,
-                    alignSelf: "center",
-                    backgroundColor: theme.palette.primary.main,
-                    color: theme.palette.primary.contrastText,
-                    fontWeight: 700,
-                    borderRadius: "24px",
-                    mt: 1,
-                    boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.high,
-                      boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
-                    },
-                    "&:focus-visible": {
-                      outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
-                    },
-                  }}
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-              </Stack>
+                {error.name && (
+                  <FormHelperText id="name-input-ht">
+                    {error.name}
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <FormControl error={error.email ? true : false}>
+                <InputLabel htmlFor="email-input">Email</InputLabel>
+                <Input
+                  type="email"
+                  id="email-input"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+                {error.email && (
+                  <FormHelperText id="email-input-ht">
+                    {error.email}
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <TextField
+                id="message-input"
+                name="message"
+                label="Message"
+                multiline
+                rows={4}
+                value={formData.message}
+                onChange={handleChange}
+                variant="outlined"
+                error={error.message ? true : false}
+                helperText={error.message ? `${error.message}` : ""}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{
+                  width: 200,
+                  height: 44,
+                  alignSelf: "center",
+                  backgroundColor: theme.palette.primary.main,
+                  color: theme.palette.primary.contrastText,
+                  fontWeight: 700,
+                  borderRadius: "24px",
+                  mt: 1,
+                  boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.high,
+                    boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
+                  },
+                  "&:focus-visible": {
+                    outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
+                  },
+                }}
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
             </Stack>
           </Stack>
+        </Box>
         {alert === true && (
           <animated.div style={alertSpring}>
             <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1000 }}>

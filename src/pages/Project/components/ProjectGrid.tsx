@@ -1,5 +1,5 @@
+import React from "react";
 import ProjectCard from "./ProjectCard";
-import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import { animated, useTransition } from "@react-spring/web";
 import { ProjectData } from "../data/projectData";
@@ -24,25 +24,26 @@ const ProjectGrid = ({ data }: Props) => {
   });
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Grid
-        container
-        wrap="wrap"
-        direction="row"
-        spacing={4}
-        sx={{
-          width: "100%",
-          margin: 0,
-        }}
-      >
-        {transitions((style, project) => (
-          <Grid key={project.id} xs={12} sm={6}>
-            <animated.div style={style}>
-              <ProjectCard data={project} />
-            </animated.div>
-          </Grid>
-        ))}
-      </Grid>
+    <Box
+      sx={{
+        display: "grid",
+        gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)" },
+        gap: { xs: 3, md: 4 },
+        width: "100%",
+      }}
+    >
+      {transitions((style, project) => (
+        <animated.div
+          key={project.id}
+          style={{
+            ...style,
+            width: "100%",
+            display: "flex",
+          }}
+        >
+          <ProjectCard data={project} />
+        </animated.div>
+      ))}
     </Box>
   );
 };

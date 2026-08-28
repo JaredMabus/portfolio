@@ -30,7 +30,7 @@ export default function MainLayout({
   contentMaxWidth = "lg",
   animatePage = true,
   disableContentGutters = false,
-  justifyPageContent = "center",
+  justifyPageContent = "flex-start",
   mainContentOverflowY = "visible",
 }: MainLayoutProps) {
   const theme = useTheme();

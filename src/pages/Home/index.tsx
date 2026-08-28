@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -13,7 +14,21 @@ export default function Home() {
 
   return (
     <MainLayout animatePage={true}>
-      <Stack
+      <Box
+        component="section"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: { xs: 4, md: 6 },
+          pb: 8,
+          pt: { xs: 2, md: 4 },
+          width: "100%",
+        }}
+      >
+        {/* Hero Section */}
+        <Stack
+          component="section"
+          aria-label="Introduction"
           sx={{
             flexDirection: "row",
             justifyContent: "center",
@@ -22,8 +37,8 @@ export default function Home() {
             width: "100%",
             flexWrap: "wrap",
             gap: { xs: 3, md: 6 },
-            mt: { xs: 3, sm: 5 },
-            mb: { xs: 5, sm: 7 },
+            mt: { xs: 1, sm: 2 },
+            mb: { xs: 2, sm: 3 },
           }}
         >
           <Stack
@@ -113,17 +128,21 @@ export default function Home() {
               },
             }}
           >
-            <img src={avatar} alt="avatar" />
+            <img src={avatar} alt="developer profile illustration" />
           </Box>
         </Stack>
+
+        {/* About Me Section */}
         <Stack
+          component="section"
+          aria-label="About Me"
           sx={{
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             gap: 2,
             px: 2,
-            mb: 10,
+            mb: 4,
           }}
         >
           <Typography
@@ -163,6 +182,7 @@ export default function Home() {
             </Typography>
           </Stack>
         </Stack>
+      </Box>
     </MainLayout>
   );
 }

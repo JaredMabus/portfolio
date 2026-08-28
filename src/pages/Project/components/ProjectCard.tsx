@@ -28,6 +28,7 @@ type CardButtonProps = ButtonProps & LinkProps;
 const CardContainer = styled(Link, {
   shouldForwardProp: (prop) => prop !== "data",
 })<CardContainerProps | CardContainerLinkProps>(({ theme, data }) => ({
+  width: "100%",
   minWidth: 256,
   height: 352,
   position: "relative",

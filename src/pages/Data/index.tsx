@@ -50,12 +50,14 @@ export default function DataPage() {
   return (
     <MainLayout animatePage={false}>
       <Box
+        component="section"
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: { xs: 4, md: 6 },
           pb: 8,
           pt: { xs: 2, md: 4 },
+          width: "100%",
         }}
       >
         {/* Page Header */}
