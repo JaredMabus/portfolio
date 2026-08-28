@@ -67,8 +67,7 @@ export default function Home() {
               spacing={2}
               alignItems={{ xs: "stretch", sm: "center" }}
               sx={{
-                pt: 2.5,
-                borderTop: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
+                pt: 1,
               }}
             >
               <Button

@@ -14,7 +14,7 @@ export default function Footer() {
       sx={{
         width: "100%",
         mt: "auto",
-        backgroundColor: theme.palette.surface.main,
+        backgroundColor: theme.palette.surfaceContainer.main,
         borderTop: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         py: { xs: 3, sm: 3.5 },
       }}
