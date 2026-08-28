@@ -7,10 +7,10 @@ export default function BackgroundGrid() {
   const isDark = theme.palette.mode === "dark";
 
   const waveStroke = isDark
-    ? "rgba(255, 255, 255, 0.038)"
-    : "rgba(0, 0, 0, 0.038)";
+    ? "rgba(255, 255, 255, 0.04)"
+    : "rgba(0, 0, 0, 0.04)";
 
-  const accentStroke = alpha(theme.palette.primary.main, isDark ? 0.15 : 0.15);
+  const accentStroke = alpha(theme.palette.primary.main, isDark ? 0.22 : 0.2);
 
   const organicFill1 = alpha(theme.palette.primary.main, isDark ? 0.04 : 0.05);
   const nestedFill1 = alpha(theme.palette.primary.main, isDark ? 0.065 : 0.05);
@@ -19,6 +19,8 @@ export default function BackgroundGrid() {
   const organicFill2 = alpha(theme.palette.primary.main, isDark ? 0.02 : 0.05);
   const nestedFill2 = alpha(theme.palette.primary.main, isDark ? 0.045 : 0.05);
   const nestedStroke2 = alpha(theme.palette.primary.main, isDark ? 0.18 : 0.1);
+
+  const anchorBg = isDark ? "#181818" : "#FFFFFF";
 
   return (
     <Box
@@ -109,70 +111,136 @@ export default function BackgroundGrid() {
         </svg>
       </Box>
 
-      {/* 3. Organic Flowing Contour Wave Lines with Smooth Content Fade-Out Gradient Mask */}
+      {/* 3. Design & Vector Drafting Layout Guides with Bezier Splines, Tangents & Compass Arcs */}
       <Box
         sx={{
           position: "absolute",
-          inset: 0,
+          top: { xs: "64px", sm: "72px" },
+          left: 0,
+          right: 0,
+          bottom: 0,
           maskImage:
-            "linear-gradient(to bottom, black 0%, black 12%, rgba(0,0,0,0.35) 45%, transparent 75%)",
+            "linear-gradient(to bottom, black 0%, black 15%, rgba(0,0,0,0.35) 45%, transparent 75%)",
           WebkitMaskImage:
-            "linear-gradient(to bottom, black 0%, black 12%, rgba(0,0,0,0.35) 45%, transparent 75%)",
+            "linear-gradient(to bottom, black 0%, black 15%, rgba(0,0,0,0.35) 45%, transparent 75%)",
         }}
       >
         <svg
-          viewBox="0 0 1440 900"
+          viewBox="0 0 1440 828"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
+          preserveAspectRatio="xMidYMin slice"
           style={{ width: "100%", height: "100%" }}
         >
-          <path
-            d="M-100 50 C 250 -40, 650 160, 1050 30 C 1250 -30, 1450 110, 1600 50"
-            stroke={accentStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 135 C 280 40, 680 250, 1080 115 C 1280 45, 1470 195, 1600 135"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 225 C 230 130, 630 340, 1030 205 C 1230 135, 1430 285, 1600 225"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 315 C 310 215, 710 435, 1110 295 C 1310 225, 1490 375, 1600 315"
-            stroke={accentStroke}
-            strokeWidth="1.2"
-            strokeDasharray="6 6"
-          />
-          <path
-            d="M-100 410 C 260 310, 660 530, 1060 390 C 1260 320, 1450 470, 1600 410"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 530 C 340 430, 740 650, 1140 510 C 1330 440, 1510 590, 1600 530"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 620 C 290 520, 690 740, 1090 600 C 1290 530, 1470 680, 1600 620"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 710 C 370 610, 770 830, 1170 690 C 1350 620, 1530 770, 1600 710"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
-          <path
-            d="M-100 800 C 320 700, 720 920, 1120 780 C 1310 710, 1490 860, 1600 800"
-            stroke={waveStroke}
-            strokeWidth="1.2"
-          />
+          <g transform="translate(0, 20)">
+            {/* Drafting Compass Construction Arcs */}
+            <circle cx="1160" cy="160" r="140" fill="none" stroke={waveStroke} strokeWidth="1" strokeDasharray="4 8" />
+            <circle cx="1160" cy="160" r="220" fill="none" stroke={waveStroke} strokeWidth="0.8" strokeDasharray="2 10" />
+            <circle cx="280" cy="220" r="110" fill="none" stroke={waveStroke} strokeWidth="1" strokeDasharray="3 7" />
+
+            {/* Precision Crosshair Markers */}
+            <g transform="translate(180, 75)">
+              <line x1="-7" y1="0" x2="7" y2="0" stroke={waveStroke} strokeWidth="1.2" />
+              <line x1="0" y1="-7" x2="0" y2="7" stroke={waveStroke} strokeWidth="1.2" />
+            </g>
+            <g transform="translate(860, 115)">
+              <line x1="-7" y1="0" x2="7" y2="0" stroke={accentStroke} strokeWidth="1.2" opacity="0.8" />
+              <line x1="0" y1="-7" x2="0" y2="7" stroke={accentStroke} strokeWidth="1.2" opacity="0.8" />
+            </g>
+            <g transform="translate(1260, 80)">
+              <line x1="-7" y1="0" x2="7" y2="0" stroke={waveStroke} strokeWidth="1.2" />
+              <line x1="0" y1="-7" x2="0" y2="7" stroke={waveStroke} strokeWidth="1.2" />
+            </g>
+
+            {/* 1. Primary Bezier Spline with Vector Anchor Nodes & Tangent Handles */}
+            <path
+              d="M -50 70 C 240 10, 520 160, 820 55 C 1120 -30, 1340 110, 1550 65"
+              stroke={accentStroke}
+              strokeWidth="1.4"
+            />
+            {/* Tangent Handle at Inflection Point (520, 160) */}
+            <line x1="475" y1="175" x2="565" y2="145" stroke={accentStroke} strokeWidth="0.9" strokeDasharray="2 2" opacity="0.7" />
+            <circle cx="475" cy="175" r="2.5" fill={accentStroke} />
+            <circle cx="565" cy="145" r="2.5" fill={accentStroke} />
+
+            {/* Vector Anchor Points (Figma / Pen tool style square anchors) */}
+            {[
+              { x: 240, y: 10 },
+              { x: 520, y: 160 },
+              { x: 820, y: 55 },
+              { x: 1120, y: -30 },
+              { x: 1340, y: 110 },
+            ].map((pt, i) => (
+              <rect
+                key={`anchor-${i}`}
+                x={pt.x - 3}
+                y={pt.y - 3}
+                width={6}
+                height={6}
+                rx={1}
+                fill={anchorBg}
+                stroke={accentStroke}
+                strokeWidth={1.4}
+              />
+            ))}
+
+            {/* 2. Secondary Flowing Harmonic Vector Arc */}
+            <path
+              d="M -50 145 C 220 75, 600 235, 960 125 C 1240 45, 1420 185, 1550 135"
+              stroke={waveStroke}
+              strokeWidth="1.2"
+            />
+            {/* Anchor Squares on Secondary Arc */}
+            {[
+              { x: 220, y: 75 },
+              { x: 600, y: 235 },
+              { x: 960, y: 125 },
+              { x: 1420, y: 185 },
+            ].map((pt, i) => (
+              <rect
+                key={`sec-anchor-${i}`}
+                x={pt.x - 2.5}
+                y={pt.y - 2.5}
+                width={5}
+                height={5}
+                rx={1}
+                fill={anchorBg}
+                stroke={waveStroke}
+                strokeWidth={1.2}
+              />
+            ))}
+
+            {/* 3. Horizontal Alignment Baseline Guide */}
+            <path
+              d="M -50 190 L 1550 190"
+              stroke={waveStroke}
+              strokeWidth="1"
+              strokeDasharray="4 8"
+            />
+
+            {/* 4. Sweeping Interpolation Spline */}
+            <path
+              d="M -50 230 C 280 160, 660 310, 1000 210 C 1260 140, 1420 260, 1550 220"
+              stroke={waveStroke}
+              strokeWidth="1.2"
+            />
+
+            {/* 5. Delicate Accent Contour Wave */}
+            <path
+              d="M -50 290 C 260 215, 620 370, 940 275 C 1220 195, 1400 325, 1550 285"
+              stroke={accentStroke}
+              strokeWidth="1.2"
+              strokeDasharray="6 6"
+            />
+
+            {/* 6. Baseline Foundation Guide */}
+            <path
+              d="M -50 350 L 1550 350"
+              stroke={waveStroke}
+              strokeWidth="1"
+              strokeDasharray="6 12"
+            />
+          </g>
         </svg>
       </Box>
     </Box>

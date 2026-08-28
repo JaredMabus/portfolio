@@ -45,6 +45,21 @@ export default function Home() {
             sx={{
               flexDirection: "column",
               justifyContent: "start",
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: { xs: "-16px -20px", sm: "-24px -32px" },
+                background: `radial-gradient(ellipse at 40% 50%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}cc 65%, transparent 100%)`,
+                filter: "blur(20px)",
+                zIndex: 0,
+                pointerEvents: "none",
+                borderRadius: "28px",
+              },
+              "& > *": {
+                position: "relative",
+                zIndex: 1,
+              },
             }}
           >
             <Typography variant="h1" sx={{ fontWeight: 700, letterSpacing: "-0.03em" }}>
@@ -151,6 +166,21 @@ export default function Home() {
             gap: 2,
             px: 2,
             mb: 4,
+            position: "relative",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              inset: { xs: "-16px -12px", sm: "-24px -24px" },
+              background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}cc 65%, transparent 100%)`,
+              filter: "blur(20px)",
+              zIndex: 0,
+              pointerEvents: "none",
+              borderRadius: "28px",
+            },
+            "& > *": {
+              position: "relative",
+              zIndex: 1,
+            },
           }}
         >
           <Typography
