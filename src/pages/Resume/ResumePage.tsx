@@ -27,9 +27,9 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
     <Stack
       direction="row"
       sx={{
-        my: 2,
         flexWrap: "wrap",
-        justifyContent: "center",
+        justifyContent: "start",
+        gap: 1.5,
       }}
     >
       {data.skills &&
@@ -37,36 +37,40 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
           <Stack
             key={tech.category}
             sx={{
-              alignItems: "center",
-              p: 1,
-              m: 0.5,
-              maxHeight: 400,
-              backgroundColor: theme.palette.surfaceContainerLow.main,
+              alignItems: "start",
+              p: 1.5,
+              flexGrow: 1,
+              minWidth: 180,
+              backgroundColor: theme.palette.surfaceContainer.main,
               border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
-              borderRadius: 3,
+              borderRadius: "10px",
+              gap: 0.75,
             }}
           >
             <Typography
-              sx={{ mb: 0.5, mx: 0.5, fontWeight: 700 }}
-              variant="body2"
+              sx={{ fontWeight: 700, fontSize: "0.8rem", color: theme.palette.text.primary }}
+              variant="subtitle2"
             >
-              {tech.category}:
+              {tech.category}
             </Typography>
             <Stack
               direction="row"
               sx={{
-                maxWidth: 128,
                 flexWrap: "wrap",
                 alignItems: "center",
-                justifyContent: "center",
-                gap: 1,
+                gap: 0.75,
               }}
             >
               {tech.items.map((item) => {
                 return (
                   <Chip
                     key={item}
-                    sx={{ m: 0 }}
+                    sx={{
+                      borderRadius: "6px",
+                      fontSize: "0.72rem",
+                      fontWeight: 500,
+                      height: 22,
+                    }}
                     size="small"
                     variant="outlined"
                     label={item}
@@ -85,38 +89,35 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
 
   return (
     <Stack
-      direction="row"
+      direction="column"
       sx={{
-        my: 2,
-        flexWrap: "wrap",
-        justifyContent: "center",
         width: "100%",
+        gap: 2.5,
       }}
     >
       {data.jobs &&
         data.jobs.map((job) => (
-          <Stack key={job.employer} sx={{ width: "100%", mb: 5 }}>
+          <Stack key={job.employer} sx={{ width: "100%", gap: 0.5 }}>
             <Stack
               sx={{
                 flexDirection: { xs: "column", sm: "row" },
                 width: "100%",
                 alignItems: { xs: "start", sm: "baseline" },
                 justifyContent: "space-between",
-                mt: 1,
-                mb: 2,
+                gap: 0.5,
               }}
             >
-              <Stack>
+              <Stack sx={{ gap: 0.25 }}>
                 <Stack
                   sx={{
                     flexDirection: { xs: "column", sm: "row" },
                     alignItems: "baseline",
-                    whiteSpace: "nowrap",
+                    gap: 1,
                   }}
                 >
                   <Typography
-                    variant="subtitle1"
-                    sx={{ mr: 1, fontWeight: 600 }}
+                    variant="subtitle2"
+                    sx={{ fontWeight: 700, fontSize: "0.925rem" }}
                   >
                     {job.employer}
                   </Typography>
@@ -125,64 +126,72 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
                     sx={{
                       fontWeight: 500,
                       color: theme.palette.text.secondary,
-                      whiteSpace: "nowrap",
+                      fontSize: "0.8rem",
                     }}
                   >
                     {job.location}
                   </Typography>
                 </Stack>
                 <Typography
-                  variant="body1"
+                  variant="body2"
                   sx={{
                     fontWeight: 600,
-                    fontStyle: "italic",
-                    whiteSpace: "nowrap",
+                    color: theme.palette.primary.main,
+                    fontSize: "0.825rem",
                   }}
                 >
                   {job.position}
                 </Typography>
               </Stack>
-              <Stack
+              <Typography
+                variant="caption"
                 sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
+                  fontWeight: 600,
+                  color: theme.palette.text.secondary,
+                  whiteSpace: "nowrap",
+                  fontSize: "0.78rem",
                 }}
               >
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontWeight: 500,
-                    justifySelf: "end",
-                    whiteSpace: "nowrap",
-                    fontSize: ".95rem",
-                  }}
-                >
-                  {new Date(job.startDate).toLocaleDateString("en-US", {
+                {new Date(job.startDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                })}
+                {" - "}
+                {job.endDate === "Present"
+                  ? "Present"
+                  : new Date(job.endDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "short",
                   })}
-                  {" - "}
-                  {job.endDate === "Present"
-                    ? "Present"
-                    : new Date(job.endDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                      })}
-                </Typography>
-              </Stack>
+              </Typography>
             </Stack>
             {job.jobSummary.length > 0 && (
-              <Typography variant="body1" sx={{ pl: 1, pb: 0.5 }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: theme.palette.text.secondary,
+                  lineHeight: 1.5,
+                  fontSize: "0.85rem",
+                }}
+              >
                 {job.jobSummary}
               </Typography>
             )}
-            <Box sx={{ p: 0.5, pl: 3 }}>
-              <ul>
+            <Box sx={{ pl: { xs: 1.5, sm: 2 } }}>
+              <ul style={{ margin: 0, paddingLeft: 16 }}>
                 {job.content &&
                   job.content.map((jobContent: string, key: number) => (
-                    <li key={key}>
-                      <Typography variant="body1">{jobContent}</Typography>
+                    <li key={key} style={{ marginBottom: 4 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          lineHeight: 1.5,
+                          fontSize: "0.85rem",
+                          color: theme.palette.text.primary,
+                        }}
+                      >
+                        {jobContent}
+                      </Typography>
                     </li>
                   ))}
               </ul>
@@ -194,18 +203,50 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
 };
 
 const Education: React.FC<Props> = ({ data }) => {
+  const theme = useTheme();
+
   return (
     <Stack
       direction="column"
       sx={{
-        my: 2,
-        flexWrap: "wrap",
-        justifyContent: "center",
+        width: "100%",
+        gap: 2,
       }}
     >
       {data.institution &&
         data.institution.map((ist) => (
-          <Typography key={ist.name}>{ist.name}</Typography>
+          <Stack
+            key={ist.name}
+            sx={{
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "space-between",
+              alignItems: { xs: "start", sm: "baseline" },
+              gap: 0.5,
+            }}
+          >
+            <Stack sx={{ gap: 0.25 }}>
+              <Stack
+                direction="row"
+                sx={{ alignItems: "baseline", gap: 1, flexWrap: "wrap" }}
+              >
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, fontSize: "0.925rem" }}>
+                  {ist.name}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{ color: theme.palette.text.secondary, fontSize: "0.8rem" }}
+                >
+                  {ist.location}
+                </Typography>
+              </Stack>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600, color: theme.palette.primary.main, fontSize: "0.825rem" }}
+              >
+                {ist.degree}
+              </Typography>
+            </Stack>
+          </Stack>
         ))}
     </Stack>
   );
@@ -219,14 +260,15 @@ export default function ResumePage() {
         position: "relative",
         justifySelf: "center",
         alignSelf: "center",
-        backgroundColor: theme.palette.surface.main,
-        px: { xs: 1, sm: 5, md: 7 },
-        pt: 7,
-        pb: 20,
-        mt: 5,
-        mb: 10,
-        maxWidth: { xs: "100%", sm: 600, md: 900 },
-        borderRadius: 3,
+        backgroundColor: theme.palette.surfaceContainer.main,
+        px: { xs: 2.5, sm: 5, md: 6 },
+        pt: { xs: 3, sm: 5 },
+        pb: { xs: 4, sm: 6 },
+        mt: { xs: 2, sm: 4 },
+        mb: 6,
+        maxWidth: { xs: "100%", sm: 700, md: 840 },
+        width: "100%",
+        borderRadius: "16px",
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "dark"
@@ -234,19 +276,16 @@ export default function ResumePage() {
             : "rgba(0 0 0 / 6%) 0px 8px 24px 0px",
       }}
     >
-      <Stack
-        sx={{
-          p: 1,
-        }}
-      >
-        <Stack>
-          <Typography variant="h4">Jared Mabusth</Typography>
+      <Stack sx={{ gap: 0 }}>
+        {/* Header Name & Social Links */}
+        <Stack sx={{ gap: 0.75, pb: 1, p: 0.5 }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
+            Jared Mabusth
+          </Typography>
           <Stack
             sx={{
               alignSelf: "start",
-              gap: { xs: 0.5, sm: 1.5 },
-              mt: { xs: 0.5, sm: 1 },
-              pl: 0.5,
+              gap: { xs: 0.5, sm: 1 },
               flexDirection: { xs: "column", sm: "row" },
             }}
             divider={
@@ -267,9 +306,11 @@ export default function ResumePage() {
               sx={{
                 textDecoration: "none",
                 color: theme.palette.text.secondary,
-                py: 0.5,
+                py: 0.25,
                 px: 1,
-                borderRadius: 1,
+                borderRadius: "6px",
+                fontSize: "0.825rem",
+                fontWeight: 600,
                 transition: theme.transitions.create(
                   ["color", "background-color"],
                   {
@@ -296,9 +337,11 @@ export default function ResumePage() {
               sx={{
                 textDecoration: "none",
                 color: theme.palette.text.secondary,
-                py: 0.5,
+                py: 0.25,
                 px: 1,
-                borderRadius: 1,
+                borderRadius: "6px",
+                fontSize: "0.825rem",
+                fontWeight: 600,
                 transition: theme.transitions.create(
                   ["color", "background-color"],
                   {
@@ -319,13 +362,25 @@ export default function ResumePage() {
             </Box>
           </Stack>
         </Stack>
+
+        {/* Resume Content Sections */}
         {resumeData.map((section) => (
-          <Stack spacing={2} sx={{ pb: 2, pt: 3 }} key={section.id}>
+          <Stack
+            sx={{
+              pt: section.title === "Summary" ? { xs: 1.5, sm: 2 } : { xs: 3, sm: 4 },
+              px: 0.5,
+              pb: 0.5,
+            }}
+            key={section.id}
+          >
             <Typography
               variant="h6"
               sx={{
-                fontWeight: 600,
-                mb: 1,
+                fontWeight: 700,
+                fontSize: "1.05rem",
+                letterSpacing: "-0.01em",
+                pb: 0.5,
+                mb: 1.25,
                 borderBottom: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
@@ -333,12 +388,12 @@ export default function ResumePage() {
             </Typography>
             {section.title === "Summary" && (
               <Typography
-                variant="body1"
+                variant="body2"
                 sx={{
-                  justifySelf: "center",
-                  alignSelf: "start",
                   maxWidth: 800,
-                  p: 1,
+                  lineHeight: 1.6,
+                  color: theme.palette.text.secondary,
+                  fontSize: "0.85rem",
                 }}
               >
                 {section.content}

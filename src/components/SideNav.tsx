@@ -4,9 +4,7 @@ import MenuOpenOutlinedIcon from "@mui/icons-material/MenuOpenOutlined";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   Box,
-  Typography,
   IconButton,
-  Button,
   Divider,
   Stack,
   useTheme,
@@ -48,22 +46,22 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
       <Stack
         sx={{
           width: "100%",
-          height: 72,
+          minHeight: { xs: 64, sm: 76 },
           flexDirection: "row",
           wrap: "nowrap",
           alignItems: "center",
           justifyContent: "end",
-          py: 1,
-          px: { xs: 2, sm: 4 },
+          py: { xs: 1.5, sm: 2 },
+          px: { xs: 2, sm: 3 },
         }}
       >
         <IconButton
           onClick={toggleDrawer(false)}
           sx={{
             mx: 0.25,
-            height: 48,
-            width: 48,
-            borderRadius: "16px",
+            height: 36,
+            width: 36,
+            borderRadius: "10px",
             boxSizing: "border-box",
             border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
             backgroundColor: theme.palette.surfaceContainerLow.main,
@@ -81,7 +79,7 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
             },
 
             "& .MuiSvgIcon-root": {
-              fontSize: "24px",
+              fontSize: "18px",
               color: theme.palette.text.secondary,
               transition: theme.transitions.create("color"),
             },
@@ -117,7 +115,7 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
 
                 "& .MuiListItemText-primary": {
                   color: theme.palette.text.secondary,
-                  fontSize: "1rem",
+                  fontSize: "14px",
                   fontWeight: 500,
                 },
                 transition: theme.transitions.create(
@@ -163,9 +161,9 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
         sx={{
           display: { xs: "flex", sm: "none" },
           mx: 0.25,
-          height: 48,
-          width: 48,
-          borderRadius: "16px",
+          height: 36,
+          width: 36,
+          borderRadius: "10px",
           boxSizing: "border-box",
           border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
           backgroundColor: theme.palette.surfaceContainerLow.main,
@@ -183,7 +181,7 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
           },
 
           "& .MuiSvgIcon-root": {
-            fontSize: "24px",
+            fontSize: "18px",
             color: theme.palette.text.secondary,
             transition: theme.transitions.create("color"),
           },

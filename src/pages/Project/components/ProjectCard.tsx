@@ -83,7 +83,8 @@ const CardHeader = styled(Stack)(({ theme }) => ({
   alignItems: "start",
   justifyContent: "space-between",
   backgroundColor: theme.palette.surface.main,
-  padding: theme.spacing(2, 2, 1, 2),
+  padding: theme.spacing(2, 2, 1.5, 2),
+  gap: theme.spacing(1),
   borderBottom: `3px solid ${theme.palette.border.main}`,
   transition: theme.transitions.create(["border-color", "background-color"], {
     duration: theme.transitions.duration.standard,
@@ -97,6 +98,7 @@ const CardContent = styled(Stack)(({ theme }) => ({
   width: "100%",
   height: "100%",
   padding: theme.spacing(2, 4),
+  gap: theme.spacing(2),
   justifyContent: "space-between",
   backgroundColor: theme.palette.surfaceContainerGlass.main,
   backdropFilter: "blur(12px)",
@@ -110,17 +112,23 @@ const CardContent = styled(Stack)(({ theme }) => ({
   },
 }));
 
-const CardFooter = styled(Stack)({
+const CardFooter = styled(Stack)(({ theme }) => ({
   flexDirection: "row",
   justifyContent: "end",
+  alignItems: "center",
+  gap: theme.spacing(1.5),
   width: "100%",
   fontSize: "1.7rem",
-});
+}));
 
 const CardLinkButton = styled(Button)<CardButtonProps>(({ theme }) => ({
   border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
   color: theme.palette.text.secondary,
   backgroundColor: theme.palette.surfaceContainerLow.main,
+  padding: theme.spacing(0.5, 1.5),
+  borderRadius: "8px",
+  fontSize: "0.8rem",
+  fontWeight: 600,
   transition: theme.transitions.create(
     ["color", "border-color", "background-color"],
     {

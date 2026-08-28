@@ -9,14 +9,19 @@ const Socials = () => {
   return (
     <Stack
       sx={{
-        py: 0.5,
-        px: 10,
+        py: 1,
+        px: { xs: 4, sm: 6 },
+        gap: 2,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: theme.palette.surfaceContainer.main,
-        borderRadius: "0 0 10rem 10rem",
+        borderRadius: "0 0 24px 24px",
+        border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+        borderTop: "none",
         "& .MuiIconButton-root": {
+          p: 0.5,
+          borderRadius: "8px",
           "& .MuiSvgIcon-root": {
             height: 32,
             width: 32,

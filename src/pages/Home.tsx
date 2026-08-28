@@ -29,42 +29,44 @@ export default function Home() {
             position: "relative",
             width: "100%",
             flexWrap: "wrap",
-            mt: { xs: 3, sm: 10 },
-            mb: 10,
+            gap: { xs: 3, md: 6 },
+            mt: { xs: 3, sm: 5 },
+            mb: { xs: 5, sm: 7 },
           }}
         >
           <Stack
             sx={{
               flexDirection: "column",
               justifyContent: "start",
-              alignItems: "space-between",
-              p: 2,
             }}
           >
-            <Typography variant="h1" sx={{ fontWeight: 700 }}>
-              Hi, I'm Jared 👋{" "}
+            <Typography variant="h1" sx={{ fontWeight: 700, letterSpacing: "-0.03em" }}>
+              Hi, I'm Jared 👋
             </Typography>
             <Typography
               variant="subtitle1"
               sx={{
-                pl: 0.5,
                 color: theme.palette.text.secondary,
+                fontWeight: 500,
+                fontSize: "1.05rem",
+                mt: 0.5,
+                mb: 2,
               }}
             >
               Full Stack Developer
             </Typography>
             <Stack
               sx={{
-                gap: 2,
-                mt: 1,
-                py: 2,
-                borderTop: `2px solid ${theme.palette.outline.state.outlinedBorder}`,
+                gap: 1.5,
+                pt: 2,
+                borderTop: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
               <Typography
                 variant="subtitle2"
                 sx={{
                   fontWeight: 600,
+                  fontSize: "0.85rem",
                 }}
               >
                 View My Projects
@@ -74,15 +76,16 @@ export default function Home() {
                 to="/projects"
                 variant="contained"
                 color="primary"
-                endIcon={<ArrowForwardIosIcon fontSize="small" />}
+                endIcon={<ArrowForwardIosIcon sx={{ fontSize: "14px !important" }} />}
                 sx={{
                   color: theme.palette.primary.contrastText,
                   backgroundColor: theme.palette.primary.main,
                   fontWeight: 700,
-                  fontSize: "1rem",
-                  p: 1.5,
+                  fontSize: "0.875rem",
+                  py: 1,
+                  px: 2.5,
                   borderRadius: "24px",
-                  width: 152,
+                  width: "fit-content",
                   boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
                   transition: theme.transitions.create(
                     ["background-color", "box-shadow"],
@@ -111,13 +114,10 @@ export default function Home() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              mt: { xs: 3, sm: 0 },
-              p: { xs: 0.5, sm: 1, md: 2 },
-              pl: 0,
               img: {
                 minWidth: { xs: "100%" },
                 maxWidth: { xs: "100%", md: "auto" },
-                maxHeight: { xs: "100%", md: "300px" },
+                maxHeight: { xs: "240px", md: "280px" },
               },
             }}
           >
@@ -127,34 +127,32 @@ export default function Home() {
         <Stack
           sx={{
             flexDirection: "column",
-            justifyContent: { sm: "start", md: "center" },
+            justifyContent: "center",
             alignItems: "center",
-            justifySelf: "center",
-            alignSelf: "center",
-            px: 1,
-            mb: 30,
+            gap: 2,
+            px: 2,
+            mb: 10,
           }}
         >
           <Typography
             variant="h4"
             sx={{
-              fontWeight: 600,
-              p: 1,
-              pb: 0.5,
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+              textAlign: "center",
             }}
           >
             About Me
           </Typography>
           <Stack
             sx={{
-              gap: 2,
-              width: { xs: "100%", sm: "75%", md: "60%" },
+              gap: 2.5,
+              width: { xs: "100%", sm: "85%", md: "68%" },
               justifyContent: "center",
               py: 2,
-              px: 1,
-              mb: 10,
+              px: { xs: 1, sm: 2 },
 
-              "& p": { textWrap: "pretty" },
+              "& p": { textWrap: "pretty", lineHeight: 1.7, fontSize: "1.05rem", color: theme.palette.text.secondary },
             }}
           >
             <Typography variant="body1">

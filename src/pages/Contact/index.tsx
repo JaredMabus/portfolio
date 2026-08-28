@@ -97,27 +97,26 @@ export default function Contact() {
           <Stack sx={{ justifySelf: "center" }}>
             <Stack
               sx={{
-                width: { xs: "100%", sm: "75%", md: "50%" },
-                maxWidth: 512,
+                width: { xs: "100%", sm: "80%", md: "55%" },
+                maxWidth: 480,
                 alignSelf: "center",
-                my: 4,
-                mt: 10,
-                px: 3,
-                py: 3,
+                my: { xs: 4, sm: 6 },
+                px: { xs: 3, sm: 4 },
+                py: { xs: 3, sm: 4 },
+                gap: 2.5,
                 backgroundColor: theme.palette.surface.main,
                 boxShadow:
                   theme.palette.mode === "dark"
                     ? theme.shadows[3]
                     : "0 8px 24px -4px rgba(0, 0, 0, 0.06)",
-                borderRadius: 3,
+                borderRadius: "16px",
                 border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
               }}
-              spacing={2}
             >
-              <Typography sx={{ alignSelf: "start", fontWeight: 600 }} variant="h5">
+              <Typography sx={{ alignSelf: "start", fontWeight: 700, letterSpacing: "-0.01em" }} variant="h5">
                 Contact
               </Typography>
-              <Stack sx={{ width: "100%" }} spacing={4}>
+              <Stack sx={{ width: "100%", gap: 2.5 }}>
                 <FormControl error={error.name ? true : false}>
                   <InputLabel htmlFor="name-input">Name</InputLabel>
                   <Input
@@ -166,16 +165,20 @@ export default function Contact() {
                   color="primary"
                   sx={{
                     width: 200,
+                    height: 44,
                     alignSelf: "center",
-                    justifySelf: "end",
                     backgroundColor: theme.palette.primary.main,
                     color: theme.palette.primary.contrastText,
-                    fontWeight: 600,
+                    fontWeight: 700,
+                    borderRadius: "24px",
+                    mt: 1,
+                    boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
                     "&:hover": {
                       backgroundColor: theme.palette.primary.high,
+                      boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
                     },
                     "&:focus-visible": {
-                      backgroundColor: theme.palette.primary.state.focusVisible,
+                      outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
                     },
                   }}
                   onClick={handleSubmit}
@@ -188,10 +191,14 @@ export default function Contact() {
         </animated.div>
         {alert === true && (
           <animated.div style={alertSpring}>
-            <Box sx={{ position: "fixed", bottom: 50, right: 50 }}>
-              <Alert severity="success" onClose={toggleAlert}>
+            <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1000 }}>
+              <Alert
+                severity="success"
+                onClose={toggleAlert}
+                sx={{ borderRadius: "12px", boxShadow: theme.shadows[4] }}
+              >
                 <AlertTitle>Message Sent</AlertTitle>
-                <strong>Thanks for reaching out.</strong> Be in touch
+                <strong>Thanks for reaching out.</strong> I'll be in touch soon!
               </Alert>
             </Box>
           </animated.div>

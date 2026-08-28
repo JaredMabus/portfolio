@@ -23,8 +23,8 @@ export interface InstitutionsType {
   name: string;
   location: string;
   degree: string;
-  startDate: string;
-  endDate: string;
+  startDate?: string;
+  endDate?: string;
 }
 
 export interface ResumeDataType {
@@ -110,15 +110,11 @@ export const resumeData: ResumeDataType[] = [
         name: "University of Minnesota - Coding Bootcamp",
         location: "Minneapolis, MN",
         degree: "Certificate in Full Stack Web Development",
-        startDate: "",
-        endDate: "12/2/2022",
       },
       {
         name: "University of Northern Iowa",
         location: "Cedar Falls, IA",
         degree: "Bachelor of Arts in Economics",
-        startDate: "9/1/2016",
-        endDate: "12/1/2018",
       },
     ],
   },

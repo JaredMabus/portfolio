@@ -4,6 +4,7 @@ import {
   AppBar,
   Box,
   Button,
+  Container,
   Divider,
   IconButton,
   Stack,
@@ -43,13 +44,13 @@ const NavItem: React.FC<Props> = ({ item }) => {
           alignItems: "center",
           color: theme.palette.text.secondary,
 
-          padding: theme.spacing(1, 1.5),
+          padding: theme.spacing(0.5, 1.25),
           border: "2px solid transparent",
           borderBottom: "2px solid transparent",
-          borderRadius: 1,
+          borderRadius: "8px",
 
           whiteSpace: "nowrap",
-          fontSize: "1.1rem",
+          fontSize: "14px",
           fontWeight: 600,
 
           transition: theme.transitions.create(
@@ -72,7 +73,7 @@ const NavItem: React.FC<Props> = ({ item }) => {
       >
         {item.name}
       </Box>
-      <Divider orientation="vertical" variant="middle" />
+      <Divider orientation="vertical" flexItem sx={{ height: 16, my: "auto" }} />
     </>
   );
 };
@@ -103,10 +104,9 @@ export default function Header() {
     };
 
   const SocialIconButtonStyles = {
-    height: 48,
-    width: 48,
-    ml: 1,
-    borderRadius: "16px",
+    height: 36,
+    width: 36,
+    borderRadius: "10px",
     border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
     backgroundColor: theme.palette.surfaceContainerLow.main,
     transition: theme.transitions.create([
@@ -124,7 +124,7 @@ export default function Header() {
     },
 
     "& .MuiSvgIcon-root": {
-      fontSize: "24px",
+      fontSize: "18px",
       color: theme.palette.text.secondary,
       transition: theme.transitions.create("color"),
     },
@@ -145,102 +145,113 @@ export default function Header() {
         position="fixed"
         color="transparent"
         elevation={0}
+        sx={{
+          backgroundColor: scrolled
+            ? theme.palette.surfaceContainerGlass.main
+            : "transparent",
+          boxShadow: scrolled
+            ? `0px 0px 50px 5px rgba(0, 0, 0, .05)`
+            : "none",
+          borderBottom: scrolled
+            ? `1px solid ${theme.palette.outline.state.outlinedBorder}`
+            : "1px solid transparent",
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          transition: theme.transitions.create(
+            [
+              "background-color",
+              "box-shadow",
+              "border-color",
+              "backdrop-filter",
+            ],
+            {
+              duration: theme.transitions.duration.shortest,
+              easing: theme.transitions.easing.easeOut,
+            }
+          ),
+        }}
       >
-        <Toolbar
-          component="nav"
-          disableGutters={true}
-          sx={{
-            height: 72,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            py: 1,
-            px: { xs: 2, sm: 4 },
-            backgroundColor: scrolled
-              ? theme.palette.surfaceContainerGlass.main
-              : "transparent",
-            boxShadow: scrolled
-              ? `0px 0px 50px 5px rgba(0, 0, 0, .05)`
-              : "none",
-            borderBottom: scrolled
-              ? `1px solid ${theme.palette.outline.state.outlinedBorder}`
-              : "1px solid transparent",
-            backdropFilter: scrolled ? "blur(12px)" : "none",
-            transition: theme.transitions.create(
-              [
-                "background-color",
-                "box-shadow",
-                "border-color",
-                "backdrop-filter",
-              ],
-              {
-                duration: theme.transitions.duration.shortest,
-                easing: theme.transitions.easing.easeOut,
-              }
-            ),
-          }}
-        >
-          <Stack
+        <Container maxWidth="lg" disableGutters={false}>
+          <Toolbar
+            component="nav"
+            disableGutters={true}
             sx={{
-              display: { xs: "none", sm: isDrawerOpen ? "none" : "flex" },
+              minHeight: { xs: 64, sm: 76 },
+              display: "flex",
               flexDirection: "row",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignItems: "center",
-            }}
-          >
-            {navData.map((item) => (
-              <NavItem key={item.id} item={item} />
-            ))}
-          </Stack>
-          <SideNav
-            open={isDrawerOpen}
-            toggleDrawer={toggleDrawer}
-            navData={navData}
-          />
-          <Stack
-            direction={"row"}
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 1,
-              px: 1,
-              borderRadius: "4px 10px 4px 10px",
+              py: { xs: 1.5, sm: 2 },
             }}
           >
             <Stack
               sx={{
-                borderRight: `2px solid ${theme.palette.outline.state.outlinedBorder}`,
+                display: { xs: "none", sm: isDrawerOpen ? "none" : "flex" },
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 0.5,
               }}
             >
-              <Button onClick={toggleTheme}>
-                <LightDarkSwitch />
-              </Button>
+              {navData.map((item) => (
+                <NavItem key={item.id} item={item} />
+              ))}
             </Stack>
-            <Stack direction={"row"}>
-              <Tooltip title="GitHub">
+            <SideNav
+              open={isDrawerOpen}
+              toggleDrawer={toggleDrawer}
+              navData={navData}
+            />
+            <Stack
+              direction={"row"}
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 1,
+              }}
+            >
+              <Stack
+                sx={{
+                  borderRight: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
+                  pr: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <IconButton
-                  component={Link}
-                  to="https://github.com/JaredMabus"
-                  target="_blank"
-                  sx={SocialIconButtonStyles}
+                  onClick={toggleTheme}
+                  size="small"
+                  sx={{ p: 0 }}
+                  disableRipple
                 >
-                  <GitHubIcon />
+                  <LightDarkSwitch />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="LinkedIn">
-                <IconButton
-                  component={Link}
-                  to="https://www.linkedin.com/in/jaredmabusth/"
-                  target="_blank"
-                  sx={SocialIconButtonStyles}
-                >
-                  <LinkedInIcon />
-                </IconButton>
-              </Tooltip>
+              </Stack>
+              <Stack direction={"row"} sx={{ gap: 0.5 }}>
+                <Tooltip title="GitHub">
+                  <IconButton
+                    component={Link}
+                    to="https://github.com/JaredMabus"
+                    target="_blank"
+                    sx={SocialIconButtonStyles}
+                  >
+                    <GitHubIcon />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="LinkedIn">
+                  <IconButton
+                    component={Link}
+                    to="https://www.linkedin.com/in/jaredmabusth/"
+                    target="_blank"
+                    sx={SocialIconButtonStyles}
+                  >
+                    <LinkedInIcon />
+                  </IconButton>
+                </Tooltip>
+              </Stack>
             </Stack>
-          </Stack>
-        </Toolbar>
+          </Toolbar>
+        </Container>
       </AppBar>
     </Slide>
   );
