@@ -12,7 +12,7 @@ export default function Home() {
   useDocumentTitle("About Me");
 
   return (
-    <MainLayout>
+    <MainLayout animatePage={true}>
       <Stack
           sx={{
             flexDirection: "row",

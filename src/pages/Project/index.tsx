@@ -11,7 +11,7 @@ export default function Project() {
   useDocumentTitle("Projects");
 
   return (
-    <MainLayout>
+    <MainLayout animatePage={false}>
       <Stack
         sx={{
           width: "100%",

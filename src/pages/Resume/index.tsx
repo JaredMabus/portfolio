@@ -5,7 +5,7 @@ import ResumePage from "./ResumePage";
 
 export default function Resume() {
   return (
-    <MainLayout>
+    <MainLayout animatePage={true}>
       <Stack sx={{ justifySelf: "center", height: "100%" }}>
         <ResumePage />
       </Stack>

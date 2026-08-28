@@ -85,7 +85,7 @@ export default function Contact() {
 
   return (
     <>
-      <MainLayout>
+      <MainLayout animatePage={true}>
         <Stack sx={{ justifySelf: "center" }}>
             <Stack
               sx={{

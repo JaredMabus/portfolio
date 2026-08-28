@@ -48,7 +48,7 @@ export default function DataPage() {
   const [activeChartType, setActiveChartType] = useState<"area" | "line">("area");
 
   return (
-    <MainLayout>
+    <MainLayout animatePage={false}>
       <Box
         sx={{
           display: "flex",
@@ -67,47 +67,18 @@ export default function DataPage() {
             position: "relative",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-            <Chip
-              icon={<QueryStatsOutlinedIcon sx={{ fontSize: "16px !important" }} />}
-              label="Bklit Data Visualization Library"
-              size="small"
-              sx={{
-                height: 28,
-                fontWeight: 700,
-                fontSize: "0.75rem",
-                backgroundColor: theme.palette.primaryContainer.main,
-                color: theme.palette.primaryContainer.contrastText,
-                borderRadius: "8px",
-                "& .MuiChip-icon": { color: "inherit" },
-              }}
-            />
-            <Chip
-              label="Primary #6ABA94 Palette"
-              size="small"
-              variant="outlined"
-              sx={{
-                height: 28,
-                fontWeight: 600,
-                fontSize: "0.75rem",
-                borderColor: theme.palette.primary.state.outlinedBorder,
-                color: theme.palette.primary.main,
-                borderRadius: "8px",
-              }}
-            />
-          </Box>
+
 
           <Typography
             variant="h3"
             sx={{
               fontWeight: 800,
-              letterSpacing: "-0.03em",
-              color: theme.palette.text.primary,
-              fontSize: { xs: "2.2rem", sm: "2.8rem", md: "3.2rem" },
             }}
           >
-            Analytics & Charts
+            Data Projects
           </Typography>
+
+
 
           <Typography
             variant="body1"
@@ -123,6 +94,23 @@ export default function DataPage() {
             10-shade series and sequential scales, glassmorphism overlays, and smooth
             interaction states.
           </Typography>
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+            <Chip
+              icon={<QueryStatsOutlinedIcon sx={{ fontSize: "16px !important" }} />}
+              label="Bklit Data Visualization Library"
+              size="small"
+              sx={{
+                height: 28,
+                fontWeight: 700,
+                fontSize: "0.75rem",
+                backgroundColor: theme.palette.primaryContainer.main,
+                color: theme.palette.primaryContainer.contrastText,
+                borderRadius: "8px",
+                "& .MuiChip-icon": { color: "inherit" },
+              }}
+            />
+          </Box>
         </Box>
 
         {/* 1. Metric Overview Cards */}
