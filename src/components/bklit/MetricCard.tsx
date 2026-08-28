@@ -65,8 +65,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       sx={{
         p: 2.5,
         borderRadius: "18px",
-        backgroundColor: theme.palette.surfaceContainerGlass.main,
-        backdropFilter: "blur(14px)",
+        backgroundColor: theme.palette.surface.main,
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         display: "flex",
         flexDirection: "column",
@@ -136,19 +135,19 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         }}
       >
         {delta && (
-          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Chip
               size="small"
               icon={
                 delta.trend === "up" ? (
-                  <TrendingUpOutlinedIcon sx={{ fontSize: "14px !important" }} />
+                  <TrendingUpOutlinedIcon sx={{ fontSize: "16px !important" }} />
                 ) : (
-                  <TrendingDownOutlinedIcon sx={{ fontSize: "14px !important" }} />
+                  <TrendingDownOutlinedIcon sx={{ fontSize: "16px !important" }} />
                 )
               }
               label={delta.value}
               sx={{
-                height: 22,
+                height: 24,
                 fontSize: "0.72rem",
                 fontWeight: 700,
                 backgroundColor:
@@ -163,7 +162,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                   delta.trend === "up"
                     ? theme.palette.primary.main
                     : theme.palette.error.main,
-                borderRadius: "6px",
+                borderRadius: "8px",
                 "& .MuiChip-icon": {
                   color: "inherit",
                 },

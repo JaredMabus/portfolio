@@ -47,7 +47,7 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             }}
           >
             <Typography
-              sx={{ mb: 0.5, mx: 0.2, fontWeight: 700 }}
+              sx={{ mb: 0.5, mx: 0.5, fontWeight: 700 }}
               variant="body2"
             >
               {tech.category}:
@@ -55,7 +55,7 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
             <Stack
               direction="row"
               sx={{
-                maxWidth: 130,
+                maxWidth: 128,
                 flexWrap: "wrap",
                 alignItems: "center",
                 justifyContent: "center",
@@ -219,19 +219,19 @@ export default function ResumePage() {
         position: "relative",
         justifySelf: "center",
         alignSelf: "center",
-        backgroundColor: theme.palette.surfaceContainer.main,
+        backgroundColor: theme.palette.surface.main,
         px: { xs: 1, sm: 5, md: 7 },
         pt: 7,
         pb: 20,
         mt: 5,
         mb: 10,
         maxWidth: { xs: "100%", sm: 600, md: 900 },
-        borderRadius: 2,
+        borderRadius: 3,
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "dark"
             ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
-            : "rgba(0 0 0 / 10%) 1px 1px 10px 2px",
+            : "rgba(0 0 0 / 6%) 0px 8px 24px 0px",
       }}
     >
       <Stack

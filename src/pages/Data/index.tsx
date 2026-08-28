@@ -53,9 +53,9 @@ export default function DataPage() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          gap: { xs: 4, md: 5 },
+          gap: { xs: 4, md: 6 },
           pb: 8,
-          pt: { xs: 2, md: 3 },
+          pt: { xs: 2, md: 4 },
         }}
       >
         {/* Page Header */}
@@ -73,7 +73,7 @@ export default function DataPage() {
               label="Bklit Data Visualization Library"
               size="small"
               sx={{
-                height: 26,
+                height: 28,
                 fontWeight: 700,
                 fontSize: "0.75rem",
                 backgroundColor: theme.palette.primaryContainer.main,
@@ -87,7 +87,7 @@ export default function DataPage() {
               size="small"
               variant="outlined"
               sx={{
-                height: 26,
+                height: 28,
                 fontWeight: 600,
                 fontSize: "0.75rem",
                 borderColor: theme.palette.primary.state.outlinedBorder,
@@ -397,9 +397,12 @@ export default function DataPage() {
           sx={{
             p: { xs: 2.5, md: 3.5 },
             borderRadius: "20px",
-            backgroundColor: theme.palette.surfaceContainerGlass.main,
-            backdropFilter: "blur(16px)",
+            backgroundColor: theme.palette.surface.main,
             border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+            boxShadow:
+              theme.palette.mode === "light"
+                ? "0 4px 20px -4px rgba(0, 0, 0, 0.05)"
+                : "none",
             display: "flex",
             flexDirection: "column",
             gap: 3,

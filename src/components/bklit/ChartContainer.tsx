@@ -32,12 +32,11 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
       sx={{
         width: "100%",
         borderRadius: "20px",
-        backgroundColor: theme.palette.surfaceContainerGlass.main,
-        backdropFilter: "blur(16px)",
+        backgroundColor: theme.palette.surface.main,
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "light"
-            ? "0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03)"
+            ? "0 4px 20px -4px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03)"
             : "0 16px 36px -12px rgba(0, 0, 0, 0.35)",
         p: { xs: 2.5, md: 3 },
         position: "relative",
@@ -85,12 +84,12 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
                   size="small"
                   label={badge}
                   sx={{
-                    height: 22,
+                    height: 24,
                     fontSize: "0.7rem",
                     fontWeight: 700,
                     backgroundColor: theme.palette.primaryContainer.main,
                     color: theme.palette.primaryContainer.contrastText,
-                    borderRadius: "6px",
+                    borderRadius: "8px",
                   }}
                 />
               )}
@@ -112,7 +111,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
             <Box
               sx={{
                 display: "inline-flex",
-                p: "3px",
+                p: "4px",
                 borderRadius: "12px",
                 backgroundColor: theme.palette.surfaceContainerHigh.main,
                 border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
@@ -131,7 +130,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
                       px: 1.5,
                       fontSize: "0.75rem",
                       fontWeight: isActive ? 700 : 500,
-                      borderRadius: "9px",
+                      borderRadius: "8px",
                       color: isActive
                         ? theme.palette.primary.contrastText
                         : theme.palette.text.secondary,

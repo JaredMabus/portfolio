@@ -182,7 +182,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             fontWeight: 700,
             backgroundColor: theme.palette.primaryContainer.main,
             color: theme.palette.primaryContainer.contrastText,
-            borderRadius: "6px",
+            borderRadius: "8px",
           }}
         />
       </Box>

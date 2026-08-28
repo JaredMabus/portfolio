@@ -98,15 +98,18 @@ export default function Contact() {
             <Stack
               sx={{
                 width: { xs: "100%", sm: "75%", md: "50%" },
-                maxWidth: 500,
+                maxWidth: 512,
                 alignSelf: "center",
                 my: 4,
                 mt: 10,
                 px: 3,
                 py: 3,
-                backgroundColor: theme.palette.surfaceContainer.main,
-                boxShadow: theme.shadows[3],
-                borderRadius: 2,
+                backgroundColor: theme.palette.surface.main,
+                boxShadow:
+                  theme.palette.mode === "dark"
+                    ? theme.shadows[3]
+                    : "0 8px 24px -4px rgba(0, 0, 0, 0.06)",
+                borderRadius: 3,
                 border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
               }}
               spacing={2}

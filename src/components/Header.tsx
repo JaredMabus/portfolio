@@ -106,7 +106,7 @@ export default function Header() {
     height: 48,
     width: 48,
     ml: 1,
-    borderRadius: "15px",
+    borderRadius: "16px",
     border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
     backgroundColor: theme.palette.surfaceContainerLow.main,
     transition: theme.transitions.create([
@@ -150,7 +150,7 @@ export default function Header() {
           component="nav"
           disableGutters={true}
           sx={{
-            height: 70,
+            height: 72,
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",

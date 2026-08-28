@@ -40,15 +40,15 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
       component="nav"
       sx={{
         flexDirection: "column",
-        width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
-        backgroundColor: theme.palette.surfaceContainerLow.main,
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 256,
+        backgroundColor: theme.palette.surface.main,
         minHeight: "100vh",
       }}
     >
       <Stack
         sx={{
           width: "100%",
-          height: 70,
+          height: 72,
           flexDirection: "row",
           wrap: "nowrap",
           alignItems: "center",
@@ -60,10 +60,10 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
         <IconButton
           onClick={toggleDrawer(false)}
           sx={{
-            mx: 0.2,
+            mx: 0.25,
             height: 48,
             width: 48,
-            borderRadius: "15px",
+            borderRadius: "16px",
             boxSizing: "border-box",
             border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
             backgroundColor: theme.palette.surfaceContainerLow.main,
@@ -162,10 +162,10 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
         onClick={toggleDrawer(true)}
         sx={{
           display: { xs: "flex", sm: "none" },
-          mx: 0.2,
+          mx: 0.25,
           height: 48,
           width: 48,
-          borderRadius: "15px",
+          borderRadius: "16px",
           boxSizing: "border-box",
           border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
           backgroundColor: theme.palette.surfaceContainerLow.main,

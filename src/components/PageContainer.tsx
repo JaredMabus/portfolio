@@ -32,7 +32,7 @@ export default function PageContainer(props: Props) {
           width: "100%",
           minHeight: "100vh",
           flexGrow: 1,
-          mt: "70px",
+          mt: "72px",
         }}
       >
         {props.children}

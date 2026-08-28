@@ -23,8 +23,8 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const days = ["Mon", "Wed", "Fri"];
-  const cellSize = 13;
-  const cellGap = 3;
+  const cellSize = 12;
+  const cellGap = 4;
 
   // Scale colors: Level 0 (empty) through Level 4 (highest)
   const scaleColors = bklitChartPalette[isDark ? "dark" : "light"].scale;
@@ -59,7 +59,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
             flexDirection: "column",
             justifyContent: "space-between",
             height: 7 * (cellSize + cellGap) - cellGap,
-            pt: "2px",
+            pt: "4px",
           }}
         >
           {days.map((day, i) => (
@@ -98,7 +98,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
                 sx={{
                   width: cellSize,
                   height: cellSize,
-                  borderRadius: "3px",
+                  borderRadius: "4px",
                   backgroundColor: bg,
                   border: isHovered
                     ? `1px solid ${theme.palette.primary.main}`
@@ -149,9 +149,9 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
           <Box
             key={lvl}
             sx={{
-              width: 10,
-              height: 10,
-              borderRadius: "2px",
+              width: 12,
+              height: 12,
+              borderRadius: "4px",
               backgroundColor: getCellColor(lvl),
               border: `1px solid ${isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)"}`,
             }}

@@ -28,14 +28,14 @@ type CardButtonProps = ButtonProps & LinkProps;
 const CardContainer = styled(Link, {
   shouldForwardProp: (prop) => prop !== "data",
 })<CardContainerProps | CardContainerLinkProps>(({ theme, data }) => ({
-  minWidth: 250,
-  height: 350,
+  minWidth: 256,
+  height: 352,
   position: "relative",
   display: "flex",
   flexDirection: "column",
   justifyContent: "start",
   color: theme.palette.text.secondary,
-  backgroundColor: theme.palette.surfaceContainer.main,
+  backgroundColor: theme.palette.surface.main,
   border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
   borderRadius: "16px",
   boxShadow: theme.shadows[9],
@@ -49,7 +49,7 @@ const CardContainer = styled(Link, {
   },
   "&:hover #card-header": {
     borderColor: theme.palette.primary.main,
-    backgroundColor: theme.palette.surfaceContainerHigh.main,
+    backgroundColor: theme.palette.surfaceContainerLow.main,
   },
   "&:hover #card-content, &:hover #card-btn-stack": {
     visibility: "visible",
@@ -82,7 +82,7 @@ const CardHeader = styled(Stack)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "start",
   justifyContent: "space-between",
-  backgroundColor: theme.palette.surfaceContainer.main,
+  backgroundColor: theme.palette.surface.main,
   padding: theme.spacing(2, 2, 1, 2),
   borderBottom: `3px solid ${theme.palette.border.main}`,
   transition: theme.transitions.create(["border-color", "background-color"], {

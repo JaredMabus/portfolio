@@ -162,17 +162,17 @@ const surfaceStateLayerOpacity = {
 
 const surfaceToneReferences = {
   light: {
-    background: neutral.n100,
+    background: neutral.n98,
     onBackground: neutral.n10,
     onSurface: neutral.n10,
-    surface: neutral.n99,
+    surface: neutral.n100,
     surfaceDim: neutral.n90,
     surfaceBright: neutral.n100,
     surfaceContainerLowest: neutral.n100,
-    surfaceContainerLow: neutral.n98,
-    surfaceContainer: neutral.n97,
-    surfaceContainerHigh: neutral.n96,
-    surfaceContainerHighest: neutral.n95,
+    surfaceContainerLow: neutral.n97,
+    surfaceContainer: neutral.n96,
+    surfaceContainerHigh: neutral.n95,
+    surfaceContainerHighest: neutral.n90,
     inverseOnSurface: neutral.n95,
     inverseSurface: neutral.n20,
     surfaceVariant: neutralVariant.nv90,
@@ -186,12 +186,12 @@ const surfaceToneReferences = {
     onSurface: neutral.n95,
     surface: neutral.n10,
     surfaceDim: neutral.n10,
-    surfaceBright: "#3D3D3D",
+    surfaceBright: neutral.n25,
     surfaceContainerLowest: neutral.n5,
     surfaceContainerLow: neutral.n15,
-    surfaceContainer: "#202020",
-    surfaceContainerHigh: "#2A2A2A",
-    surfaceContainerHighest: "#343434",
+    surfaceContainer: neutral.n15,
+    surfaceContainerHigh: neutral.n20,
+    surfaceContainerHighest: neutral.n25,
     inverseOnSurface: neutral.n20,
     inverseSurface: neutral.n95,
     surfaceVariant: neutralVariant.nv30,
@@ -203,17 +203,17 @@ const surfaceToneReferences = {
 
 const surfaceTintWeights = {
   light: {
-    background: 0.006,
+    background: 0,
     onBackground: 0.02,
     onSurface: 0.02,
-    surface: 0.012,
+    surface: 0,
     surfaceDim: 0.035,
-    surfaceBright: 0.006,
-    surfaceContainerLowest: 0.002,
-    surfaceContainerLow: 0.018,
-    surfaceContainer: 0.028,
-    surfaceContainerHigh: 0.038,
-    surfaceContainerHighest: 0.048,
+    surfaceBright: 0,
+    surfaceContainerLowest: 0,
+    surfaceContainerLow: 0.012,
+    surfaceContainer: 0.022,
+    surfaceContainerHigh: 0.032,
+    surfaceContainerHighest: 0.042,
     inverseOnSurface: 0.02,
     inverseSurface: 0.018,
     surfaceVariant: 0.03,
@@ -838,9 +838,7 @@ let theme = createTheme({
     },
     MuiTooltip: {
       defaultProps: {
-        placement: "bottom",
         arrow: true,
-        enterDelay: 500,
         slotProps: {
           popper: {
             sx: { pointerEvents: "none" },
@@ -850,10 +848,10 @@ let theme = createTheme({
       },
       styleOverrides: {
         tooltip: ({ theme }: { theme: Theme }) => ({
-          minHeight: 34,
+          minHeight: 32,
           display: "flex",
           alignItems: "center",
-          padding: theme.spacing(0.875, 1.5),
+          padding: theme.spacing(1, 1.5),
           borderRadius: 8,
           backgroundColor:
             theme.palette.mode === "light"
@@ -883,7 +881,7 @@ let theme = createTheme({
         root: ({ theme }: { theme: Theme }) => ({
           borderRadius: 24,
           whiteSpace: "nowrap",
-          padding: 10,
+          padding: theme.spacing(1, 2),
           // height: 40,
           width: "auto",
 
@@ -1369,7 +1367,7 @@ export let themeLight = createTheme(theme, {
 
     background: {
       default: lightThemeColors.background,
-      paper: darken(lightThemeColors.background, 0.01),
+      paper: lightThemeColors.surface.main,
     },
     onBackground: theme.palette.augmentColor({
       color: {
@@ -1635,7 +1633,7 @@ export let themeLight = createTheme(theme, {
         }
         body { color: ${lightThemeColors.surface.on}; }
         .material-symbol { color: inherit; }
-        *::-webkit-scrollbar { width: 14px; }
+        *::-webkit-scrollbar { width: 12px; }
         *::-webkit-scrollbar-track {
           border: 1px solid ${lightThemeColors.background};
           background-color: ${lightThemeColors.background};
@@ -1643,7 +1641,7 @@ export let themeLight = createTheme(theme, {
         *::-webkit-scrollbar-thumb {
           border: 4px solid ${lightThemeColors.background};
           background-color: ${darken(lightThemeColors.surfaceContainer.main, 0.25)};
-          border-radius: 10px;
+          border-radius: 8px;
         }
         *::-webkit-scrollbar-thumb:hover { 
         background-color: ${darken(lightThemeColors.surfaceDim, 0.25)}; }
@@ -1682,9 +1680,9 @@ export let themeLight = createTheme(theme, {
     MuiCard: {
       styleOverrides: {
         root: {
-          backgroundColor: lightThemeColors.surfaceContainer.main,
+          backgroundColor: lightThemeColors.surface.main,
           color: lightThemeColors.surface.on,
-          borderColor: lightThemeColors.outline,
+          borderColor: lightThemeColors.border,
         },
       },
     },
@@ -2154,7 +2152,7 @@ export let themeDark = createTheme(theme, {
         }
         body { color: ${darkThemeColors.surface.on}; }
         .material-symbol { color: inherit; }
-        *::-webkit-scrollbar { width: 14px; }
+        *::-webkit-scrollbar { width: 12px; }
         *::-webkit-scrollbar-track {
           border: 1px solid ${darkThemeColors.background};
           background-color: ${darkThemeColors.background};
@@ -2162,7 +2160,7 @@ export let themeDark = createTheme(theme, {
         *::-webkit-scrollbar-thumb {
           border: 4px solid ${darkThemeColors.background};
           background-color: ${lighten(darkThemeColors.surfaceContainer.main, 0.1)};
-          border-radius: 10px;
+          border-radius: 8px;
         }
         *::-webkit-scrollbar-thumb:hover { 
         background-color: ${lighten(darkThemeColors.surfaceContainer.main, 0.25)}; }

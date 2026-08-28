@@ -81,8 +81,8 @@ export default function Home() {
                   fontWeight: 700,
                   fontSize: "1rem",
                   p: 1.5,
-                  borderRadius: 10,
-                  width: 150,
+                  borderRadius: "24px",
+                  width: 152,
                   boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
                   transition: theme.transitions.create(
                     ["background-color", "box-shadow"],
