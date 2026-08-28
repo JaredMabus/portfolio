@@ -1,4 +1,6 @@
-import { Box, Container, useTheme } from "@mui/material";
+import React from "react";
+import { Container, useTheme } from "@mui/material";
+import { useSpring, animated } from "@react-spring/web";
 
 import Footer from "./Footer";
 import Header from "./Header";
@@ -9,6 +11,14 @@ interface Props {
 
 export default function PageContainer(props: Props) {
   const theme = useTheme();
+
+  const animateStyles = useSpring({
+    from: { opacity: 0, y: 10 },
+    to: { opacity: 1, y: 0 },
+    config: {
+      duration: theme.transitions.duration.standard, // 300ms matching nav button transitions
+    },
+  });
 
   return (
     <Container
@@ -35,7 +45,17 @@ export default function PageContainer(props: Props) {
           mt: { xs: "72px", sm: "84px" },
         }}
       >
-        {props.children}
+        <animated.div
+          style={{
+            ...animateStyles,
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            flexGrow: 1,
+          }}
+        >
+          {props.children}
+        </animated.div>
       </Container>
       <Footer />
     </Container>

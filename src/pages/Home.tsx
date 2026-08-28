@@ -1,7 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useSpring, animated } from "@react-spring/web";
 import { useTheme } from "@mui/material/styles";
 
 import useDocumentTitle from "@/utils/useDocumentTitle";
@@ -12,16 +11,9 @@ export default function Home() {
   const theme = useTheme();
   useDocumentTitle("About Me");
 
-  const animateStyles = useSpring({
-    from: { x: 0, y: 10, opacity: 0 },
-    to: { x: 0, y: 0, opacity: 1 },
-    delay: 250,
-  });
-
   return (
     <PageContainer>
-      <animated.div style={animateStyles}>
-        <Stack
+      <Stack
           sx={{
             flexDirection: "row",
             justifyContent: "center",
@@ -171,7 +163,6 @@ export default function Home() {
             </Typography>
           </Stack>
         </Stack>
-      </animated.div>
     </PageContainer>
   );
 }

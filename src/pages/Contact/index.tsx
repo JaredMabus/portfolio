@@ -25,16 +25,9 @@ export interface FormData {
 
 export default function Contact() {
   const theme = useTheme();
-  const animateStyles = useSpring({
-    from: { x: 0, y: 10, opacity: 0 },
-    to: { x: 0, y: 0, opacity: 1 },
-    delay: 250,
-  });
-
   const alertSpring = useSpring({
     from: { x: 0, y: -100, opacity: 0 },
     to: { x: 0, y: 0, opacity: 1 },
-    delay: 250,
   });
 
   const [formData, setFormData] = useState<FormData>({
@@ -93,8 +86,7 @@ export default function Contact() {
   return (
     <>
       <PageContainer>
-        <animated.div style={animateStyles}>
-          <Stack sx={{ justifySelf: "center" }}>
+        <Stack sx={{ justifySelf: "center" }}>
             <Stack
               sx={{
                 width: { xs: "100%", sm: "80%", md: "55%" },
@@ -188,7 +180,6 @@ export default function Contact() {
               </Stack>
             </Stack>
           </Stack>
-        </animated.div>
         {alert === true && (
           <animated.div style={alertSpring}>
             <Box sx={{ position: "fixed", bottom: 32, right: 32, zIndex: 1000 }}>
