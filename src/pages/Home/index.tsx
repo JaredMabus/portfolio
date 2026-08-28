@@ -13,7 +13,7 @@ export default function Home() {
   useDocumentTitle("About Me");
 
   return (
-    <MainLayout animatePage={true}>
+    <MainLayout animatePage={true} showBackground={true}>
       <Box
         component="section"
         sx={{

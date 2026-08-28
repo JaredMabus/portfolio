@@ -10,6 +10,7 @@ export interface MainLayoutProps {
   children: React.ReactNode;
   contentMaxWidth?: false | Breakpoint | undefined;
   animatePage?: boolean;
+  showBackground?: boolean;
   disableContentGutters?: boolean;
   justifyPageContent?: "center" | "flex-start" | "flex-end";
   mainContentOverflowY?: React.CSSProperties["overflowY"];
@@ -22,6 +23,7 @@ export interface MainLayoutProps {
  * @param children The main content to be rendered inside the layout.
  * @param contentMaxWidth The maximum width of the main content container. Default "lg"
  * @param animatePage Determines if page transitions should be animated. Default true
+ * @param showBackground Determines if the organic wave/grid background should be rendered. Default false
  * @param disableContentGutters If true, the main content container will have its padding removed. Default false
  * @param justifyPageContent The horizontal alignment of the content. Default "center"
  * @param mainContentOverflowY Sets the overflow-y property of the main content container. Default "visible"
@@ -30,6 +32,7 @@ export default function MainLayout({
   children,
   contentMaxWidth = "lg",
   animatePage = true,
+  showBackground = false,
   disableContentGutters = false,
   justifyPageContent = "flex-start",
   mainContentOverflowY = "visible",
@@ -55,7 +58,7 @@ export default function MainLayout({
         position: "relative",
       }}
     >
-      <BackgroundGrid />
+      {showBackground && <BackgroundGrid />}
       <Header />
       <Container
         component="main"
