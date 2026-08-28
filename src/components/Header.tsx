@@ -13,7 +13,6 @@ import {
   useMediaQuery,
   Slide,
   Tooltip,
-  alpha,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
@@ -44,24 +43,30 @@ const NavItem: React.FC<Props> = ({ item }) => {
           alignItems: "center",
           color: theme.palette.text.secondary,
 
-          padding: theme.spacing(2, 1.5, 1, 1.5),
-          border: `2px solid transparent`,
+          padding: theme.spacing(1, 1.5),
+          border: "2px solid transparent",
           borderBottom: "2px solid transparent",
+          borderRadius: 1,
 
           whiteSpace: "nowrap",
           fontSize: "1.1rem",
           fontWeight: 600,
 
-          transition: theme.transitions.create(["color", "border-color"], {
-            duration: theme.transitions.duration.standard,
-            easing: theme.transitions.easing.easeInOut,
-          }),
+          transition: theme.transitions.create(
+            ["color", "border-color", "background-color"],
+            {
+              duration: theme.transitions.duration.standard,
+              easing: theme.transitions.easing.easeInOut,
+            }
+          ),
           "&:hover": {
             color: theme.palette.primary.main,
+            backgroundColor: theme.palette.primary.state.hover,
           },
           "&.active": {
             color: theme.palette.primary.main,
             borderBottom: `2px solid ${theme.palette.primary.main}`,
+            backgroundColor: theme.palette.primary.state.selected,
           },
         }}
       >
@@ -102,25 +107,30 @@ export default function Header() {
     width: 48,
     ml: 1,
     borderRadius: "15px",
-    border: `1px solid ${alpha(theme.palette.border.main, 0.4)}`,
-    backgroundColor: alpha(theme.palette.surface.dark, 0.4),
-    transition: theme.transitions.create("background-color"),
+    border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+    backgroundColor: theme.palette.surfaceContainerLow.main,
+    transition: theme.transitions.create([
+      "background-color",
+      "border-color",
+      "color",
+    ]),
 
     "&:hover": {
-      backgroundColor: alpha(theme.palette.primary.main, 0.2),
+      backgroundColor: theme.palette.primary.state.hover,
+      borderColor: theme.palette.primary.state.outlinedBorder,
       "& .MuiSvgIcon-root": {
-        color: theme.palette.text.primary,
+        color: theme.palette.primary.main,
       },
     },
 
     "& .MuiSvgIcon-root": {
       fontSize: "24px",
-      color: alpha(theme.palette.text.primary, 0.7),
+      color: theme.palette.text.secondary,
       transition: theme.transitions.create("color"),
     },
 
     "& .MuiTouchRipple-ripple .MuiTouchRipple-child": {
-      backgroundColor: theme.palette.text.primary,
+      backgroundColor: theme.palette.primary.state.selected,
     },
   };
 
@@ -148,15 +158,15 @@ export default function Header() {
             py: 1,
             px: { xs: 2, sm: 4 },
             backgroundColor: scrolled
-              ? alpha(theme.palette.background.default, 0.98)
+              ? theme.palette.surfaceContainerGlass.main
               : "transparent",
             boxShadow: scrolled
               ? `0px 0px 50px 5px rgba(0, 0, 0, .05)`
               : "none",
             borderBottom: scrolled
-              ? `1px solid ${alpha(theme.palette.outline.main, 0.2)}`
+              ? `1px solid ${theme.palette.outline.state.outlinedBorder}`
               : "1px solid transparent",
-            backdropFilter: scrolled ? "blur(8px)" : "none",
+            backdropFilter: scrolled ? "blur(12px)" : "none",
             transition: theme.transitions.create(
               [
                 "background-color",
@@ -200,10 +210,7 @@ export default function Header() {
           >
             <Stack
               sx={{
-                borderRight: `2px solid ${alpha(
-                  theme.palette.outline.dark,
-                  0.2
-                )}`,
+                borderRight: `2px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
               <Button onClick={toggleTheme}>

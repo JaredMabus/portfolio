@@ -86,12 +86,14 @@ portfolio/
 - `@/*` resolves to `./src/*` (configured in both `vite.config.ts` and `tsconfig.app.json`).
 - Prefer using `@/` for imports across directories (e.g. `import { themeLight } from "@/styles/theme";`).
 
-### 4.2 Material 3 (M3) Theming & Color Tokens
+### 4.2 Material 3 (M3) Theming, Color Tokens & State Layers
 - Theming is implemented in `src/styles/theme.ts` and augmented in `src/types/mui-palette.d.ts`.
-- It extends standard MUI palettes with full Material 3 tonal palettes:
+- It extends standard MUI palettes with full Material 3 tonal palettes and interaction state layers:
   - Tonal steps: `neutral` (`n0`–`n100`), `neutralVariant` (`nv10`–`nv90`).
-  - Roles: `primaryContainer`, `onPrimaryContainer`, `surfaceVariant`, `outline`, `surfaceContainer`, `surfaceContainerHigh`, `surfaceDim`, etc.
+  - Surface roles: `surface`, `surfaceDim`, `surfaceBright`, `surfaceContainerLowest`, `surfaceContainerLow`, `surfaceContainer`, `surfaceContainerHigh`, `surfaceContainerHighest`, `surfaceContainerGlass`.
+  - Roles: `primaryContainer`, `onPrimaryContainer`, `surfaceVariant`, `outline`, `border`, etc.
   - Fixed brand sets: `primaryFixed`, `secondaryFixed`, `tertiaryFixed`, etc.
+  - Interactive state layers on all augmented `PaletteColor` tokens: `state.hover`, `state.selected`, `state.focus`, `state.focusVisible`, `state.outlinedBorder`, `state.dragged`, `state.disabled`, `state.disabledBg`.
 - Two complete themes are exported: `themeLight` and `themeDark`.
 - Global styles (scrollbar styling, typography resets) are provided via `GlobalStyle` in `src/styles/theme.ts`.
 

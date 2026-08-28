@@ -17,7 +17,6 @@ import validate from "./validate";
 import { useTheme } from "@mui/material/styles";
 import { useSpring, animated } from "@react-spring/web";
 
-
 export interface FormData {
   name?: string;
   email?: string;
@@ -35,7 +34,6 @@ export default function Contact() {
   const alertSpring = useSpring({
     from: { x: 0, y: -100, opacity: 0 },
     to: { x: 0, y: 0, opacity: 1 },
-    // leave: { x: 0, y: -100, opacity: 1 },
     delay: 250,
   });
 
@@ -46,7 +44,6 @@ export default function Contact() {
   });
 
   const [error, setError] = useState<Partial<FormData>>({});
-
   const [alert, setAlert] = useState(false);
 
   const toggleAlert = () => {
@@ -79,20 +76,17 @@ export default function Contact() {
     return validate(formData);
   };
 
-  const handleSubmit = async (e:React.MouseEvent<HTMLElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    let error = await validateData();
+    let err = await validateData();
 
-    if (Object.keys(error).length === 0) {
-      console.log(formData);
+    if (Object.keys(err).length === 0) {
       toggleAlert();
       setFormData({
         name: "",
         email: "",
         message: "",
       });
-    } else {
-      console.log(error);
     }
   };
 
@@ -109,18 +103,15 @@ export default function Contact() {
                 my: 4,
                 mt: 10,
                 px: 3,
-                py: 2,
-                backgroundColor:
-                  theme.palette.mode === "dark"
-                    ? theme.palette.secondary.main
-                    : "#fff",
-                boxShadow: "rgba(0 0 0 / 10%) 2px 2px 5px 2px",
+                py: 3,
+                backgroundColor: theme.palette.surfaceContainer.main,
+                boxShadow: theme.shadows[3],
                 borderRadius: 2,
-                border: `1px solid ${theme.palette.secondary.main}`,
+                border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
               }}
               spacing={2}
             >
-              <Typography sx={{ alignSelf: "start" }} variant="h5">
+              <Typography sx={{ alignSelf: "start", fontWeight: 600 }} variant="h5">
                 Contact
               </Typography>
               <Stack sx={{ width: "100%" }} spacing={4}>
@@ -168,8 +159,23 @@ export default function Contact() {
                   helperText={error.message ? `${error.message}` : ""}
                 />
                 <Button
-                  sx={{ width: 200, alignSelf: "center", justifySelf: "end" }}
-                  onClick={handleSubmit} 
+                  variant="contained"
+                  color="primary"
+                  sx={{
+                    width: 200,
+                    alignSelf: "center",
+                    justifySelf: "end",
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.primary.contrastText,
+                    fontWeight: 600,
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.high,
+                    },
+                    "&:focus-visible": {
+                      backgroundColor: theme.palette.primary.state.focusVisible,
+                    },
+                  }}
+                  onClick={handleSubmit}
                 >
                   Submit
                 </Button>

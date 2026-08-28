@@ -14,7 +14,7 @@ export default function Footer() {
         width: "100%",
         margin: 0,
         padding: 0,
-        backgroundColor: theme.palette.surface.dark,
+        backgroundColor: theme.palette.surfaceContainerLow.main,
       }}
     >
       <Socials />

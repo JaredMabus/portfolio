@@ -17,7 +17,7 @@ export default function Project() {
           Projects
         </Typography>
       </Stack>
-      <Divider sx={{ borderColor: theme.palette.border.low }} />
+      <Divider sx={{ borderColor: theme.palette.outline.state.outlinedBorder }} />
       <ProjectGrid data={projectData} />
     </PageContainer>
   );

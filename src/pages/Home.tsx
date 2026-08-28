@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography, alpha } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useSpring, animated } from "@react-spring/web";
@@ -58,7 +58,7 @@ export default function Home() {
                 gap: 2,
                 mt: 1,
                 py: 2,
-                borderTop: `2px solid ${theme.palette.outline.low}`,
+                borderTop: `2px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
               <Typography
@@ -77,13 +77,13 @@ export default function Home() {
                 endIcon={<ArrowForwardIosIcon fontSize="small" />}
                 sx={{
                   color: theme.palette.primary.contrastText,
-                  backgroundColor: alpha(theme.palette.primary.main, 0.95),
+                  backgroundColor: theme.palette.primary.main,
                   fontWeight: 700,
                   fontSize: "1rem",
                   p: 1.5,
                   borderRadius: 10,
                   width: 150,
-                  boxShadow: `inset 10px 0 50px 10px rgba(0,0,0,0.2)`,
+                  boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
                   transition: theme.transitions.create(
                     ["background-color", "box-shadow"],
                     {
@@ -94,9 +94,12 @@ export default function Home() {
                   "& .MuiSvgIcon-root": {
                     color: theme.palette.primary.contrastText,
                   },
-                  ":hover": {
-                    backgroundColor: theme.palette.primary.main,
-                    boxShadow: `inset 2px 0 2px 0 rgba(0,0,0,0.2)}`,
+                  "&:hover": {
+                    backgroundColor: theme.palette.primary.high,
+                    boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
+                  },
+                  "&:focus-visible": {
+                    outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
                   },
                 }}
               >

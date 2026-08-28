@@ -9,10 +9,7 @@ import {
   Button,
   Divider,
   Stack,
-  Paper,
   useTheme,
-  Tooltip,
-  alpha,
 } from "@mui/material";
 
 import Drawer from "@mui/material/Drawer";
@@ -44,7 +41,7 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
       sx={{
         flexDirection: "column",
         width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
-        backgroundColor: theme.palette.surface.main,
+        backgroundColor: theme.palette.surfaceContainerLow.main,
         minHeight: "100vh",
       }}
     >
@@ -68,13 +65,16 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
             width: 48,
             borderRadius: "15px",
             boxSizing: "border-box",
-            border: `1px solid ${alpha(theme.palette.border.dark, 0.2)}`,
-            backgroundColor: theme.palette.surface.main,
-            transition: theme.transitions.create("background-color"),
+            border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+            backgroundColor: theme.palette.surfaceContainerLow.main,
+            transition: theme.transitions.create([
+              "background-color",
+              "border-color",
+            ]),
 
             "&:hover": {
-              backgroundColor: theme.palette.surface.main,
-              border: `1px solid ${alpha(theme.palette.border.main, 0.5)}`,
+              backgroundColor: theme.palette.surfaceContainer.state.hover,
+              border: `1px solid ${theme.palette.border.main}`,
               "& .MuiSvgIcon-root": {
                 color: theme.palette.text.primary,
               },
@@ -82,12 +82,12 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
 
             "& .MuiSvgIcon-root": {
               fontSize: "24px",
-              color: alpha(theme.palette.text.primary, 0.7),
+              color: theme.palette.text.secondary,
               transition: theme.transitions.create("color"),
             },
 
             "& .MuiTouchRipple-ripple .MuiTouchRipple-child": {
-              backgroundColor: theme.palette.text.primary,
+              backgroundColor: theme.palette.surfaceContainer.state.selected,
             },
           }}
         >
@@ -128,15 +128,19 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
                   }
                 ),
                 "&:hover": {
-                  backgroundColor: theme.palette.surfaceContainer.dark,
+                  backgroundColor: theme.palette.surfaceContainer.state.hover,
+                  "& .MuiListItemText-primary": {
+                    color: theme.palette.text.primary,
+                  },
                 },
                 "&.active": {
                   color: theme.palette.text.primary,
-                  backgroundColor: theme.palette.surfaceContainer.dark,
-                  boxShadow: `inset 4px 0 0 ${alpha(
-                    theme.palette.primary.light,
-                    1
-                  )}`,
+                  backgroundColor: theme.palette.surfaceContainer.state.selected,
+                  boxShadow: `inset 4px 0 0 ${theme.palette.primary.main}`,
+                  "& .MuiListItemText-primary": {
+                    color: theme.palette.text.primary,
+                    fontWeight: 700,
+                  },
                 },
               }}
             >
@@ -163,13 +167,16 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
           width: 48,
           borderRadius: "15px",
           boxSizing: "border-box",
-          border: `1px solid ${alpha(theme.palette.border.dark, 0.2)}`,
-          backgroundColor: theme.palette.surface.main,
-          transition: theme.transitions.create("background-color"),
+          border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+          backgroundColor: theme.palette.surfaceContainerLow.main,
+          transition: theme.transitions.create([
+            "background-color",
+            "border-color",
+          ]),
 
           "&:hover": {
-            backgroundColor: theme.palette.surface.main,
-            border: `1px solid ${alpha(theme.palette.border.main, 0.5)}`,
+            backgroundColor: theme.palette.surfaceContainer.state.hover,
+            border: `1px solid ${theme.palette.border.main}`,
             "& .MuiSvgIcon-root": {
               color: theme.palette.text.primary,
             },
@@ -177,12 +184,12 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
 
           "& .MuiSvgIcon-root": {
             fontSize: "24px",
-            color: alpha(theme.palette.text.primary, 0.7),
+            color: theme.palette.text.secondary,
             transition: theme.transitions.create("color"),
           },
 
           "& .MuiTouchRipple-ripple .MuiTouchRipple-child": {
-            backgroundColor: theme.palette.text.primary,
+            backgroundColor: theme.palette.surfaceContainer.state.selected,
           },
         }}
       >

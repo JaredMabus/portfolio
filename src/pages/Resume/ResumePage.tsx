@@ -1,11 +1,9 @@
 import {
   Box,
-  Button,
   Divider,
   Chip,
   Stack,
   Typography,
-  alpha,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -15,8 +13,6 @@ import {
   resumeData,
   ResumeDataType,
   TechCategoryType,
-  JobsType,
-  InstitutionsType,
 } from "./data/resumeData";
 
 interface Props {
@@ -45,7 +41,8 @@ const TechnicalSkills: React.FC<Props> = ({ data }) => {
               p: 1,
               m: 0.5,
               maxHeight: 400,
-              border: `1px solid ${theme.palette.outline.main}`,
+              backgroundColor: theme.palette.surfaceContainerLow.main,
+              border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               borderRadius: 3,
             }}
           >
@@ -197,7 +194,6 @@ const ProfessionalExperience: React.FC<Props> = ({ data }) => {
 };
 
 const Education: React.FC<Props> = ({ data }) => {
-  const theme = useTheme();
   return (
     <Stack
       direction="column"
@@ -231,11 +227,7 @@ export default function ResumePage() {
         mb: 10,
         maxWidth: { xs: "100%", sm: 600, md: 900 },
         borderRadius: 2,
-        border:
-          theme.palette.mode === "dark"
-            ? `1px solid transparent`
-            : `1px solid ${theme.palette.border.light}`,
-
+        border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "dark"
             ? "rgba(50 50 50 / 15%) 1px 1px 5px 2px"
@@ -262,7 +254,7 @@ export default function ResumePage() {
                 orientation="vertical"
                 flexItem
                 sx={{
-                  borderColor: theme.palette.outline.main,
+                  borderColor: theme.palette.outline.state.outlinedBorder,
                 }}
               />
             }
@@ -274,13 +266,23 @@ export default function ResumePage() {
               rel="noreferrer"
               sx={{
                 textDecoration: "none",
-                color: theme.palette.text.primary,
-                transition: theme.transitions.create(["color"], {
-                  duration: theme.transitions.duration.standard,
-                  easing: theme.transitions.easing.easeInOut,
-                }),
-                ":hover": {
+                color: theme.palette.text.secondary,
+                py: 0.5,
+                px: 1,
+                borderRadius: 1,
+                transition: theme.transitions.create(
+                  ["color", "background-color"],
+                  {
+                    duration: theme.transitions.duration.standard,
+                    easing: theme.transitions.easing.easeInOut,
+                  }
+                ),
+                "&:hover": {
                   color: theme.palette.primary.main,
+                  backgroundColor: theme.palette.primary.state.hover,
+                },
+                "&:focus-visible": {
+                  backgroundColor: theme.palette.primary.state.focusVisible,
                 },
               }}
             >
@@ -293,13 +295,23 @@ export default function ResumePage() {
               rel="noreferrer"
               sx={{
                 textDecoration: "none",
-                color: theme.palette.text.primary,
-                transition: theme.transitions.create(["color"], {
-                  duration: theme.transitions.duration.standard,
-                  easing: theme.transitions.easing.easeInOut,
-                }),
-                ":hover": {
+                color: theme.palette.text.secondary,
+                py: 0.5,
+                px: 1,
+                borderRadius: 1,
+                transition: theme.transitions.create(
+                  ["color", "background-color"],
+                  {
+                    duration: theme.transitions.duration.standard,
+                    easing: theme.transitions.easing.easeInOut,
+                  }
+                ),
+                "&:hover": {
                   color: theme.palette.primary.main,
+                  backgroundColor: theme.palette.primary.state.hover,
+                },
+                "&:focus-visible": {
+                  backgroundColor: theme.palette.primary.state.focusVisible,
                 },
               }}
             >
@@ -314,10 +326,7 @@ export default function ResumePage() {
               sx={{
                 fontWeight: 600,
                 mb: 1,
-                borderBottom: `1px solid ${alpha(
-                  theme.palette.outline.main,
-                  1
-                )}`,
+                borderBottom: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
               }}
             >
               {section.title}

@@ -5,10 +5,8 @@ import {
   Divider,
   Stack,
   ButtonProps,
-  Paper,
   Tooltip,
   useTheme,
-  alpha,
 } from "@mui/material";
 import { Link, LinkProps } from "react-router-dom";
 import { styled } from "@mui/material/styles";
@@ -37,12 +35,21 @@ const CardContainer = styled(Link, {
   flexDirection: "column",
   justifyContent: "start",
   color: theme.palette.text.secondary,
+  backgroundColor: theme.palette.surfaceContainer.main,
+  border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
   borderRadius: "16px",
   boxShadow: theme.shadows[9],
-  // cursor: "pointer",
   overflow: "hidden",
+  transition: theme.transitions.create(["border-color", "box-shadow"], {
+    duration: theme.transitions.duration.standard,
+    easing: theme.transitions.easing.easeInOut,
+  }),
+  "&:hover": {
+    borderColor: theme.palette.primary.state.outlinedBorder,
+  },
   "&:hover #card-header": {
     borderColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.surfaceContainerHigh.main,
   },
   "&:hover #card-content, &:hover #card-btn-stack": {
     visibility: "visible",
@@ -75,13 +82,12 @@ const CardHeader = styled(Stack)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "start",
   justifyContent: "space-between",
-  backgroundColor: theme.palette.surface.main,
+  backgroundColor: theme.palette.surfaceContainer.main,
   padding: theme.spacing(2, 2, 1, 2),
-  borderBottom: `3px solid ${theme.palette.border.dark}`,
-  transition: theme.transitions.create(["borderColor"], {
+  borderBottom: `3px solid ${theme.palette.border.main}`,
+  transition: theme.transitions.create(["border-color", "background-color"], {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,
-    delay: 500,
   }),
 }));
 
@@ -92,7 +98,8 @@ const CardContent = styled(Stack)(({ theme }) => ({
   height: "100%",
   padding: theme.spacing(2, 4),
   justifyContent: "space-between",
-  backgroundColor: theme.palette.surface.dark,
+  backgroundColor: theme.palette.surfaceContainerGlass.main,
+  backdropFilter: "blur(12px)",
   transition: theme.transitions.create(["opacity", "visibility"], {
     duration: theme.transitions.duration.standard,
     easing: theme.transitions.easing.easeInOut,
@@ -111,22 +118,32 @@ const CardFooter = styled(Stack)({
 });
 
 const CardLinkButton = styled(Button)<CardButtonProps>(({ theme }) => ({
-  border: `1px solid ${alpha(theme.palette.primary.dark, 0.05)}`,
+  border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
   color: theme.palette.text.secondary,
-  transition: theme.transitions.create(["color", "borderColor"], {
-    duration: theme.transitions.duration.standard,
-    easing: theme.transitions.easing.easeInOut,
-  }),
+  backgroundColor: theme.palette.surfaceContainerLow.main,
+  transition: theme.transitions.create(
+    ["color", "border-color", "background-color"],
+    {
+      duration: theme.transitions.duration.standard,
+      easing: theme.transitions.easing.easeInOut,
+    }
+  ),
   "&:hover": {
     color: theme.palette.primary.main,
-    borderColor: alpha(theme.palette.primary.dark, 0.2),
+    borderColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.state.hover,
     "& .MuiSvgIcon-root": {
       color: theme.palette.primary.main,
     },
   },
+  "&:focus-visible": {
+    backgroundColor: theme.palette.primary.state.focusVisible,
+    borderColor: theme.palette.primary.main,
+  },
   "& .MuiSvgIcon-root": {
     fontSize: "1.1rem",
-    transition: theme.transitions.create(["color", "borderColor"], {
+    color: theme.palette.text.secondary,
+    transition: theme.transitions.create(["color"], {
       duration: theme.transitions.duration.standard,
       easing: theme.transitions.easing.easeInOut,
     }),
