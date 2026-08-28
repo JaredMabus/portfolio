@@ -41,6 +41,7 @@ yarn install
 - `yarn build` – Type-check and generate an optimized production build.
 - `yarn preview` – Preview the production build locally.
 - `yarn test` – Run unit tests with Vitest and Testing Library.
+- `yarn deploy` – Build the project and deploy it directly to GitHub Pages (`jaredmabusth.me`).
 
 ---
 
