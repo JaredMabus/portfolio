@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { useTheme } from "@mui/material/styles";
+import { useTheme, alpha } from "@mui/material/styles";
 
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import MainLayout from "@/components/layouts/MainLayout";
@@ -49,12 +49,12 @@ export default function Home() {
               "&::before": {
                 content: '""',
                 position: "absolute",
-                inset: { xs: "-16px -20px", sm: "-24px -32px" },
-                background: `radial-gradient(ellipse at 40% 50%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}cc 65%, transparent 100%)`,
-                filter: "blur(20px)",
+                inset: { xs: "-32px -36px", sm: "-48px -64px", md: "-60px -80px" },
+                background: `radial-gradient(ellipse at 40% 50%, ${theme.palette.background.default} 0%, ${alpha(theme.palette.background.default, 0.88)} 25%, ${alpha(theme.palette.background.default, 0.55)} 55%, ${alpha(theme.palette.background.default, 0.2)} 80%, transparent 100%)`,
+                filter: "blur(36px)",
                 zIndex: 0,
                 pointerEvents: "none",
-                borderRadius: "28px",
+                borderRadius: "40px",
               },
               "& > *": {
                 position: "relative",
@@ -171,11 +171,11 @@ export default function Home() {
               content: '""',
               position: "absolute",
               inset: { xs: "-16px -12px", sm: "-24px -24px" },
-              background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 35%, ${theme.palette.background.default}cc 65%, transparent 100%)`,
-              filter: "blur(20px)",
+              background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 0%, ${alpha(theme.palette.background.default, 0.88)} 25%, ${alpha(theme.palette.background.default, 0.55)} 55%, ${alpha(theme.palette.background.default, 0.2)} 80%, transparent 100%)`,
+              filter: "blur(32px)",
               zIndex: 0,
               pointerEvents: "none",
-              borderRadius: "28px",
+              borderRadius: "32px",
             },
             "& > *": {
               position: "relative",

@@ -8,9 +8,9 @@ export default function BackgroundGrid() {
 
   const waveStroke = isDark
     ? "rgba(255, 255, 255, 0.04)"
-    : "rgba(0, 0, 0, 0.04)";
+    : "rgba(0, 0, 0, 0.085)";
 
-  const accentStroke = alpha(theme.palette.primary.main, isDark ? 0.22 : 0.2);
+  const accentStroke = alpha(theme.palette.primary.main, isDark ? 0.22 : 0.35);
 
   const organicFill1 = alpha(theme.palette.primary.main, isDark ? 0.04 : 0.05);
   const nestedFill1 = alpha(theme.palette.primary.main, isDark ? 0.065 : 0.05);
