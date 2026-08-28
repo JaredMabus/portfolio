@@ -4,7 +4,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { useTheme } from "@mui/material/styles";
 
 import useDocumentTitle from "@/utils/useDocumentTitle";
-import PageContainer from "@/components/PageContainer";
+import MainLayout from "@/components/layouts/MainLayout";
 import avatar from "@/assets/images/ProfilePic.svg";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
   useDocumentTitle("About Me");
 
   return (
-    <PageContainer>
+    <MainLayout>
       <Stack
           sx={{
             flexDirection: "row",
@@ -163,6 +163,6 @@ export default function Home() {
             </Typography>
           </Stack>
         </Stack>
-    </PageContainer>
+    </MainLayout>
   );
 }

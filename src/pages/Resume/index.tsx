@@ -1,14 +1,14 @@
 import { Stack } from "@mui/material";
 
-import PageContainer from "../../components/PageContainer";
+import MainLayout from "@/components/layouts/MainLayout";
 import ResumePage from "./ResumePage";
 
 export default function Resume() {
   return (
-    <PageContainer>
+    <MainLayout>
       <Stack sx={{ justifySelf: "center", height: "100%" }}>
         <ResumePage />
       </Stack>
-    </PageContainer>
+    </MainLayout>
   );
 }

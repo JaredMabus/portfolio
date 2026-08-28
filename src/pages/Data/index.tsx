@@ -14,7 +14,7 @@ import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 
-import PageContainer from "@/components/PageContainer";
+import MainLayout from "@/components/layouts/MainLayout";
 import {
   ChartContainer,
   AreaChart,
@@ -48,7 +48,7 @@ export default function DataPage() {
   const [activeChartType, setActiveChartType] = useState<"area" | "line">("area");
 
   return (
-    <PageContainer>
+    <MainLayout>
       <Box
         sx={{
           display: "flex",
@@ -603,6 +603,6 @@ export default function DataPage() {
           </Box>
         </Card>
       </Box>
-    </PageContainer>
+    </MainLayout>
   );
 }

@@ -1,4 +1,4 @@
-import PageContainer from "../../components/PageContainer";
+import MainLayout from "@/components/layouts/MainLayout";
 import ProjectGrid from "./components/ProjectGrid";
 import { projectData } from "./data/projectData";
 import { Box, Typography, Stack, Divider } from "@mui/material";
@@ -11,7 +11,7 @@ export default function Project() {
   useDocumentTitle("Projects");
 
   return (
-    <PageContainer>
+    <MainLayout>
       <Stack
         sx={{
           width: "100%",
@@ -39,6 +39,6 @@ export default function Project() {
       <Box sx={{ width: "100%", pb: 6 }}>
         <ProjectGrid data={projectData} />
       </Box>
-    </PageContainer>
+    </MainLayout>
   );
 }

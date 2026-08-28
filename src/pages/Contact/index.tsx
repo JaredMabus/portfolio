@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PageContainer from "../../components/PageContainer";
+import MainLayout from "@/components/layouts/MainLayout";
 import {
   Box,
   Button,
@@ -85,7 +85,7 @@ export default function Contact() {
 
   return (
     <>
-      <PageContainer>
+      <MainLayout>
         <Stack sx={{ justifySelf: "center" }}>
             <Stack
               sx={{
@@ -194,7 +194,7 @@ export default function Contact() {
             </Box>
           </animated.div>
         )}
-      </PageContainer>
+      </MainLayout>
     </>
   );
 }
