@@ -12,6 +12,7 @@ import { useTheme, alpha } from "@mui/material/styles";
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import MainLayout from "@/components/layouts/MainLayout";
 import ProfileAvatar from "@/components/ProfileAvatar";
+import { RadarChart } from "@/components/bklit";
 
 const PILLARS = [
   {
@@ -20,6 +21,7 @@ const PILLARS = [
     description:
       "Developing resilient client-server architectures with React, TypeScript, Node/Express, and modern REST APIs designed for scale.",
     tags: ["React 18", "TypeScript", "Node.js", "Express", "REST APIs"],
+    dimensions: ["Frontend Arch", "Backend APIs"],
   },
   {
     icon: BarChartOutlinedIcon,
@@ -27,6 +29,7 @@ const PILLARS = [
     description:
       "Transforming complex, multidimensional datasets into interactive dashboards, custom chart components, and actionable intelligence.",
     tags: ["Data Viz", "SQL", "Python", "ETL Pipelines", "BI Solutions"],
+    dimensions: ["Data & SQL", "Data Viz"],
   },
   {
     icon: DesignServicesOutlinedIcon,
@@ -34,18 +37,29 @@ const PILLARS = [
     description:
       "Crafting cohesive Material 3 design tokens, fluid micro-interactions, responsive layouts, and accessible component libraries.",
     tags: ["Material 3", "Responsive UI", "Micro-animations", "Figma"],
+    dimensions: ["Design Systems", "UI Motion"],
   },
+];
+
+const SPECIALTY_RADAR_DATA = [
+  { dimension: "Frontend Arch", score: 88, benchmark: 78 },
+  { dimension: "Backend APIs", score: 84, benchmark: 75 },
+  { dimension: "Data & SQL", score: 86, benchmark: 72 },
+  { dimension: "Data Viz", score: 89, benchmark: 70 },
+  { dimension: "Design Systems", score: 92, benchmark: 76 },
+  { dimension: "UI Motion", score: 80, benchmark: 74 },
 ];
 
 const HIGHLIGHTS = [
   { label: "3+ Years Experience", icon: AutoAwesomeOutlinedIcon },
   { label: "Full-Stack Web Dev Bootcamp", icon: SchoolOutlinedIcon },
-  { label: "React 18 & TypeScript 5", icon: CodeOutlinedIcon },
+  // { label: "React 18 & TypeScript 5", icon: CodeOutlinedIcon },
 ];
 
 export default function Home() {
   const theme = useTheme();
   useDocumentTitle("About Me");
+  const [hoveredSpecialty, setHoveredSpecialty] = React.useState<number | null>(null);
 
   return (
     <MainLayout animatePage={true} showBackground={true}>
@@ -211,18 +225,32 @@ export default function Home() {
             flexDirection: "column",
             alignItems: "center",
             width: "100%",
-            gap: { xs: 3, md: 4 },
+            gap: 2,
             position: "relative",
           }}
-        >
-          {/* Section Heading & Subheading */}
+          >
+          {/* Section Heading Outside Card */}
           <Stack
             alignItems="flex-start"
             spacing={1}
             sx={{
-              textAlign: "left",
               width: "100%",
               maxWidth: "920px",
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: "-16px -24px",
+                background: `radial-gradient(ellipse at 20% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 55%, ${alpha(theme.palette.background.default, 0.85)} 75%, ${alpha(theme.palette.background.default, 0.35)} 90%, transparent 100%)`,
+                filter: "blur(12px)",
+                zIndex: 0,
+                pointerEvents: "none",
+                borderRadius: "20px",
+              },
+              "& > *": {
+                position: "relative",
+                zIndex: 1,
+              },
             }}
           >
             <Box
@@ -239,44 +267,62 @@ export default function Home() {
                 borderRadius: "20px",
                 px: 1.5,
                 py: 0.5,
-                mb: 0.5,
               }}
             >
-              BACKGROUND & SPECIALTIES
+              BACKGROUND
             </Box>
+          </Stack>
+
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "920px",
+              display: "flex",
+              justifyContent: "flex-start",
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: "-16px -24px",
+                background: `radial-gradient(ellipse at 20% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 55%, ${alpha(
+                  theme.palette.background.default,
+                  0.85
+                )} 75%, ${alpha(theme.palette.background.default, 0.35)} 90%, transparent 100%)`,
+                filter: "blur(12px)",
+                zIndex: 0,
+                pointerEvents: "none",
+                borderRadius: "20px",
+              },
+              "& > *": {
+                position: "relative",
+                zIndex: 1,
+              },
+            }}
+          >
             <Typography
               variant="h3"
               sx={{
                 fontWeight: 800,
                 letterSpacing: "-0.025em",
-                fontSize: { xs: "1.85rem", sm: "2.35rem", md: "2.65rem" },
               }}
             >
               About me
             </Typography>
-            <Typography
-              variant="body1"
-              sx={{
-                color: theme.palette.text.secondary,
-                maxWidth: "640px",
-                fontSize: { xs: "0.95rem", sm: "1.05rem" },
-                lineHeight: 1.6,
-              }}
-            >
-              Blending creative frontend craft with rigorous data analytics to build fast, insightful, and human-centered applications.
-            </Typography>
-          </Stack>
+          </Box>
 
           {/* Highlights Badge Strip */}
           <Stack
             direction="row"
             flexWrap="wrap"
-            justifyContent="flex-start"
             gap={1.5}
             sx={{
               width: "100%",
               maxWidth: "920px",
-              mb: 1,
+              position: "relative",
+              "& > *": {
+                zIndex: 1,
+                position: "relative",
+              },
             }}
           >
             {HIGHLIGHTS.map((item, index) => {
@@ -291,7 +337,7 @@ export default function Home() {
                     px: 2,
                     py: 0.75,
                     borderRadius: "24px",
-                    backgroundColor: theme.palette.surfaceContainerLow.main,
+                    backgroundColor: theme.palette.surfaceContainerHigh.main,
                     border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
                     boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.04)}`,
                     transition: "all 0.25s ease",
@@ -344,6 +390,7 @@ export default function Home() {
             }}
           >
             <Stack spacing={2.5}>
+              {/* Story Paragraphs */}
               <Typography
                 variant="body1"
                 sx={{
@@ -375,6 +422,42 @@ export default function Home() {
             </Stack>
           </Box>
 
+          {/* Specialties Section Title */}
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "920px",
+              mt: { xs: 1.5, md: 2.5 },
+              display: "flex",
+              justifyContent: "flex-start",
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: "-16px -24px",
+                background: `radial-gradient(ellipse at 20% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 55%, ${alpha(theme.palette.background.default, 0.85)} 75%, ${alpha(theme.palette.background.default, 0.35)} 90%, transparent 100%)`,
+                filter: "blur(12px)",
+                zIndex: 0,
+                pointerEvents: "none",
+                borderRadius: "20px",
+              },
+              "& > *": {
+                position: "relative",
+                zIndex: 1,
+              },
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 800,
+                letterSpacing: "-0.025em",
+              }}
+            >
+              Specialties
+            </Typography>
+          </Box>
+
           {/* 3 Core Focus Pillars Grid */}
           <Box
             sx={{
@@ -388,9 +471,13 @@ export default function Home() {
           >
             {PILLARS.map((pillar, index) => {
               const IconComp = pillar.icon;
+              const isCardActive = hoveredSpecialty === index;
               return (
                 <Box
                   key={index}
+                  onMouseEnter={() => setHoveredSpecialty(index)}
+                  onMouseLeave={() => setHoveredSpecialty(null)}
+                  onClick={() => setHoveredSpecialty((prev) => (prev === index ? null : index))}
                   sx={{
                     height: "100%",
                     p: 3,
@@ -398,7 +485,16 @@ export default function Home() {
                     flexDirection: "column",
                     borderRadius: "20px",
                     backgroundColor: theme.palette.surfaceContainerLow.main,
-                    border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
+                    border: `1px solid ${
+                      isCardActive
+                        ? theme.palette.primary.main
+                        : theme.palette.outline.state.outlinedBorder
+                    }`,
+                    boxShadow: isCardActive
+                      ? `0 12px 28px ${alpha(theme.palette.primary.main, 0.16)}`
+                      : "none",
+                    transform: isCardActive ? "translateY(-4px)" : "none",
+                    cursor: "pointer",
                     transition: theme.transitions.create(
                       ["transform", "box-shadow", "border-color"],
                       {
@@ -409,7 +505,7 @@ export default function Home() {
                     "&:hover": {
                       transform: "translateY(-4px)",
                       borderColor: theme.palette.primary.main,
-                      boxShadow: `0 12px 28px ${alpha(theme.palette.primary.main, 0.12)}`,
+                      boxShadow: `0 12px 28px ${alpha(theme.palette.primary.main, 0.16)}`,
                     },
                   }}
                 >
@@ -422,9 +518,10 @@ export default function Home() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      backgroundColor: alpha(theme.palette.primary.main, 0.12),
+                      backgroundColor: alpha(theme.palette.primary.main, isCardActive ? 0.2 : 0.12),
                       color: theme.palette.primary.main,
                       mb: 2,
+                      transition: "background-color 0.2s ease",
                     }}
                   >
                     <IconComp sx={{ fontSize: 24 }} />
@@ -438,6 +535,8 @@ export default function Home() {
                       fontSize: "1.15rem",
                       letterSpacing: "-0.01em",
                       mb: 1,
+                      color: isCardActive ? theme.palette.primary.main : theme.palette.text.primary,
+                      transition: "color 0.2s ease",
                     }}
                   >
                     {pillar.title}
@@ -480,6 +579,108 @@ export default function Home() {
                 </Box>
               );
             })}
+          </Box>
+
+          {/* Specialty Radar Chart Card */}
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "920px",
+              p: { xs: 2.5, sm: 3.5, md: 4 },
+              borderRadius: "24px",
+              backgroundColor: theme.palette.surfaceContainerLow.main,
+              border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
+              boxShadow: `0 4px 20px ${alpha(theme.palette.common.black, 0.04)}`,
+              position: "relative",
+              overflow: "hidden",
+              mt: 1,
+            }}
+          >
+            {/* Header & Legend */}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              justifyContent="space-between"
+              gap={1.5}
+              sx={{ mb: 2 }}
+            >
+              <Box>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: { xs: "1.1rem", md: "1.2rem" },
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  Skill Distribution Radar
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: theme.palette.text.secondary,
+                    fontSize: "0.85rem",
+                  }}
+                >
+                  Proficiency across Full-Stack, Data Analytics, and UI/UX disciplines vs senior benchmark
+                </Typography>
+              </Box>
+
+              {/* Legend Strip */}
+              <Stack direction="row" alignItems="center" gap={2} sx={{ flexShrink: 0 }}>
+                <Stack direction="row" alignItems="center" gap={0.75}>
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.primary.main,
+                    }}
+                  />
+                  <Typography variant="caption" sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
+                    My Proficiency
+                  </Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" gap={0.75}>
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      backgroundColor: theme.palette.mode === "dark" ? "#605D62" : "#AEAAAF",
+                    }}
+                  />
+                  <Typography variant="caption" sx={{ fontWeight: 500, color: theme.palette.text.secondary }}>
+                    Senior Benchmark
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Stack>
+
+            {/* Radar Chart Component */}
+            <Box sx={{ width: "100%", height: { xs: 290, sm: 330, md: 350 }, position: "relative" }}>
+              <RadarChart
+                data={SPECIALTY_RADAR_DATA}
+                series={[
+                  {
+                    dataKey: "score",
+                    label: "My Proficiency",
+                    color: theme.palette.primary.main,
+                  },
+                  {
+                    dataKey: "benchmark",
+                    label: "Senior Benchmark",
+                    color: theme.palette.mode === "dark" ? "#605D62" : "#AEAAAF",
+                  },
+                ]}
+                dimensionKey="dimension"
+                levels={4}
+                height="100%"
+                highlightedDimensions={
+                  hoveredSpecialty !== null ? PILLARS[hoveredSpecialty].dimensions : []
+                }
+              />
+            </Box>
           </Box>
         </Stack>
       </Box>

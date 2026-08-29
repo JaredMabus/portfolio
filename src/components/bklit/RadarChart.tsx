@@ -11,6 +11,7 @@ export interface RadarChartProps {
   levels?: number;
   height?: number | string;
   maxValue?: number;
+  highlightedDimensions?: string[];
 }
 
 export const RadarChart: React.FC<RadarChartProps> = ({
@@ -20,6 +21,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   levels = 4,
   height = "100%",
   maxValue: propMax,
+  highlightedDimensions = [],
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
@@ -47,6 +49,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   const centerY = dimensions.height / 2;
   const isNarrow = dimensions.width < 420;
   const radius = Math.min(centerX, centerY) * (isNarrow ? 0.54 : 0.68);
+  const hasHighlights = highlightedDimensions.length > 0;
 
   // Max value
   const maxValue = useMemo(() => {
@@ -157,6 +160,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               stroke="var(--chart-grid, rgba(255, 255, 255, 0.08))"
               strokeWidth={1}
               strokeDasharray={i === levels - 1 ? undefined : "3 3"}
+              style={{
+                opacity: hasHighlights ? 0.4 : 1,
+                transition: "opacity 0.25s ease",
+              }}
             />
           ))}
         </g>
@@ -171,6 +178,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
             const labelY = centerY + (radius + 18) * Math.sin(angle);
             const metric = String(d[dimensionKey]);
             const isHovered = hoverMetric === metric;
+            const isHighlighted = highlightedDimensions.includes(metric);
 
             return (
               <g key={i}>
@@ -179,8 +187,16 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   y1={centerY}
                   x2={x}
                   y2={y}
-                  stroke="var(--chart-grid, rgba(255, 255, 255, 0.08))"
-                  strokeWidth={1}
+                  stroke={
+                    isHighlighted
+                      ? theme.palette.primary.main
+                      : "var(--chart-grid, rgba(255, 255, 255, 0.08))"
+                  }
+                  strokeWidth={isHighlighted ? 2.5 : 1}
+                  style={{
+                    opacity: hasHighlights ? (isHighlighted ? 1 : 0.25) : 1,
+                    transition: "all 0.25s ease",
+                  }}
                 />
                 <text
                   x={labelX}
@@ -193,12 +209,12 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                       : "end"
                   }
                   fill={
-                    isHovered
+                    isHighlighted || isHovered
                       ? theme.palette.primary.main
                       : theme.palette.text.secondary
                   }
                   fontSize={isNarrow ? "9.5" : "11"}
-                  fontWeight={isHovered ? 700 : 500}
+                  fontWeight={isHighlighted || isHovered ? 800 : 500}
                   fontFamily="inherit"
                   cursor="pointer"
                   onMouseEnter={(e) => {
@@ -209,7 +225,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                     }
                   }}
                   onMouseLeave={() => setHoverMetric(null)}
-                  style={{ transition: "all 0.2s ease" }}
+                  style={{
+                    opacity: hasHighlights ? (isHighlighted ? 1 : 0.35) : 1,
+                    transition: "all 0.25s ease",
+                  }}
                 >
                   {metric}
                 </text>
@@ -236,22 +255,27 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               />
               {s.pointCoords.map((pt, pIdx) => {
                 const isHovered = hoverMetric === pt.metric;
+                const isPtHighlighted = highlightedDimensions.includes(pt.metric);
                 return (
                   <circle
                     key={pIdx}
                     cx={pt.x}
                     cy={pt.y}
-                    r={isHovered ? 6 : 3.5}
-                    fill={s.color}
-                    stroke={theme.palette.background.default}
-                    strokeWidth={1.5}
+                    r={isPtHighlighted ? 7.5 : isHovered ? 6 : 3.5}
+                    fill={isPtHighlighted ? theme.palette.primary.main : s.color}
+                    stroke={isPtHighlighted ? "#FFFFFF" : theme.palette.background.default}
+                    strokeWidth={isPtHighlighted ? 2.5 : 1.5}
                     cursor="pointer"
                     onMouseEnter={() => {
                       setHoverMetric(pt.metric);
                       setMousePos({ x: pt.x, y: pt.y });
                     }}
                     onMouseLeave={() => setHoverMetric(null)}
-                    style={{ transition: "all 0.2s ease" }}
+                    style={{
+                      opacity: hasHighlights ? (isPtHighlighted ? 1 : 0.3) : 1,
+                      filter: isPtHighlighted ? `drop-shadow(0 0 8px ${theme.palette.primary.main})` : undefined,
+                      transition: "all 0.25s ease",
+                    }}
                   />
                 );
               })}
