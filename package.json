@@ -9,6 +9,8 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:network": "sh .local/network-dev/dev-network.sh",
+    "dev:network:stop": "docker compose -f .local/network-dev/compose.yaml down",
     "build": "node scripts/sync-favicons.js && tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest",
