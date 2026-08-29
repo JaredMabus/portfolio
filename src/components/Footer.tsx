@@ -43,7 +43,7 @@ export default function Footer() {
         </Typography>
 
         {/* Right: Minimal Social Actions */}
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1.5} alignItems="center">
           <Tooltip title="GitHub" arrow>
             <IconButton
               component={Link}
@@ -52,8 +52,8 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
               sx={{
-                width: 36,
-                height: 36,
+                width: { xs: 44, sm: 36 },
+                height: { xs: 44, sm: 36 },
                 borderRadius: "10px",
                 color: theme.palette.text.secondary,
                 border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
@@ -73,9 +73,12 @@ export default function Footer() {
                 "&:focus-visible": {
                   outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
                 },
+                "& .MuiSvgIcon-root": {
+                  fontSize: { xs: 22, sm: 18 },
+                },
               }}
             >
-              <GitHubIcon sx={{ fontSize: 18 }} />
+              <GitHubIcon />
             </IconButton>
           </Tooltip>
 
@@ -87,8 +90,8 @@ export default function Footer() {
               rel="noopener noreferrer"
               aria-label="LinkedIn Profile"
               sx={{
-                width: 36,
-                height: 36,
+                width: { xs: 44, sm: 36 },
+                height: { xs: 44, sm: 36 },
                 borderRadius: "10px",
                 color: theme.palette.text.secondary,
                 border: `1px solid ${theme.palette.outline.state.outlinedBorder}`,
@@ -108,9 +111,12 @@ export default function Footer() {
                 "&:focus-visible": {
                   outline: `2px solid ${theme.palette.primary.state.focusVisible}`,
                 },
+                "& .MuiSvgIcon-root": {
+                  fontSize: { xs: 22, sm: 18 },
+                },
               }}
             >
-              <LinkedInIcon sx={{ fontSize: 18 }} />
+              <LinkedInIcon />
             </IconButton>
           </Tooltip>
         </Stack>

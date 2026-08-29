@@ -16,7 +16,7 @@ export default function ProfileAvatar({ sx }: ProfileAvatarProps) {
         position: "relative",
         lineHeight: 0,
         width: "100%",
-        maxWidth: { xs: "360px", sm: "400px", md: "440px" },
+        maxWidth: { xs: "280px", sm: "340px", md: "440px" },
         ...sx,
       }}
     >

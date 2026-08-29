@@ -112,8 +112,8 @@ export default function Header() {
     };
 
   const SocialIconButtonStyles = {
-    height: 36,
-    width: 36,
+    height: { xs: 42, sm: 36 },
+    width: { xs: 42, sm: 36 },
     borderRadius: "10px",
     border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
     backgroundColor: theme.palette.surfaceContainerLow.main,
@@ -132,7 +132,7 @@ export default function Header() {
     },
 
     "& .MuiSvgIcon-root": {
-      fontSize: "18px",
+      fontSize: { xs: "20px", sm: "18px" },
       color: theme.palette.text.secondary,
       transition: theme.transitions.create("color"),
     },

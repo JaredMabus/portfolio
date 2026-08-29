@@ -160,7 +160,7 @@ export default function Home() {
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
-              maxWidth: { xs: "360px", sm: "400px", md: "440px" },
+              maxWidth: { xs: "280px", sm: "340px", md: "440px" },
               flexShrink: 0,
             }}
           >

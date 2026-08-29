@@ -170,8 +170,8 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
         sx={{
           display: { xs: "flex", sm: "none" },
           mx: 0.25,
-          height: 36,
-          width: 36,
+          height: 42,
+          width: 42,
           borderRadius: "10px",
           boxSizing: "border-box",
           border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
@@ -190,7 +190,7 @@ export default function SideNav({ navData, open, toggleDrawer }: Props) {
           },
 
           "& .MuiSvgIcon-root": {
-            fontSize: "18px",
+            fontSize: "22px",
             color: theme.palette.text.secondary,
             transition: theme.transitions.create("color"),
           },
