@@ -584,7 +584,7 @@ export default function Home() {
                   {isCardSelected && (
                     <Button
                       size="small"
-                      variant="outlined"
+                      variant="text"
                       aria-label={`Clear ${pillar.title} filter`}
                       onClick={() => activateSpecialty(index)}
                       sx={{
@@ -593,19 +593,19 @@ export default function Home() {
                         right: 12,
                         zIndex: 2,
                         minWidth: 0,
-                        minHeight: 32,
-                        px: 1.25,
-                        borderRadius: "9px",
-                        borderColor: specialtyColor,
-                        backgroundColor: alpha(specialtyColor, 0.14),
-                        color: specialtyColor,
-                        fontSize: "0.75rem",
-                        fontWeight: 750,
+                        minHeight: 28,
+                        px: 1,
+                        borderRadius: "8px",
+                        backgroundColor: "transparent",
+                        color: theme.palette.text.secondary,
+                        fontSize: "0.7rem",
+                        fontWeight: 650,
                         lineHeight: 1,
                         textTransform: "none",
                         "&:hover": {
-                          borderColor: specialtyColor,
-                          backgroundColor: alpha(specialtyColor, 0.22),
+                          backgroundColor:
+                            theme.palette.surfaceContainerHigh.main,
+                          color: theme.palette.text.primary,
                         },
                       }}
                     >
