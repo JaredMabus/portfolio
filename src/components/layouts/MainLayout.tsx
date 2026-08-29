@@ -54,8 +54,10 @@ export default function MainLayout({
         display: "flex",
         flexDirection: "column",
         width: "100%",
+        maxWidth: "100vw",
         minHeight: "100dvh",
         position: "relative",
+        overflowX: "hidden",
       }}
     >
       {showBackground && <BackgroundGrid />}

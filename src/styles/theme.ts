@@ -606,17 +606,19 @@ export const GlobalStyle = {
     WebkitFontSmoothing: "antialiased",
     WebkitTextSizeAdjust: "100%",
     MozOsxFontSmoothing: "grayscale",
-    scrollbarGutter: "stable",
+    width: "100%",
+    overflowX: "hidden",
+    overscrollBehaviorX: "none",
   },
   body: {
-    height: "100%",
     minHeight: "100dvh",
     width: "100%",
     overflowX: "hidden",
     overflowY: "auto",
-    scrollbarGutter: "stable",
+    overscrollBehaviorX: "none",
+    touchAction: "pan-y",
   },
-  "#root": { height: "100%", width: "100%" },
+  "#root": { height: "100%", width: "100%", overflowX: "hidden" },
   "input, textarea, select": {
     fontSize: "1rem",
   },
@@ -949,9 +951,15 @@ let theme = createTheme({
         root: ({ theme }: { theme: Theme }) => ({
           borderRadius: 24,
           whiteSpace: "nowrap",
-          padding: theme.spacing(1, 2),
-          // height: 40,
+          padding: theme.spacing(1, 2.5),
+          fontSize: "0.875rem",
+          fontWeight: 600,
           width: "auto",
+          [theme.breakpoints.down("sm")]: {
+            fontSize: "1rem",
+            padding: theme.spacing(1.25, 3),
+            minHeight: 48,
+          },
 
           "& .MuiButton-icon > *:nth-of-type(1)": {
             fontSize: "1em",
@@ -959,7 +967,6 @@ let theme = createTheme({
 
           "& > :not(.MuiTouchRipple-root), & .MuiButton-icon, & .MuiButton-loadingIndicator, & .MuiLoadingButton-loadingIndicator, & .MuiSvgIcon-root, & .material-symbol":
           {
-            // position: "relative",
             zIndex: 1,
           },
 
@@ -982,6 +989,33 @@ let theme = createTheme({
           // Disabled state
           "&.Mui-disabled": {
             color: theme.palette.text.disabled,
+          },
+        }),
+        sizeSmall: ({ theme }: { theme: Theme }) => ({
+          padding: theme.spacing(0.5, 1.5),
+          fontSize: "0.8rem",
+          [theme.breakpoints.down("sm")]: {
+            padding: theme.spacing(0.75, 2),
+            fontSize: "0.875rem",
+            minHeight: 38,
+          },
+        }),
+        sizeMedium: ({ theme }: { theme: Theme }) => ({
+          padding: theme.spacing(1, 2.5),
+          fontSize: "0.875rem",
+          [theme.breakpoints.down("sm")]: {
+            padding: theme.spacing(1.25, 3),
+            fontSize: "1rem",
+            minHeight: 48,
+          },
+        }),
+        sizeLarge: ({ theme }: { theme: Theme }) => ({
+          padding: theme.spacing(1.5, 3.5),
+          fontSize: "1rem",
+          [theme.breakpoints.down("sm")]: {
+            padding: theme.spacing(1.75, 4),
+            fontSize: "1.1rem",
+            minHeight: 54,
           },
         }),
         contained: ({ theme }: { theme: Theme }) => ({
