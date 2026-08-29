@@ -390,7 +390,11 @@ export default function Home() {
                   },
                 }}
               >
-                I'm a <strong>full-stack developer and data analyst</strong> who enjoys turning data and ideas into meaningful applications. My passion began in college, during countless caffeine-fueled research projects, where I discovered how code could manage, analyze, and tell stories with data.
+                I'm a <strong>full-stack developer and data analyst</strong> who
+                likes turning complex information into useful products. I
+                started with data during college research projects, using code
+                to organize messy information, test assumptions, and explain
+                what the results actually meant.
               </Typography>
               <Typography
                 variant="body1"
@@ -404,7 +408,13 @@ export default function Home() {
                   },
                 }}
               >
-                Over time, my passion for <strong>data analytics and web development</strong> merged into a single craft. I enjoy the creative freedom of frontend design, blending visual storytelling with interface design, while maintaining well-structured data models and robust API endpoints.
+                That work grew into web development. Today, I work across{" "}
+                <strong>
+                  data models, APIs, frontend architecture, and interface design
+                </strong>{" "}
+                based on what the product needs. I care about how data moves
+                through a system, how people use it, and whether the
+                implementation will hold up beyond the first demo.
               </Typography>
             </Stack>
           </Box>
@@ -531,8 +541,8 @@ export default function Home() {
                     borderRadius: "20px",
                     backgroundColor: theme.palette.surfaceContainerLow.main,
                     border: `1px solid ${isCardSelected
-                        ? specialtyColor
-                        : theme.palette.outline.state.outlinedBorder
+                      ? specialtyColor
+                      : theme.palette.outline.state.outlinedBorder
                       }`,
                     boxShadow: isCardSelected
                       ? `0 12px 28px ${alpha(specialtyColor, 0.16)}`
