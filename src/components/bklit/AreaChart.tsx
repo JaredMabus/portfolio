@@ -299,10 +299,10 @@ export const AreaChart: React.FC<AreaChartProps> = ({
                 y1={0}
                 x2={getX(hoverIndex)}
                 y2={innerHeight}
-                stroke={theme.palette.primary.main}
-                strokeWidth={1.5}
-                strokeDasharray="3 3"
-                opacity={0.7}
+                stroke={theme.palette.text.secondary}
+                strokeWidth={1}
+                strokeDasharray="4 4"
+                opacity={0.45}
               />
               {series.map((s, idx) => {
                 const val = activeDataPoint?.[s.dataKey];

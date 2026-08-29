@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, Card, Typography, Chip, useTheme } from "@mui/material";
+import { Box, Card, Typography, Chip, useTheme, alpha } from "@mui/material";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import TrendingDownOutlinedIcon from "@mui/icons-material/TrendingDownOutlined";
 
 export interface MetricCardProps {
-  label: string;
+  label?: string;
+  title?: string;
   value: string | number;
   delta?: {
     value: string | number;
@@ -18,6 +19,7 @@ export interface MetricCardProps {
 
 export const MetricCard: React.FC<MetricCardProps> = ({
   label,
+  title,
   value,
   delta,
   sparklineData = [12, 18, 14, 22, 28, 24, 32, 38],
@@ -26,7 +28,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
-  const primaryColor = color || theme.palette.primary.main;
+  const displayTitle = title || label || "Metric";
+  const sparklineColor =
+    color || (isDark ? theme.palette.text.primary : theme.palette.neutral.n20);
 
   // Generate SVG sparkline path
   const minVal = Math.min(...sparklineData);
@@ -57,7 +61,34 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   }
 
   const areaPath = `${linePath} L ${w},${h} L 0,${h} Z`;
-  const gradId = `sparkline-grad-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  const gradId = `sparkline-grad-${displayTitle.replace(/\s+/g, "-").toLowerCase()}`;
+
+  // Semantic trend styling based on theme.palette.success & theme.palette.error
+  const getTrendStyle = (trend: "up" | "down" | "neutral") => {
+    if (trend === "up") {
+      const successColor = theme.palette.success.main;
+      return {
+        bg: alpha(successColor, isDark ? 0.16 : 0.12),
+        border: alpha(successColor, 0.28),
+        color: successColor,
+      };
+    }
+    if (trend === "down") {
+      const errorColor = theme.palette.error.main;
+      return {
+        bg: alpha(errorColor, isDark ? 0.16 : 0.12),
+        border: alpha(errorColor, 0.28),
+        color: errorColor,
+      };
+    }
+    return {
+      bg: theme.palette.surfaceContainerHigh.main,
+      border: theme.palette.border.state.outlinedBorder,
+      color: theme.palette.text.secondary,
+    };
+  };
+
+  const trendStyle = delta ? getTrendStyle(delta.trend) : null;
 
   return (
     <Card
@@ -79,11 +110,11 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         gap: 1.5,
         transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
         "&:hover": {
-          borderColor: theme.palette.primary.state.outlinedBorder,
+          borderColor: theme.palette.outline.main,
           transform: "translateY(-2px)",
           boxShadow:
             theme.palette.mode === "light"
-              ? "0 12px 28px -8px rgba(106, 186, 148, 0.18), 0 4px 12px rgba(0, 0, 0, 0.04)"
+              ? "0 12px 28px -8px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03)"
               : "0 14px 32px -8px rgba(0, 0, 0, 0.45)",
         },
       }}
@@ -100,7 +131,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
               fontSize: "0.72rem",
             }}
           >
-            {label}
+            {displayTitle}
           </Typography>
           <Typography
             variant="h5"
@@ -120,8 +151,9 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             sx={{
               p: 1,
               borderRadius: "10px",
-              backgroundColor: theme.palette.primaryContainer.main,
-              color: theme.palette.primaryContainer.contrastText,
+              backgroundColor: theme.palette.surfaceContainerHigh.main,
+              color: theme.palette.text.secondary,
+              border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -140,7 +172,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           mt: 0.5,
         }}
       >
-        {delta && (
+        {delta && trendStyle && (
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <Chip
               size="small"
@@ -156,21 +188,12 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                 height: 24,
                 fontSize: "0.72rem",
                 fontWeight: 700,
-                backgroundColor:
-                  delta.trend === "up"
-                    ? isDark
-                      ? "rgba(106, 186, 148, 0.2)"
-                      : "rgba(106, 186, 148, 0.15)"
-                    : isDark
-                    ? "rgba(244, 67, 54, 0.2)"
-                    : "rgba(244, 67, 54, 0.15)",
-                color:
-                  delta.trend === "up"
-                    ? theme.palette.primary.main
-                    : theme.palette.error.main,
+                backgroundColor: trendStyle.bg,
+                border: `1px solid ${trendStyle.border}`,
+                color: trendStyle.color,
                 borderRadius: "8px",
                 "& .MuiChip-icon": {
-                  color: "inherit",
+                  color: trendStyle.color,
                 },
               }}
             />
@@ -193,15 +216,15 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           <svg width="100%" height="100%" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none">
             <defs>
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={primaryColor} stopOpacity={0.4} />
-                <stop offset="100%" stopColor={primaryColor} stopOpacity={0} />
+                <stop offset="0%" stopColor={sparklineColor} stopOpacity={0.25} />
+                <stop offset="100%" stopColor={sparklineColor} stopOpacity={0} />
               </linearGradient>
             </defs>
             <path d={areaPath} fill={`url(#${gradId})`} />
             <path
               d={linePath}
               fill="none"
-              stroke={primaryColor}
+              stroke={sparklineColor}
               strokeWidth={2}
               strokeLinecap="round"
             />

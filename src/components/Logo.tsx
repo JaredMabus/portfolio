@@ -91,7 +91,11 @@ export default function Logo({ size = 32, sx, ...props }: LogoProps) {
         >
           <path
             d="M13.5 3.5V12.8C13.5 14.5 12.8 15.7 11.6 16.4C10.4 17.1 8.7 17.1 7.2 16.6V13.8C8.1 14.1 8.9 14.2 9.5 14.1C10.3 14.0 10.7 13.5 10.7 12.6V3.5H13.5Z"
-            fill={theme.palette.primary.contrastText || "#FFFFFF"}
+            fill={
+              theme.palette.mode === "light"
+                ? theme.palette.background.default
+                : theme.palette.primary.contrastText || "#FFFFFF"
+            }
           />
         </svg>
       </div>

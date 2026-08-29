@@ -10,6 +10,7 @@ import {
 } from "@mui/material/styles";
 import { common, grey } from "@mui/material/colors";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import { generateBklitChartPalette } from "@/components/bklit/theme";
 
 // Neutral used for surfaces/backgrounds/text
 export const neutral = {
@@ -124,7 +125,8 @@ type ThemeColorScheme = {
 } & Record<FixedColorKeys, string>;
 
 export const themeColorSeed = {
-  primary: "#6ABA94",
+  // primary: "#6ABA94",
+  primary: "#d24f23ff",
   secondary: "#FFC107",
   tertiary: "#795548",
   error: "#F44336",
@@ -132,8 +134,8 @@ export const themeColorSeed = {
     // source: "primary" uses the brand hue, "neutral" uses neutralColor, and
     // "none" disables chroma in the surface ramp.
     source: "primary" as SurfaceTintSource,
-    // Multiplier over the M3-style surface tint ramp. Use 0 to turn tint off.
-    amount: 1,
+    // SET TINT: Multiplier over the M3-style surface tint ramp. Use 0 to turn tint off.
+    amount: 0,
     neutralColor: neutralVariant.nv50,
   },
 };
@@ -300,8 +302,74 @@ function readableOnColor(color: string) {
     : common.black;
 }
 
+function hexToHsl(hex: string): { h: number; s: number; l: number } {
+  const { r: r255, g: g255, b: b255 } = hexToRgb(hex);
+  const r = r255 / 255;
+  const g = g255 / 255;
+  const b = b255 / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+
+  return {
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    l: Math.round(l * 100),
+  };
+}
+
+function hslToHex(h: number, s: number, l: number): string {
+  const normH = ((h % 360) + 360) % 360;
+  const normS = Math.max(0, Math.min(100, s)) / 100;
+  const normL = Math.max(0, Math.min(100, l)) / 100;
+  const a = normS * Math.min(normL, 1 - normL);
+  const f = (n: number) => {
+    const k = (n + normH / 30) % 12;
+    const color = normL - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+    return Math.round(255 * color)
+      .toString(16)
+      .padStart(2, "0");
+  };
+  return `#${f(0)}${f(8)}${f(4)}`.toUpperCase();
+}
+
+/**
+ * Brightens a color for dark mode while strictly preserving the exact Hue angle
+ * and maintaining color vibrancy (avoids the chalky/desaturated shift of RGB lighten).
+ */
+function brightenPreserveHue(
+  hex: string,
+  lightnessIncrease = 0.16
+): string {
+  const { h, s, l } = hexToHsl(hex);
+  const targetL = Math.min(88, Math.max(10, l + lightnessIncrease * 100));
+  // 100% exact Hue (h) and 100% exact Saturation (s) from the seed color
+  return hslToHex(h, s, targetL);
+}
+
 function modeColorMain(seed: string, mode: ThemeMode) {
-  return mode === "light" ? seed : lighten(seed, 0.35);
+  // Preserves 100% of the seed's original Hue and Saturation
+  return mode === "light" ? seed : brightenPreserveHue(seed, 0.16);
 }
 
 function createColorRole(main: string, mode: ThemeMode): ColorRole {
@@ -890,10 +958,10 @@ let theme = createTheme({
           },
 
           "& > :not(.MuiTouchRipple-root), & .MuiButton-icon, & .MuiButton-loadingIndicator, & .MuiLoadingButton-loadingIndicator, & .MuiSvgIcon-root, & .material-symbol":
-            {
-              // position: "relative",
-              zIndex: 1,
-            },
+          {
+            // position: "relative",
+            zIndex: 1,
+          },
 
           "& .MuiTouchRipple-root": {
             zIndex: 0,
@@ -908,9 +976,9 @@ let theme = createTheme({
             },
           },
           "& .MuiButton-loadingIndicator, & .MuiLoadingButton-loadingIndicator":
-            {
-              color: theme.palette.text.disabled,
-            },
+          {
+            color: theme.palette.text.disabled,
+          },
           // Disabled state
           "&.Mui-disabled": {
             color: theme.palette.text.disabled,
@@ -918,8 +986,19 @@ let theme = createTheme({
         }),
         contained: ({ theme }: { theme: Theme }) => ({
           boxShadow: "none",
+          color: theme.palette.surface.main,
+          "& .MuiSvgIcon-root, & .material-symbol": {
+            color: "inherit",
+          },
           "&:hover": {
             boxShadow: "none",
+          },
+        }),
+        containedPrimary: ({ theme }: { theme: Theme }) => ({
+          color: theme.palette.surface.main,
+          backgroundColor: theme.palette.primary.main,
+          "&:hover": {
+            backgroundColor: theme.palette.primary.high,
           },
         }),
         outlined: ({ theme }: { theme: Theme }) => ({
@@ -1086,10 +1165,10 @@ let theme = createTheme({
             },
 
             "& .MuiListItemIcon-root, & .MuiListItemText-root, & .material-symbol":
-              {
-                position: "relative",
-                zIndex: 1,
-              },
+            {
+              position: "relative",
+              zIndex: 1,
+            },
 
             "& .MuiTouchRipple-root": {
               zIndex: 0,
@@ -1133,41 +1212,46 @@ let theme = createTheme({
   },
 });
 
+const dynamicChartPalette = generateBklitChartPalette(
+  lightThemeColors.surfaceContainer.main,
+  darkThemeColors.surfaceContainer.main,
+  themeColorSeed.primary
+);
 export const bklitTokens = {
   light: {
-    chart1: "#2E6B50",
-    chart2: "#428C6A",
-    chart3: "#6ABA94",
-    chart4: "#92D2B3",
-    chart5: "#BAE5D0",
-    scale01: "#E6F7F0",
-    scale02: "#BAE5D0",
-    scale03: "#92D2B3",
-    scale04: "#6ABA94",
-    scale05: "#428C6A",
-    linePrimary: "#6ABA94",
-    lineSecondary: "#92D2B3",
-    grid: "rgba(0, 0, 0, 0.07)",
+    chart1: dynamicChartPalette.light.series[0],
+    chart2: dynamicChartPalette.light.series[1],
+    chart3: dynamicChartPalette.light.series[2],
+    chart4: dynamicChartPalette.light.series[3],
+    chart5: dynamicChartPalette.light.series[4],
+    scale01: dynamicChartPalette.light.scale[0],
+    scale02: dynamicChartPalette.light.scale[1],
+    scale03: dynamicChartPalette.light.scale[2],
+    scale04: dynamicChartPalette.light.scale[3],
+    scale05: dynamicChartPalette.light.scale[4],
+    linePrimary: dynamicChartPalette.light.linePrimary,
+    lineSecondary: dynamicChartPalette.light.lineSecondary,
+    grid: dynamicChartPalette.light.grid,
     background: "transparent",
-    tooltipBg: "rgba(18, 28, 22, 0.95)",
+    tooltipBg: dynamicChartPalette.light.tooltipBg,
     tooltipText: "#ffffff",
   },
   dark: {
-    chart1: "#6ABA94",
-    chart2: "#58A580",
-    chart3: "#468F6C",
-    chart4: "#367758",
-    chart5: "#275F44",
-    scale01: "#123324",
-    scale02: "#1D4A35",
-    scale03: "#367758",
-    scale04: "#6ABA94",
-    scale05: "#8EE0B9",
-    linePrimary: "#6ABA94",
-    lineSecondary: "#428C6A",
-    grid: "rgba(255, 255, 255, 0.08)",
+    chart1: dynamicChartPalette.dark.series[0],
+    chart2: dynamicChartPalette.dark.series[1],
+    chart3: dynamicChartPalette.dark.series[2],
+    chart4: dynamicChartPalette.dark.series[3],
+    chart5: dynamicChartPalette.dark.series[4],
+    scale01: dynamicChartPalette.dark.scale[0],
+    scale02: dynamicChartPalette.dark.scale[1],
+    scale03: dynamicChartPalette.dark.scale[2],
+    scale04: dynamicChartPalette.dark.scale[3],
+    scale05: dynamicChartPalette.dark.scale[4],
+    linePrimary: dynamicChartPalette.dark.linePrimary,
+    lineSecondary: dynamicChartPalette.dark.lineSecondary,
+    grid: dynamicChartPalette.dark.grid,
     background: "transparent",
-    tooltipBg: "rgba(18, 28, 22, 0.95)",
+    tooltipBg: dynamicChartPalette.dark.tooltipBg,
     tooltipText: "#ffffff",
   },
 };
@@ -1614,22 +1698,22 @@ export let themeLight = createTheme(theme, {
     MuiCssBaseline: {
       styleOverrides: `
         :root, body {
-          --chart-1: #2E6B50;
-          --chart-2: #428C6A;
-          --chart-3: #6ABA94;
-          --chart-4: #92D2B3;
-          --chart-5: #BAE5D0;
-          --chart-scale-01: #E6F7F0;
-          --chart-scale-02: #BAE5D0;
-          --chart-scale-03: #92D2B3;
-          --chart-scale-04: #6ABA94;
-          --chart-scale-05: #428C6A;
-          --chart-line-primary: #6ABA94;
-          --chart-line-secondary: #92D2B3;
-          --chart-grid: rgba(0, 0, 0, 0.07);
-          --chart-background: transparent;
-          --chart-tooltip-background: rgba(18, 28, 22, 0.95);
-          --chart-tooltip-text: #ffffff;
+          --chart-1: ${bklitTokens.light.chart1};
+          --chart-2: ${bklitTokens.light.chart2};
+          --chart-3: ${bklitTokens.light.chart3};
+          --chart-4: ${bklitTokens.light.chart4};
+          --chart-5: ${bklitTokens.light.chart5};
+          --chart-scale-01: ${bklitTokens.light.scale01};
+          --chart-scale-02: ${bklitTokens.light.scale02};
+          --chart-scale-03: ${bklitTokens.light.scale03};
+          --chart-scale-04: ${bklitTokens.light.scale04};
+          --chart-scale-05: ${bklitTokens.light.scale05};
+          --chart-line-primary: ${bklitTokens.light.linePrimary};
+          --chart-line-secondary: ${bklitTokens.light.lineSecondary};
+          --chart-grid: ${bklitTokens.light.grid};
+          --chart-background: ${bklitTokens.light.background};
+          --chart-tooltip-background: ${bklitTokens.light.tooltipBg};
+          --chart-tooltip-text: ${bklitTokens.light.tooltipText};
         }
         body { color: ${lightThemeColors.surface.on}; }
         .material-symbol { color: inherit; }
@@ -2133,22 +2217,22 @@ export let themeDark = createTheme(theme, {
     MuiCssBaseline: {
       styleOverrides: `
         :root, body {
-          --chart-1: #6ABA94;
-          --chart-2: #58A580;
-          --chart-3: #468F6C;
-          --chart-4: #367758;
-          --chart-5: #275F44;
-          --chart-scale-01: #123324;
-          --chart-scale-02: #1D4A35;
-          --chart-scale-03: #367758;
-          --chart-scale-04: #6ABA94;
-          --chart-scale-05: #8EE0B9;
-          --chart-line-primary: #6ABA94;
-          --chart-line-secondary: #428C6A;
-          --chart-grid: rgba(255, 255, 255, 0.08);
-          --chart-background: transparent;
-          --chart-tooltip-background: rgba(18, 28, 22, 0.95);
-          --chart-tooltip-text: #ffffff;
+          --chart-1: ${bklitTokens.dark.chart1};
+          --chart-2: ${bklitTokens.dark.chart2};
+          --chart-3: ${bklitTokens.dark.chart3};
+          --chart-4: ${bklitTokens.dark.chart4};
+          --chart-5: ${bklitTokens.dark.chart5};
+          --chart-scale-01: ${bklitTokens.dark.scale01};
+          --chart-scale-02: ${bklitTokens.dark.scale02};
+          --chart-scale-03: ${bklitTokens.dark.scale03};
+          --chart-scale-04: ${bklitTokens.dark.scale04};
+          --chart-scale-05: ${bklitTokens.dark.scale05};
+          --chart-line-primary: ${bklitTokens.dark.linePrimary};
+          --chart-line-secondary: ${bklitTokens.dark.lineSecondary};
+          --chart-grid: ${bklitTokens.dark.grid};
+          --chart-background: ${bklitTokens.dark.background};
+          --chart-tooltip-background: ${bklitTokens.dark.tooltipBg};
+          --chart-tooltip-text: ${bklitTokens.dark.tooltipText};
         }
         body { color: ${darkThemeColors.surface.on}; }
         .material-symbol { color: inherit; }

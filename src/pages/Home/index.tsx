@@ -6,7 +6,7 @@ import { useTheme, alpha } from "@mui/material/styles";
 
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import MainLayout from "@/components/layouts/MainLayout";
-import avatar from "@/assets/images/ProfilePic.svg";
+import ProfileAvatar from "@/components/ProfileAvatar";
 
 export default function Home() {
   const theme = useTheme();
@@ -49,12 +49,12 @@ export default function Home() {
               "&::before": {
                 content: '""',
                 position: "absolute",
-                inset: { xs: "-32px -36px", sm: "-48px -64px", md: "-60px -80px" },
-                background: `radial-gradient(ellipse at 40% 50%, ${theme.palette.background.default} 0%, ${alpha(theme.palette.background.default, 0.88)} 25%, ${alpha(theme.palette.background.default, 0.55)} 55%, ${alpha(theme.palette.background.default, 0.2)} 80%, transparent 100%)`,
-                filter: "blur(36px)",
+                inset: { xs: "-24px -32px", sm: "-36px -48px", md: "-44px -60px" },
+                background: `radial-gradient(ellipse at 45% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 52%, ${alpha(theme.palette.background.default, 0.85)} 70%, ${alpha(theme.palette.background.default, 0.35)} 86%, transparent 100%)`,
+                filter: "blur(14px)",
                 zIndex: 0,
                 pointerEvents: "none",
-                borderRadius: "40px",
+                borderRadius: "36px",
               },
               "& > *": {
                 position: "relative",
@@ -98,7 +98,7 @@ export default function Home() {
                   />
                 }
                 sx={{
-                  color: theme.palette.background.default,
+                  color: theme.palette.surface.main,
                   backgroundColor: theme.palette.primary.main,
                   fontWeight: 700,
                   fontSize: { xs: "1rem", sm: "1.05rem" },
@@ -117,7 +117,7 @@ export default function Home() {
                     }
                   ),
                   "& .MuiSvgIcon-root": {
-                    color: theme.palette.background.default,
+                    color: "inherit",
                   },
                   "&:hover": {
                     backgroundColor: theme.palette.primary.high,
@@ -144,14 +144,14 @@ export default function Home() {
             sx={{
               display: "flex",
               flexDirection: "column",
-              img: {
-                minWidth: { xs: "100%" },
-                maxWidth: { xs: "100%", md: "auto" },
-                maxHeight: { xs: "240px", md: "280px" },
-              },
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: { xs: "360px", sm: "400px", md: "440px" },
+              maxHeight: { xs: "240px", md: "285px" },
             }}
           >
-            <img src={avatar} alt="developer profile illustration" />
+            <ProfileAvatar />
           </Box>
         </Stack>
 
@@ -170,12 +170,12 @@ export default function Home() {
             "&::before": {
               content: '""',
               position: "absolute",
-              inset: { xs: "-16px -12px", sm: "-24px -24px" },
-              background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 0%, ${alpha(theme.palette.background.default, 0.88)} 25%, ${alpha(theme.palette.background.default, 0.55)} 55%, ${alpha(theme.palette.background.default, 0.2)} 80%, transparent 100%)`,
-              filter: "blur(32px)",
+              inset: { xs: "-16px -16px", sm: "-24px -28px" },
+              background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 52%, ${alpha(theme.palette.background.default, 0.85)} 70%, ${alpha(theme.palette.background.default, 0.35)} 86%, transparent 100%)`,
+              filter: "blur(14px)",
               zIndex: 0,
               pointerEvents: "none",
-              borderRadius: "32px",
+              borderRadius: "28px",
             },
             "& > *": {
               position: "relative",

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/sync-favicons.js && tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest",
     "predeploy": "yarn build",

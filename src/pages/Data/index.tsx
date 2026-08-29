@@ -4,7 +4,6 @@ import {
   Typography,
   Grid,
   Card,
-  Chip,
   useTheme,
   Button,
 } from "@mui/material";
@@ -25,7 +24,7 @@ import {
   GaugeChart,
   HeatmapGrid,
   MetricCard,
-  bklitChartPalette,
+  useBklitPalette,
 } from "@/components/bklit";
 import {
   timeSeriesTrafficData,
@@ -34,18 +33,32 @@ import {
   lighthouseScoreData,
   monthlyCommitActivityData,
   activityHeatmapData,
-  bklitPaletteRamp,
-  bklitScaleRamp,
 } from "./data/chartData";
 import useDocumentTitle from "@/utils/useDocumentTitle";
 
 export default function DataPage() {
   useDocumentTitle("Data & Analytics");
   const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const { series, scale, linePrimary, lineSecondary, isDark, primary, paletteSet } = useBklitPalette();
 
   const [trafficFilter, setTrafficFilter] = useState("7D");
   const [activeChartType, setActiveChartType] = useState<"area" | "line">("area");
+
+  const dynamicPaletteRamp = [
+    { token: "--chart-1", name: "Neutral Series 1", lightHex: paletteSet.light.series[0], darkHex: paletteSet.dark.series[0], desc: "High contrast foreground neutral" },
+    { token: "--chart-2", name: "Neutral Series 2", lightHex: paletteSet.light.series[1], darkHex: paletteSet.dark.series[1], desc: "Secondary surfaceContainer tone" },
+    { token: "--chart-3", name: "Neutral Series 3", lightHex: paletteSet.light.series[2], darkHex: paletteSet.dark.series[2], desc: "Midtone surfaceContainer shade" },
+    { token: "--chart-4", name: "Neutral Series 4", lightHex: paletteSet.light.series[3], darkHex: paletteSet.dark.series[3], desc: "Soft surfaceContainer neutral" },
+    { token: "--chart-5", name: "Neutral Series 5", lightHex: paletteSet.light.series[4], darkHex: paletteSet.dark.series[4], desc: "Base surfaceContainer seed" },
+  ];
+
+  const dynamicScaleRamp = [
+    { token: "--chart-scale-01", name: "Scale Step 01", lightHex: paletteSet.light.scale[0], darkHex: paletteSet.dark.scale[0], level: "Faint Neutral Surface Intensity" },
+    { token: "--chart-scale-02", name: "Scale Step 02", lightHex: paletteSet.light.scale[1], darkHex: paletteSet.dark.scale[1], level: "Low Neutral Intensity" },
+    { token: "--chart-scale-03", name: "Scale Step 03", lightHex: paletteSet.light.scale[2], darkHex: paletteSet.dark.scale[2], level: "Medium Neutral Intensity" },
+    { token: "--chart-scale-04", name: "Scale Step 04", lightHex: paletteSet.light.scale[3], darkHex: paletteSet.dark.scale[3], level: "High Neutral Intensity" },
+    { token: "--chart-scale-05", name: "Scale Step 05", lightHex: paletteSet.light.scale[4], darkHex: paletteSet.dark.scale[4], level: "Peak Neutral Highlight" },
+  ];
 
   return (
     <MainLayout animatePage={true}>
@@ -69,8 +82,6 @@ export default function DataPage() {
             position: "relative",
           }}
         >
-
-
           <Typography
             variant="h3"
             sx={{
@@ -79,8 +90,6 @@ export default function DataPage() {
           >
             Data Projects
           </Typography>
-
-
 
           <Typography
             variant="body1"
@@ -92,61 +101,74 @@ export default function DataPage() {
             }}
           >
             Interactive data visualizations powered by the <strong>Bklit UI</strong>{" "}
-            architecture. Styled with our primary <code>#6ABA94</code> theme palette,
-            10-shade series and sequential scales, glassmorphism overlays, and smooth
-            interaction states.
+            architecture. Styled with our theme{" "}
+            <code
+              style={{
+                color: theme.palette.text.primary,
+                fontWeight: 700,
+                backgroundColor: theme.palette.surfaceContainerHigh.main,
+                padding: "2px 6px",
+                borderRadius: "6px",
+                border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
+              }}
+            >
+              surfaceContainer.main
+            </code>{" "}
+            neutral palette, tonal series, and sequential scales for clean, high-contrast data focus.
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-            <Chip
-              icon={<QueryStatsOutlinedIcon sx={{ fontSize: "16px !important" }} />}
-              label="Bklit Data Visualization Library"
+            <Button
+              variant={activeChartType === "area" ? "contained" : "outlined"}
               size="small"
-              sx={{
-                height: 28,
-                fontWeight: 700,
-                fontSize: "0.75rem",
-                backgroundColor: theme.palette.primaryContainer.main,
-                color: theme.palette.primaryContainer.contrastText,
-                borderRadius: "8px",
-                "& .MuiChip-icon": { color: "inherit" },
-              }}
-            />
+              onClick={() => setActiveChartType("area")}
+              sx={{ borderRadius: "8px", textTransform: "none", fontWeight: 600 }}
+            >
+              Area View
+            </Button>
+            <Button
+              variant={activeChartType === "line" ? "contained" : "outlined"}
+              size="small"
+              onClick={() => setActiveChartType("line")}
+              sx={{ borderRadius: "8px", textTransform: "none", fontWeight: 600 }}
+            >
+              Line View
+            </Button>
           </Box>
         </Box>
 
-        {/* 1. Metric Overview Cards */}
+        {/* 1. Top Metric KPI Strip (Glassmorphic Cards) */}
         <Grid container spacing={2.5}>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} lg={3}>
             <MetricCard
-              label="Monthly Visitors"
-              value="48.2k"
-              delta={{ value: "+18.4%", trend: "up", label: "vs last month" }}
-              sparklineData={[24, 28, 22, 34, 38, 36, 44, 48]}
+              title="Total Requests"
+              value="1.24M"
+              delta={{ value: "+18.2%", trend: "up", label: "vs last month" }}
+              sparklineData={[12, 18, 15, 25, 22, 34, 40, 48]}
               icon={<QueryStatsOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} lg={3}>
             <MetricCard
-              label="API Latency"
+              title="Avg Latency"
               value="34ms"
-              delta={{ value: "-12.5%", trend: "up", label: "p99 response" }}
-              sparklineData={[48, 44, 42, 38, 39, 36, 35, 34]}
+              delta={{ value: "-4.5ms", trend: "down", label: "optimized" }}
+              sparklineData={[45, 42, 40, 38, 36, 35, 34, 34]}
               icon={<SpeedOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} lg={3}>
             <MetricCard
-              label="Test Coverage"
-              value="98.5%"
-              delta={{ value: "+2.1%", trend: "up", label: "vitest suites" }}
-              sparklineData={[92, 93, 94, 95, 96, 97, 98, 98.5]}
+              title="Uptime SLA"
+              value="99.98%"
+              delta={{ value: "+0.02%", trend: "up", label: "target met" }}
+              sparklineData={[99.8, 99.85, 99.9, 99.92, 99.95, 99.98]}
               icon={<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} lg={3}>
             <MetricCard
-              label="Active Commits"
+              title="Active Commits"
               value="842"
               delta={{ value: "+24.8%", trend: "up", label: "this quarter" }}
               sparklineData={[42, 55, 60, 68, 72, 85, 94, 110]}
@@ -166,15 +188,15 @@ export default function DataPage() {
           legendItems={[
             {
               label: "API Requests",
-              color: isDark ? "#6ABA94" : "#2E6B50",
+              color: series[0],
             },
             {
               label: "Page Views",
-              color: isDark ? "#58A580" : "#428C6A",
+              color: series[1],
             },
             {
               label: "Unique Visitors",
-              color: isDark ? "#468F6C" : "#6ABA94",
+              color: series[2],
             },
           ]}
           height={380}
@@ -186,19 +208,19 @@ export default function DataPage() {
                 {
                   dataKey: "apiRequests",
                   label: "API Requests",
-                  color: isDark ? "#6ABA94" : "#2E6B50",
+                  color: series[0],
                   strokeWidth: 2.5,
                 },
                 {
                   dataKey: "pageViews",
                   label: "Page Views",
-                  color: isDark ? "#58A580" : "#428C6A",
+                  color: series[1],
                   strokeWidth: 2,
                 },
                 {
                   dataKey: "visitors",
                   label: "Unique Visitors",
-                  color: isDark ? "#468F6C" : "#6ABA94",
+                  color: series[2],
                   strokeWidth: 2,
                 },
               ]}
@@ -211,19 +233,19 @@ export default function DataPage() {
                 {
                   dataKey: "apiRequests",
                   label: "API Requests",
-                  color: isDark ? "#6ABA94" : "#2E6B50",
+                  color: series[0],
                   strokeWidth: 2.5,
                 },
                 {
                   dataKey: "pageViews",
                   label: "Page Views",
-                  color: isDark ? "#58A580" : "#428C6A",
+                  color: series[1],
                   strokeWidth: 2,
                 },
                 {
                   dataKey: "visitors",
                   label: "Unique Visitors",
-                  color: isDark ? "#468F6C" : "#6ABA94",
+                  color: series[2],
                   strokeWidth: 2,
                 },
               ]}
@@ -239,8 +261,8 @@ export default function DataPage() {
               title="Engineering Competencies"
               subtitle="Multi-dimensional skill rating vs senior benchmark (%)"
               legendItems={[
-                { label: "My Profile", color: isDark ? "#6ABA94" : "#2E6B50" },
-                { label: "Industry Benchmark", color: isDark ? "#367758" : "#92D2B3" },
+                { label: "My Profile", color: series[0] },
+                { label: "Industry Benchmark", color: isDark ? "#605D62" : "#AEAAAF" },
               ]}
               height={340}
             >
@@ -250,12 +272,12 @@ export default function DataPage() {
                   {
                     dataKey: "score",
                     label: "My Proficiency",
-                    color: isDark ? "#6ABA94" : "#2E6B50",
+                    color: series[0],
                   },
                   {
                     dataKey: "benchmark",
                     label: "Industry Benchmark",
-                    color: isDark ? "#367758" : "#92D2B3",
+                    color: isDark ? "#605D62" : "#AEAAAF",
                   },
                 ]}
                 dimensionKey="dimension"
@@ -287,8 +309,8 @@ export default function DataPage() {
               title="Quality & Performance Metrics"
               subtitle="Lighthouse automated audit scores vs targets (0-100)"
               legendItems={[
-                { label: "Score", color: isDark ? "#6ABA94" : "#2E6B50" },
-                { label: "Target", color: isDark ? "#367758" : "#92D2B3" },
+                { label: "Score", color: series[0] },
+                { label: "Target", color: isDark ? "#3D3B3E" : "#DBDBDB" },
               ]}
               height={320}
             >
@@ -298,12 +320,12 @@ export default function DataPage() {
                   {
                     dataKey: "current",
                     label: "Actual Score",
-                    color: isDark ? "#6ABA94" : "#2E6B50",
+                    color: series[0],
                   },
                   {
                     dataKey: "target",
                     label: "Target Score",
-                    color: isDark ? "#367758" : "#92D2B3",
+                    color: isDark ? "#3D3B3E" : "#DBDBDB",
                   },
                 ]}
                 categoryKey="name"
@@ -317,9 +339,9 @@ export default function DataPage() {
               title="Monthly Development Activity"
               subtitle="Stacked contributions: features, refactors, and test coverage"
               legendItems={[
-                { label: "Features", color: isDark ? "#6ABA94" : "#2E6B50" },
-                { label: "Refactors", color: isDark ? "#58A580" : "#428C6A" },
-                { label: "Unit Tests", color: isDark ? "#468F6C" : "#92D2B3" },
+                { label: "Features", color: series[0] },
+                { label: "Refactors", color: series[1] },
+                { label: "Unit Tests", color: series[3] },
               ]}
               height={320}
             >
@@ -329,17 +351,17 @@ export default function DataPage() {
                   {
                     dataKey: "features",
                     label: "Features",
-                    color: isDark ? "#6ABA94" : "#2E6B50",
+                    color: series[0],
                   },
                   {
                     dataKey: "refactors",
                     label: "Refactors",
-                    color: isDark ? "#58A580" : "#428C6A",
+                    color: series[1],
                   },
                   {
                     dataKey: "tests",
                     label: "Tests",
-                    color: isDark ? "#468F6C" : "#92D2B3",
+                    color: series[3],
                   },
                 ]}
                 categoryKey="name"
@@ -364,7 +386,6 @@ export default function DataPage() {
                 max={100}
                 label="System Health"
                 sublabel="99.9% Uptime Target"
-                color="#6ABA94"
               />
             </ChartContainer>
           </Grid>
@@ -403,8 +424,9 @@ export default function DataPage() {
               sx={{
                 p: 1,
                 borderRadius: "10px",
-                backgroundColor: theme.palette.primaryContainer.main,
-                color: theme.palette.primaryContainer.contrastText,
+                backgroundColor: theme.palette.surfaceContainerHigh.main,
+                color: theme.palette.text.secondary,
+                border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -421,7 +443,7 @@ export default function DataPage() {
                   color: theme.palette.text.primary,
                 }}
               >
-                Bklit Primary Theme Palette Reference (#6ABA94)
+                Bklit Neutral Theme Palette Reference (surfaceContainer.main)
               </Typography>
               <Typography
                 variant="body2"
@@ -447,7 +469,7 @@ export default function DataPage() {
               Categorical Series Tokens (--chart-1 to --chart-5)
             </Typography>
             <Grid container spacing={2}>
-              {bklitPaletteRamp.map((item) => {
+              {dynamicPaletteRamp.map((item) => {
                 const hex = isDark ? item.darkHex : item.lightHex;
                 return (
                   <Grid item xs={12} sm={6} md={2.4} key={item.token}>
@@ -463,7 +485,7 @@ export default function DataPage() {
                         transition: "all 0.2s ease",
                         "&:hover": {
                           transform: "translateY(-2px)",
-                          borderColor: theme.palette.primary.main,
+                          borderColor: theme.palette.outline.main,
                         },
                       }}
                     >
@@ -489,7 +511,7 @@ export default function DataPage() {
                         variant="caption"
                         sx={{
                           fontFamily: "monospace",
-                          color: theme.palette.primary.main,
+                          color: theme.palette.text.primary,
                           fontWeight: 700,
                           fontSize: "0.75rem",
                         }}
@@ -527,7 +549,7 @@ export default function DataPage() {
               Sequential Scale Tokens (--chart-scale-01 to --chart-scale-05)
             </Typography>
             <Grid container spacing={2}>
-              {bklitScaleRamp.map((item) => {
+              {dynamicScaleRamp.map((item) => {
                 const hex = isDark ? item.darkHex : item.lightHex;
                 return (
                   <Grid item xs={12} sm={6} md={2.4} key={item.token}>
@@ -543,7 +565,7 @@ export default function DataPage() {
                         transition: "all 0.2s ease",
                         "&:hover": {
                           transform: "translateY(-2px)",
-                          borderColor: theme.palette.primary.main,
+                          borderColor: theme.palette.outline.main,
                         },
                       }}
                     >
@@ -569,7 +591,7 @@ export default function DataPage() {
                         variant="caption"
                         sx={{
                           fontFamily: "monospace",
-                          color: theme.palette.primary.main,
+                          color: theme.palette.text.primary,
                           fontWeight: 700,
                           fontSize: "0.75rem",
                         }}

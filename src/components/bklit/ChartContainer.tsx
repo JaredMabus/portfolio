@@ -47,11 +47,11 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
         gap: 2,
         transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         "&:hover": {
-          borderColor: theme.palette.primary.state.outlinedBorder,
+          borderColor: theme.palette.outline.main,
           boxShadow:
             theme.palette.mode === "light"
-              ? "0 14px 36px -10px rgba(106, 186, 148, 0.12)"
-              : "0 18px 42px -10px rgba(0, 0, 0, 0.45)",
+              ? "0 14px 36px -10px rgba(0, 0, 0, 0.09)"
+              : "0 18px 42px -10px rgba(0, 0, 0, 0.5)",
         },
       }}
     >
@@ -88,8 +88,9 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
                     height: 24,
                     fontSize: "0.7rem",
                     fontWeight: 700,
-                    backgroundColor: theme.palette.primaryContainer.main,
-                    color: theme.palette.primaryContainer.contrastText,
+                    backgroundColor: theme.palette.surfaceContainerHigh.main,
+                    color: theme.palette.text.secondary,
+                    border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
                     borderRadius: "8px",
                   }}
                 />
@@ -133,21 +134,19 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
                       fontWeight: isActive ? 700 : 500,
                       borderRadius: "8px",
                       color: isActive
-                        ? theme.palette.primary.contrastText
+                        ? theme.palette.text.primary
                         : theme.palette.text.secondary,
                       backgroundColor: isActive
-                        ? theme.palette.primary.main
+                        ? theme.palette.surfaceContainerHighest.main
                         : "transparent",
                       boxShadow: isActive
-                        ? `0 2px 8px ${theme.palette.primary.state.focusVisible}`
+                        ? "0 2px 8px rgba(0, 0, 0, 0.12)"
                         : "none",
                       "&:hover": {
                         backgroundColor: isActive
-                          ? theme.palette.primary.main
+                          ? theme.palette.surfaceContainerHighest.main
                           : theme.palette.surfaceContainer.state.hover,
-                        color: isActive
-                          ? theme.palette.primary.contrastText
-                          : theme.palette.text.primary,
+                        color: theme.palette.text.primary,
                       },
                     }}
                   >

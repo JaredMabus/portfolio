@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Box, Typography, Chip, useTheme } from "@mui/material";
+import { useBklitPalette } from "./theme";
 
 export interface GaugeChartProps {
   value: number; // 0 to 100
@@ -24,6 +25,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const { series, scale } = useBklitPalette();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 280, height: 200 });
 
@@ -52,7 +54,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
   const endAngle = 2 * Math.PI;
   const currentAngle = startAngle + fraction * Math.PI;
 
-  const activeColor = color || theme.palette.primary.main;
+  const activeColor = color || series[0];
 
   const createArc = (start: number, end: number) => {
     const x1 = centerX + radius * Math.cos(start);
@@ -88,9 +90,8 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
       >
         <defs>
           <linearGradient id="gauge-grad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#428C6A" />
-            <stop offset="50%" stopColor="#6ABA94" />
-            <stop offset="100%" stopColor="#92D2B3" />
+            <stop offset="0%" stopColor={isDark ? scale[2] : scale[1]} />
+            <stop offset="100%" stopColor={activeColor} />
           </linearGradient>
         </defs>
 
@@ -113,7 +114,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             strokeLinecap="round"
             style={{
               transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
-              filter: `drop-shadow(0 0 10px ${activeColor}66)`,
+              filter: `drop-shadow(0 0 10px ${activeColor}44)`,
             }}
           />
         )}
@@ -128,7 +129,7 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
             stroke={activeColor}
             strokeWidth={3}
             style={{
-              filter: `drop-shadow(0 0 6px ${activeColor})`,
+              filter: `drop-shadow(0 0 6px ${activeColor}66)`,
               transition: "all 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           />
@@ -140,11 +141,12 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           position: "absolute",
           top: "46%",
           left: "50%",
-          transform: "translate(-50%, -20%)",
+          transform: "translate(-50%, -50%)",
+          textAlign: "center",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          textAlign: "center",
+          pointerEvents: "none",
         }}
       >
         <Typography
@@ -152,40 +154,56 @@ export const GaugeChart: React.FC<GaugeChartProps> = ({
           sx={{
             fontWeight: 800,
             color: theme.palette.text.primary,
-            fontSize: { xs: "2rem", md: "2.4rem" },
-            lineHeight: 1,
             letterSpacing: "-0.03em",
+            fontSize: { xs: "2.2rem", md: "2.75rem" },
+            lineHeight: 1,
           }}
         >
-          {clamped}%
+          {clamped}
+          <Typography
+            component="span"
+            variant="h6"
+            sx={{
+              fontWeight: 600,
+              color: theme.palette.text.secondary,
+              ml: 0.5,
+              fontSize: "1.2rem",
+            }}
+          >
+            %
+          </Typography>
         </Typography>
         <Typography
           variant="caption"
           sx={{
             color: theme.palette.text.secondary,
             fontWeight: 600,
-            mt: 0.5,
-            textTransform: "uppercase",
             letterSpacing: "0.06em",
+            textTransform: "uppercase",
             fontSize: "0.72rem",
+            mt: 0.5,
           }}
         >
           {label}
         </Typography>
+      </Box>
+
+      {sublabel && (
         <Chip
           size="small"
           label={sublabel}
           sx={{
-            mt: 1,
-            height: 20,
-            fontSize: "0.68rem",
-            fontWeight: 700,
-            backgroundColor: theme.palette.primaryContainer.main,
-            color: theme.palette.primaryContainer.contrastText,
+            mt: -2,
+            height: 24,
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            backgroundColor: theme.palette.surfaceContainerHigh.main,
+            color: theme.palette.text.secondary,
+            border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
             borderRadius: "8px",
           }}
         />
-      </Box>
+      )}
     </Box>
   );
 };

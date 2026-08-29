@@ -171,7 +171,7 @@ export default function Contact() {
                   height: 44,
                   alignSelf: "center",
                   backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.primary.contrastText,
+                  color: theme.palette.surface.main,
                   fontWeight: 700,
                   borderRadius: "24px",
                   mt: 1,

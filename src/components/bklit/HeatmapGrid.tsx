@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { HeatmapCell } from "./types";
 import { ChartTooltip } from "./ChartTooltip";
-import { bklitChartPalette } from "./theme";
+import { useBklitPalette } from "./theme";
 
 export interface HeatmapGridProps {
   data: HeatmapCell[];
@@ -16,7 +16,7 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
   height = "100%",
 }) => {
   const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const { scale: scaleColors, isDark } = useBklitPalette();
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [hoveredCell, setHoveredCell] = useState<HeatmapCell | null>(null);
@@ -25,9 +25,6 @@ export const HeatmapGrid: React.FC<HeatmapGridProps> = ({
   const days = ["Mon", "Wed", "Fri"];
   const cellSize = 12;
   const cellGap = 4;
-
-  // Scale colors: Level 0 (empty) through Level 4 (highest)
-  const scaleColors = bklitChartPalette[isDark ? "dark" : "light"].scale;
 
   const getCellColor = (level: number) => {
     if (level === 0) {

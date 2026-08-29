@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo, useEffect } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { DonutPoint } from "./types";
 import { ChartTooltip } from "./ChartTooltip";
-import { bklitChartPalette } from "./theme";
+import { useBklitPalette } from "./theme";
 
 export interface DonutChartProps {
   data: DonutPoint[];
@@ -24,7 +24,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({
   valueFormatter = (v) => v.toLocaleString(),
 }) => {
   const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
+  const { series: defaultSeries, isDark } = useBklitPalette();
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 340, height: 300 });
 
@@ -64,8 +64,7 @@ export const DonutChart: React.FC<DonutChartProps> = ({
       const endAngle = currentAngle + angleDelta - padAngle / 2;
       currentAngle += angleDelta;
 
-      const color =
-        item.color || bklitChartPalette[isDark ? "dark" : "light"].series[index % 5];
+      const color = item.color || defaultSeries[index % defaultSeries.length];
 
       return {
         ...item,
