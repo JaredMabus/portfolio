@@ -64,8 +64,8 @@ const NavItem: React.FC<Props> = ({ item }) => {
           transition: theme.transitions.create(
             ["color", "background-color"],
             {
-              duration: theme.transitions.duration.standard,
-              easing: theme.transitions.easing.easeInOut,
+              duration: 140,
+              easing: "cubic-bezier(0.16, 1, 0.3, 1)",
             }
           ),
           "&:hover": {
@@ -174,8 +174,8 @@ export default function Header() {
               "-webkit-backdrop-filter",
             ],
             {
-              duration: theme.transitions.duration.standard,
-              easing: theme.transitions.easing.easeInOut,
+              duration: 140,
+              easing: "cubic-bezier(0.16, 1, 0.3, 1)",
             }
           ),
         }}
@@ -193,19 +193,23 @@ export default function Header() {
               py: { xs: 1.5, sm: 2 },
             }}
           >
-            {/* Left: Site Logo + Desktop Nav Items (hidden on xs mobile) */}
+            {/* Left: Mobile Menu + Site Logo + Desktop Nav Items */}
             <Stack
               direction="row"
               alignItems="center"
               gap={{ xs: 1, sm: 2 }}
-              sx={{ display: { xs: "none", sm: "flex" } }}
             >
+              <SideNav
+                open={isDrawerOpen}
+                toggleDrawer={toggleDrawer}
+                navData={navData}
+              />
               <Box
                 component={Link}
                 to="/"
                 aria-label="Jared Mabusth Portfolio Home"
                 sx={{
-                  display: "flex",
+                  display: { xs: "none", sm: "flex" },
                   alignItems: "center",
                   justifyContent: "center",
                   textDecoration: "none",
@@ -228,12 +232,6 @@ export default function Header() {
                 ))}
               </Stack>
             </Stack>
-
-            <SideNav
-              open={isDrawerOpen}
-              toggleDrawer={toggleDrawer}
-              navData={navData}
-            />
             {/* Right Controls: Theme Switch, Centered Divider, Paired Socials */}
             <Stack
               direction="row"

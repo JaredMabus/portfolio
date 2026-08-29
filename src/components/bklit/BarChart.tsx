@@ -56,8 +56,18 @@ export const BarChart: React.FC<BarChartProps> = ({
     return () => observer.disconnect();
   }, []);
 
+  const isNarrow = dimensions.width < 460;
+  const effectiveBottomMargin = isHorizontal
+    ? margin.bottom
+    : isNarrow
+    ? 56
+    : margin.bottom;
+
   const innerWidth = Math.max(10, dimensions.width - margin.left - margin.right);
-  const innerHeight = Math.max(10, dimensions.height - margin.top - margin.bottom);
+  const innerHeight = Math.max(
+    10,
+    dimensions.height - margin.top - effectiveBottomMargin
+  );
 
   // Compute maximum value
   const maxVal = useMemo(() => {
@@ -368,14 +378,20 @@ export const BarChart: React.FC<BarChartProps> = ({
             }
 
             const xPos = i * bandWidth + bandWidth / 2;
+            const labelY = innerHeight + (isNarrow ? 12 : 20);
             return (
               <text
                 key={i}
-                x={xPos}
-                y={innerHeight + 20}
-                textAnchor="middle"
+                x={isNarrow ? xPos - 4 : xPos}
+                y={labelY}
+                textAnchor={isNarrow ? "end" : "middle"}
+                transform={
+                  isNarrow
+                    ? `rotate(-35, ${xPos - 4}, ${labelY})`
+                    : undefined
+                }
                 fill={theme.palette.text.secondary}
-                fontSize="11"
+                fontSize={isNarrow ? "10" : "11"}
                 fontFamily="inherit"
                 fontWeight="500"
               >

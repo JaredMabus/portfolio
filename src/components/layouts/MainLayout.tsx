@@ -71,10 +71,12 @@ export default function MainLayout({
           justifyContent: justifyPageContent,
           alignSelf: "center",
           minWidth: 0,
+          maxWidth: "100%",
           width: "100%",
           minHeight: "100dvh",
           overflowY: mainContentOverflowY,
           mt: { xs: "72px", sm: "84px" },
+          px: disableContentGutters ? 0 : { xs: 2, sm: 3, md: 4 },
         }}
       >
         {animatePage ? (
@@ -84,6 +86,8 @@ export default function MainLayout({
               display: "flex",
               flexDirection: "column",
               width: "100%",
+              minWidth: 0,
+              maxWidth: "100%",
               flexGrow: 1,
             }}
           >

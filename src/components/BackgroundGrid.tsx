@@ -42,13 +42,12 @@ export default function BackgroundGrid() {
       <Box
         sx={{
           position: "absolute",
-          top: { xs: "-5%", md: "-10%" },
-          right: { xs: "-25%", sm: "-10%", md: "-5%" },
-          width: { xs: "90vw", sm: "65vw", md: "50vw" },
-          maxWidth: "750px",
+          top: "-80px",
+          right: "-100px",
+          width: "clamp(360px, 50vw, 700px)",
           height: "auto",
           opacity: 0.7,
-          filter: { xs: "blur(35px)", md: "blur(50px)" },
+          filter: "blur(45px)",
         }}
       >
         <svg
@@ -78,14 +77,13 @@ export default function BackgroundGrid() {
       <Box
         sx={{
           position: "absolute",
-          bottom: { xs: "-10%", md: "-15%" },
-          left: { xs: "-30%", sm: "-15%", md: "-8%" },
-          width: { xs: "100vw", sm: "70vw", md: "55vw" },
-          maxWidth: "800px",
+          bottom: "-100px",
+          left: "-120px",
+          width: "clamp(380px, 55vw, 750px)",
           height: "auto",
           transform: "rotate(180deg)",
           opacity: 0.5,
-          filter: { xs: "blur(40px)", md: "blur(55px)" },
+          filter: "blur(50px)",
         }}
       >
         <svg

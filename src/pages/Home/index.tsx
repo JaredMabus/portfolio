@@ -30,26 +30,29 @@ export default function Home() {
           component="section"
           aria-label="Introduction"
           sx={{
-            flexDirection: "row",
+            flexDirection: { xs: "column", md: "row" },
             justifyContent: "center",
             alignItems: "center",
             position: "relative",
             width: "100%",
-            flexWrap: "wrap",
-            gap: { xs: 3, md: 6 },
+            gap: { xs: 4, sm: 5, md: 6 },
             mt: { xs: 1, sm: 2 },
             mb: { xs: 2, sm: 3 },
           }}
         >
+          {/* Left Text & Call-To-Action Container */}
           <Stack
             sx={{
               flexDirection: "column",
               justifyContent: "start",
+              alignItems: "flex-start",
+              textAlign: "left",
               position: "relative",
+              width: "fit-content",
               "&::before": {
                 content: '""',
                 position: "absolute",
-                inset: { xs: "-24px -32px", sm: "-36px -48px", md: "-44px -60px" },
+                inset: "-32px -40px",
                 background: `radial-gradient(ellipse at 45% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 52%, ${alpha(theme.palette.background.default, 0.85)} 70%, ${alpha(theme.palette.background.default, 0.35)} 86%, transparent 100%)`,
                 filter: "blur(14px)",
                 zIndex: 0,
@@ -62,25 +65,34 @@ export default function Home() {
               },
             }}
           >
-            <Typography variant="h1" sx={{ fontWeight: 700, letterSpacing: "-0.03em" }}>
-              Hi, I'm Jared 👋
+            <Typography
+              variant="h1"
+              sx={{
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                fontSize: { xs: "2.6rem", sm: "3.2rem", md: "3.5rem" },
+                lineHeight: 1.15,
+              }}
+            >
+              Hi, I'm Jared
             </Typography>
             <Typography
               variant="subtitle1"
               sx={{
                 color: theme.palette.text.secondary,
                 fontWeight: 500,
-                fontSize: "1.05rem",
+                fontSize: { xs: "1rem", sm: "1.05rem" },
                 mt: 0.5,
                 mb: 2,
+                pl: { xs: 0.5, sm: 0.75 },
               }}
             >
               Full Stack Developer
             </Typography>
             <Stack
-              direction={{ xs: "column", sm: "row" }}
+              direction="row"
               spacing={2}
-              alignItems={{ xs: "stretch", sm: "center" }}
+              alignItems="center"
               sx={{
                 pt: 1,
               }}
@@ -140,15 +152,16 @@ export default function Home() {
               </Button>
             </Stack>
           </Stack>
+
+          {/* Right Profile Artwork Container */}
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
               width: "100%",
               maxWidth: { xs: "360px", sm: "400px", md: "440px" },
-              maxHeight: { xs: "240px", md: "285px" },
+              flexShrink: 0,
             }}
           >
             <ProfileAvatar />
@@ -170,7 +183,7 @@ export default function Home() {
             "&::before": {
               content: '""',
               position: "absolute",
-              inset: { xs: "-16px -16px", sm: "-24px -28px" },
+              inset: "-20px -24px",
               background: `radial-gradient(ellipse at 50% 50%, ${theme.palette.background.default} 0%, ${theme.palette.background.default} 52%, ${alpha(theme.palette.background.default, 0.85)} 70%, ${alpha(theme.palette.background.default, 0.35)} 86%, transparent 100%)`,
               filter: "blur(14px)",
               zIndex: 0,

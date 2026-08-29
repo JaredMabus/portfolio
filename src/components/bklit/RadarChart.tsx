@@ -45,7 +45,8 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   const totalAxes = data.length;
   const centerX = dimensions.width / 2;
   const centerY = dimensions.height / 2;
-  const radius = Math.min(centerX, centerY) * 0.72;
+  const isNarrow = dimensions.width < 420;
+  const radius = Math.min(centerX, centerY) * (isNarrow ? 0.54 : 0.68);
 
   // Max value
   const maxValue = useMemo(() => {
@@ -196,7 +197,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                       ? theme.palette.primary.main
                       : theme.palette.text.secondary
                   }
-                  fontSize="11"
+                  fontSize={isNarrow ? "9.5" : "11"}
                   fontWeight={isHovered ? 700 : 500}
                   fontFamily="inherit"
                   cursor="pointer"
