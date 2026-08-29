@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "resolutions": {
-    "baseline-browser-mapping": "2.11.20"
+    "baseline-browser-mapping": "2.11.20",
+    "vite": "6.3.6"
   },
   "scripts": {
     "dev": "vite",
@@ -42,7 +43,7 @@
     "jsdom": "^24.0.0",
     "typescript": "^5.4.5",
     "vite": "^6.3.5",
-    "vitest": "^1.0.0"
+    "vitest": "4.1.11"
   },
   "packageManager": "yarn@1.22.22"
 }
