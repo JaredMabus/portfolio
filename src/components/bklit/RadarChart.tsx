@@ -1,5 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { animated, useSpring } from "@react-spring/web";
 import { RadarPoint, SeriesConfig } from "./types";
 import { ChartTooltip } from "./ChartTooltip";
 import { bklitChartPalette } from "./theme";
@@ -12,6 +13,10 @@ export interface RadarChartProps {
   height?: number | string;
   maxValue?: number;
   highlightedDimensions?: string[];
+  highlightColors?: Record<string, string>;
+  highlightedSeriesKey?: string;
+  hideZeroValues?: boolean;
+  size?: "default" | "large";
 }
 
 export const RadarChart: React.FC<RadarChartProps> = ({
@@ -22,9 +27,14 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   height = "100%",
   maxValue: propMax,
   highlightedDimensions = [],
+  highlightColors = {},
+  highlightedSeriesKey,
+  hideZeroValues = false,
+  size = "default",
 }) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
+  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 360, height: 300 });
   const [hoverMetric, setHoverMetric] = useState<string | null>(null);
@@ -48,8 +58,49 @@ export const RadarChart: React.FC<RadarChartProps> = ({
   const centerX = dimensions.width / 2;
   const centerY = dimensions.height / 2;
   const isNarrow = dimensions.width < 420;
-  const radius = Math.min(centerX, centerY) * (isNarrow ? 0.54 : 0.68);
+  const isLarge = size === "large";
+  const radius =
+    Math.min(centerX, centerY) *
+    (isNarrow ? (isLarge ? 0.62 : 0.54) : isLarge ? 0.76 : 0.68);
+  const labelOffset = isLarge ? 24 : 18;
+  const labelFontSize = isNarrow
+    ? isLarge
+      ? "11.5"
+      : "9.5"
+    : isLarge
+    ? "13.5"
+    : "11";
   const hasHighlights = highlightedDimensions.length > 0;
+  const springConfig = { tension: 210, friction: 24, mass: 1 };
+  const springFrom = prefersReducedMotion ? 1 : 0;
+  const springImmediate = prefersReducedMotion;
+  const gridSpring = useSpring({
+    from: { progress: springFrom },
+    to: { progress: 1 },
+    immediate: springImmediate,
+    config: springConfig,
+  });
+  const axisSpring = useSpring({
+    from: { progress: springFrom },
+    to: { progress: 1 },
+    delay: prefersReducedMotion ? 0 : 90,
+    immediate: springImmediate,
+    config: springConfig,
+  });
+  const labelSpring = useSpring({
+    from: { progress: springFrom },
+    to: { progress: 1 },
+    delay: prefersReducedMotion ? 0 : 180,
+    immediate: springImmediate,
+    config: springConfig,
+  });
+  const areaSpring = useSpring({
+    from: { progress: springFrom },
+    to: { progress: 1 },
+    delay: prefersReducedMotion ? 0 : 270,
+    immediate: springImmediate,
+    config: springConfig,
+  });
 
   // Max value
   const maxValue = useMemo(() => {
@@ -119,17 +170,18 @@ export const RadarChart: React.FC<RadarChartProps> = ({
 
   const tooltipItems = useMemo(() => {
     if (!activePoint) return [];
-    return series.map((s, idx) => {
+    return series.flatMap((s, idx) => {
       const val = activePoint[s.dataKey];
+      if (hideZeroValues && val === 0) return [];
       const color =
         s.color || bklitChartPalette[isDark ? "dark" : "light"].series[idx % 5];
-      return {
+      return [{
         name: s.label || s.dataKey,
         value: typeof val === "number" ? `${val}%` : String(val ?? "-"),
         color,
-      };
+      }];
     });
-  }, [activePoint, series, isDark]);
+  }, [activePoint, series, isDark, hideZeroValues]);
 
   return (
     <Box
@@ -151,7 +203,13 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         style={{ overflow: "visible" }}
       >
         {/* Concentric Grid Rings */}
-        <g>
+        <animated.g
+          opacity={gridSpring.progress}
+          transform={gridSpring.progress.to(
+            (progress) =>
+              `translate(${centerX} ${centerY}) scale(${progress}) translate(${-centerX} ${-centerY})`
+          )}
+        >
           {levelPolygons.map((points, i) => (
             <polygon
               key={i}
@@ -166,30 +224,45 @@ export const RadarChart: React.FC<RadarChartProps> = ({
               }}
             />
           ))}
-        </g>
+        </animated.g>
 
         {/* Axis Spokes */}
         <g>
           {data.map((d, i) => {
             const angle = i * angleSlice - Math.PI / 2;
-            const x = centerX + radius * Math.cos(angle);
-            const y = centerY + radius * Math.sin(angle);
-            const labelX = centerX + (radius + 18) * Math.cos(angle);
-            const labelY = centerY + (radius + 18) * Math.sin(angle);
+            const labelX = centerX + (radius + labelOffset) * Math.cos(angle);
+            const labelY = centerY + (radius + labelOffset) * Math.sin(angle);
             const metric = String(d[dimensionKey]);
             const isHovered = hoverMetric === metric;
             const isHighlighted = highlightedDimensions.includes(metric);
+            const highlightColor =
+              highlightColors[metric] || theme.palette.primary.main;
+            const plottedRadius = series.reduce((outermostRadius, currentSeries) => {
+              const value = d[currentSeries.dataKey];
+              if (typeof value !== "number") return outermostRadius;
+              return Math.max(outermostRadius, (value / maxValue) * radius);
+            }, 0);
+            const markerClearance = isLarge ? 11 : 10;
+            const spokeRadius = isHighlighted
+              ? Math.max(0, plottedRadius - markerClearance)
+              : radius;
+            const spokeX = centerX + spokeRadius * Math.cos(angle);
+            const spokeY = centerY + spokeRadius * Math.sin(angle);
 
             return (
               <g key={i}>
-                <line
+                <animated.line
                   x1={centerX}
                   y1={centerY}
-                  x2={x}
-                  y2={y}
+                  x2={axisSpring.progress.to(
+                    (progress) => centerX + (spokeX - centerX) * progress
+                  )}
+                  y2={axisSpring.progress.to(
+                    (progress) => centerY + (spokeY - centerY) * progress
+                  )}
                   stroke={
                     isHighlighted
-                      ? theme.palette.primary.main
+                      ? highlightColor
                       : "var(--chart-grid, rgba(255, 255, 255, 0.08))"
                   }
                   strokeWidth={isHighlighted ? 2.5 : 1}
@@ -198,7 +271,7 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                     transition: "all 0.25s ease",
                   }}
                 />
-                <text
+                <animated.text
                   x={labelX}
                   y={labelY + 4}
                   textAnchor={
@@ -210,10 +283,10 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   }
                   fill={
                     isHighlighted || isHovered
-                      ? theme.palette.primary.main
+                      ? highlightColor
                       : theme.palette.text.secondary
                   }
-                  fontSize={isNarrow ? "9.5" : "11"}
+                  fontSize={labelFontSize}
                   fontWeight={isHighlighted || isHovered ? 800 : 500}
                   fontFamily="inherit"
                   cursor="pointer"
@@ -226,12 +299,15 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                   }}
                   onMouseLeave={() => setHoverMetric(null)}
                   style={{
-                    opacity: hasHighlights ? (isHighlighted ? 1 : 0.35) : 1,
+                    opacity: labelSpring.progress.to(
+                      (progress) =>
+                        progress * (hasHighlights ? (isHighlighted ? 1 : 0.35) : 1)
+                    ),
                     transition: "all 0.25s ease",
                   }}
                 >
                   {metric}
-                </text>
+                </animated.text>
               </g>
             );
           })}
@@ -241,28 +317,88 @@ export const RadarChart: React.FC<RadarChartProps> = ({
         <g>
           {seriesPolygons.map((s, idx) => (
             <g key={idx}>
-              <polygon
-                points={s.points}
-                fill={s.color}
-                fillOpacity={isDark ? 0.25 : 0.2}
-                stroke={s.color}
+              <animated.polygon
+                points={areaSpring.progress.to((progress) =>
+                  s.pointCoords
+                    .map(
+                      (point) =>
+                        `${centerX + (point.x - centerX) * progress},${
+                          centerY + (point.y - centerY) * progress
+                        }`
+                    )
+                    .join(" ")
+                )}
+                fill={
+                  highlightedSeriesKey && highlightedSeriesKey !== s.dataKey
+                    ? theme.palette.outline.main
+                    : s.color
+                }
+                fillOpacity={areaSpring.progress.to(
+                  (progress) =>
+                    progress *
+                    (highlightedSeriesKey && highlightedSeriesKey !== s.dataKey
+                      ? 0.06
+                      : isDark
+                      ? 0.25
+                      : 0.2)
+                )}
+                stroke={
+                  highlightedSeriesKey && highlightedSeriesKey !== s.dataKey
+                    ? theme.palette.outline.main
+                    : s.color
+                }
                 strokeWidth={2}
+                strokeOpacity={areaSpring.progress.to(
+                  (progress) =>
+                    progress *
+                    (highlightedSeriesKey && highlightedSeriesKey !== s.dataKey ? 0.35 : 1)
+                )}
                 strokeLinejoin="round"
                 style={{
-                  filter: `drop-shadow(0 0 10px ${s.color}44)`,
+                  filter:
+                    highlightedSeriesKey && highlightedSeriesKey !== s.dataKey
+                    ? "none"
+                    : `drop-shadow(0 0 10px ${s.color}44)`,
                   transition: "all 0.3s ease",
                 }}
               />
               {s.pointCoords.map((pt, pIdx) => {
+                if (hideZeroValues && pt.val === 0) return null;
                 const isHovered = hoverMetric === pt.metric;
                 const isPtHighlighted = highlightedDimensions.includes(pt.metric);
+                const isSeriesMuted = Boolean(
+                  highlightedSeriesKey && highlightedSeriesKey !== s.dataKey
+                );
+                const pointHighlightColor =
+                  highlightColors[pt.metric] || theme.palette.primary.main;
+                const pointRadius = isPtHighlighted
+                  ? isLarge
+                    ? 8.5
+                    : 7.5
+                  : isHovered
+                  ? isLarge
+                    ? 7
+                    : 6
+                  : isLarge
+                  ? 4.5
+                  : 3.5;
                 return (
-                  <circle
+                  <animated.circle
                     key={pIdx}
-                    cx={pt.x}
-                    cy={pt.y}
-                    r={isPtHighlighted ? 7.5 : isHovered ? 6 : 3.5}
-                    fill={isPtHighlighted ? theme.palette.primary.main : s.color}
+                    cx={areaSpring.progress.to(
+                      (progress) => centerX + (pt.x - centerX) * progress
+                    )}
+                    cy={areaSpring.progress.to(
+                      (progress) => centerY + (pt.y - centerY) * progress
+                    )}
+                    r={areaSpring.progress.to((progress) => pointRadius * progress)}
+                    fill={
+                      isPtHighlighted
+                        ? pointHighlightColor
+                        : isSeriesMuted
+                        ? theme.palette.outline.main
+                        : s.color
+                    }
                     stroke={isPtHighlighted ? "#FFFFFF" : theme.palette.background.default}
                     strokeWidth={isPtHighlighted ? 2.5 : 1.5}
                     cursor="pointer"
@@ -272,8 +408,14 @@ export const RadarChart: React.FC<RadarChartProps> = ({
                     }}
                     onMouseLeave={() => setHoverMetric(null)}
                     style={{
-                      opacity: hasHighlights ? (isPtHighlighted ? 1 : 0.3) : 1,
-                      filter: isPtHighlighted ? `drop-shadow(0 0 8px ${theme.palette.primary.main})` : undefined,
+                      opacity: areaSpring.progress.to(
+                        (progress) =>
+                          progress *
+                          (isSeriesMuted ? 0.25 : hasHighlights ? (isPtHighlighted ? 1 : 0.3) : 1)
+                      ),
+                      filter: isPtHighlighted
+                        ? `drop-shadow(0 0 8px ${pointHighlightColor})`
+                        : undefined,
                       transition: "all 0.25s ease",
                     }}
                   />

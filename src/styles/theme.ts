@@ -140,6 +140,19 @@ export const themeColorSeed = {
   },
 };
 
+const themeColorModeOverrides = {
+  light: {
+    // Deep amber preserves the Data series identity while meeting contrast
+    // requirements when secondary.main is used for text and chart marks.
+    secondary: "#7A5B00",
+  },
+  dark: {
+    // Warm amber remains vivid on dark surfaces without relying on automatic
+    // seed brightening or becoming visually fluorescent.
+    secondary: "#FFD166",
+  },
+} as const;
+
 const colorStateLayerOpacity = {
   hover: 0.04,
   selected: 0.08,
@@ -500,7 +513,10 @@ function createGlassSurfaceRole(
 
 function createThemeColorScheme(mode: ThemeMode): ThemeColorScheme {
   const primary = createRoleFromSeed(themeColorSeed.primary, mode);
-  const secondary = createRoleFromSeed(themeColorSeed.secondary, mode);
+  const secondary = createColorRole(
+    themeColorModeOverrides[mode].secondary,
+    mode,
+  );
   const tertiary = createRoleFromSeed(themeColorSeed.tertiary, mode);
   const error = createRoleFromSeed(themeColorSeed.error, mode);
   const primaryContainer = createContainerRole(themeColorSeed.primary, mode);

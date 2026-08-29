@@ -77,7 +77,7 @@ export default function MainLayout({
           width: "100%",
           minHeight: "100dvh",
           overflowY: mainContentOverflowY,
-          mt: { xs: "72px", sm: "84px" },
+          mt: { xs: "92px", sm: "108px", md: "120px" },
           px: disableContentGutters ? 0 : { xs: 2, sm: 3, md: 4 },
         }}
       >

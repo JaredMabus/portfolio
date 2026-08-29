@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "asOf": "2026-08-28",
+  "source": {
+    "owner": "JaredMabus",
+    "selectionMethod": "Five repositories selected for recent activity, sustained contribution, implementation depth, delivery evidence, and coverage across the three portfolio domains.",
+    "scoreScale": "0-100 directional index",
+    "limitations": [
+      "GitHub activity measures visible project work, not total professional experience or elapsed working hours.",
+      "Commit counts vary with repository and merge practices and are not treated as productivity scores.",
+      "Preference is inferred from repeated, recent project choices and should be updated when priorities change.",
+      "Private repository metadata is included as evidence, but no private source code or secrets are stored here."
+    ]
+  },
+  "kpis": [
+    {
+      "key": "technicalDepth",
+      "label": "Technical Depth",
+      "type": "experience",
+      "definition": "Complexity demonstrated across architecture, integrations, state, data, infrastructure, and interactions."
+    },
+    {
+      "key": "projectBreadth",
+      "label": "Project Breadth",
+      "type": "experience",
+      "definition": "Range of projects, platforms, technologies, and responsibilities within the domain."
+    },
+    {
+      "key": "sustainedInvestment",
+      "label": "Sustained Work",
+      "type": "experience",
+      "definition": "Repeated work over time using repository age, recency, and commit history as directional evidence."
+    },
+    {
+      "key": "deliveryEvidence",
+      "label": "Delivery Evidence",
+      "type": "experience",
+      "definition": "Complete, integrated, tested, published, or deployed outcomes rather than isolated experiments."
+    },
+    {
+      "key": "preferenceSignal",
+      "label": "Preference Signal",
+      "type": "preference",
+      "definition": "Repeated emphasis in recent projects; a preference proxy, not a survey response."
+    }
+  ],
+  "domains": [
+    {
+      "key": "fullStack",
+      "label": "Full-Stack Engineering",
+      "shortLabel": "Full-Stack",
+      "colorRole": "primary",
+      "summary": "Deepest evidence across application architecture, APIs, state, data, infrastructure, and delivery.",
+      "scores": {
+        "technicalDepth": 94,
+        "projectBreadth": 96,
+        "sustainedInvestment": 93,
+        "deliveryEvidence": 91,
+        "preferenceSignal": 94
+      }
+    },
+    {
+      "key": "dataAnalytics",
+      "label": "Data & Visual Analytics",
+      "shortLabel": "Data",
+      "colorRole": "secondary",
+      "summary": "Evidence spans data modeling, SQL-backed products, operational flows, and custom visualizations.",
+      "scores": {
+        "technicalDepth": 81,
+        "projectBreadth": 73,
+        "sustainedInvestment": 68,
+        "deliveryEvidence": 76,
+        "preferenceSignal": 70
+      }
+    },
+    {
+      "key": "uiUxDesign",
+      "label": "UI/UX & Design Systems",
+      "shortLabel": "UI/UX",
+      "colorRole": "tertiary",
+      "summary": "Strong evidence across interaction design, responsive UI, design systems, tokens, themes, and components.",
+      "scores": {
+        "technicalDepth": 89,
+        "projectBreadth": 90,
+        "sustainedInvestment": 84,
+        "deliveryEvidence": 86,
+        "preferenceSignal": 91
+      }
+    }
+  ],
+  "radar": {
+    "data": [
+      {
+        "dimension": "Technical Depth",
+        "fullStack": 94,
+        "dataAnalytics": 81,
+        "uiUxDesign": 89
+      },
+      {
+        "dimension": "Project Breadth",
+        "fullStack": 96,
+        "dataAnalytics": 73,
+        "uiUxDesign": 90
+      },
+      {
+        "dimension": "Sustained Work",
+        "fullStack": 93,
+        "dataAnalytics": 68,
+        "uiUxDesign": 84
+      },
+      {
+        "dimension": "Delivery Evidence",
+        "fullStack": 91,
+        "dataAnalytics": 76,
+        "uiUxDesign": 86
+      },
+      {
+        "dimension": "Preference Signal",
+        "fullStack": 94,
+        "dataAnalytics": 70,
+        "uiUxDesign": 91
+      }
+    ]
+  },
+  "projects": [
+    {
+      "repository": "JaredMabus/app-template",
+      "url": "https://github.com/JaredMabus/app-template",
+      "private": true,
+      "primaryLanguage": "Python",
+      "languages": ["Python", "TypeScript", "HCL", "HTML", "Dockerfile", "CSS", "JavaScript", "Mako"],
+      "createdAt": "2025-05-03T23:07:30Z",
+      "pushedAt": "2026-08-18T18:07:32Z",
+      "defaultBranchCommits": 244,
+      "domainSignals": {
+        "fullStack": 100,
+        "dataAnalytics": 72,
+        "uiUxDesign": 70
+      },
+      "evidence": "Production-oriented FastAPI and React application foundation with PostgreSQL, migrations, authentication, infrastructure, configuration, and reusable delivery workflows."
+    },
+    {
+      "repository": "JaredMabus/portfolio",
+      "url": "https://github.com/JaredMabus/portfolio",
+      "private": false,
+      "primaryLanguage": "TypeScript",
+      "languages": ["TypeScript", "JavaScript", "HTML"],
+      "createdAt": "2022-11-18T01:51:37Z",
+      "pushedAt": "2026-08-29T01:35:40Z",
+      "defaultBranchCommits": 71,
+      "domainSignals": {
+        "fullStack": 88,
+        "dataAnalytics": 82,
+        "uiUxDesign": 94
+      },
+      "evidence": "Long-running React, TypeScript, MUI, visualization, responsive design, animation, testing, and GitHub Pages portfolio work."
+    },
+    {
+      "repository": "JaredMabus/color-picker-chrome-ext",
+      "url": "https://github.com/JaredMabus/color-picker-chrome-ext",
+      "private": true,
+      "primaryLanguage": "TypeScript",
+      "languages": ["TypeScript", "CSS", "JavaScript", "HCL", "HTML"],
+      "createdAt": "2026-08-17T23:53:47Z",
+      "pushedAt": "2026-08-28T17:33:31Z",
+      "defaultBranchCommits": 101,
+      "domainSignals": {
+        "fullStack": 86,
+        "dataAnalytics": 36,
+        "uiUxDesign": 98
+      },
+      "evidence": "Manifest V3 React extension with detailed interaction design, state persistence, Firebase authentication and theme sync, responsive panel behavior, and release preparation."
+    },
+    {
+      "repository": "JaredMabus/liftx",
+      "url": "https://github.com/JaredMabus/liftx",
+      "private": true,
+      "primaryLanguage": "Python",
+      "languages": ["Python", "TypeScript", "HCL", "JavaScript", "Dockerfile", "Mako"],
+      "createdAt": "2026-08-08T00:33:50Z",
+      "pushedAt": "2026-08-15T22:04:31Z",
+      "defaultBranchCommits": 37,
+      "domainSignals": {
+        "fullStack": 98,
+        "dataAnalytics": 78,
+        "uiUxDesign": 82
+      },
+      "evidence": "Mobile-first Expo and FastAPI product spanning PostgreSQL modeling, sessions, offline behavior, authentication, infrastructure, state management, and workout-data workflows."
+    },
+    {
+      "repository": "JaredMabus/design-workbench",
+      "url": "https://github.com/JaredMabus/design-workbench",
+      "private": true,
+      "primaryLanguage": "HTML",
+      "languages": ["HTML", "TypeScript", "CSS"],
+      "createdAt": "2026-08-16T17:51:17Z",
+      "pushedAt": "2026-08-28T17:36:59Z",
+      "defaultBranchCommits": 19,
+      "domainSignals": {
+        "fullStack": 76,
+        "dataAnalytics": 34,
+        "uiUxDesign": 100
+      },
+      "evidence": "MUI design-system workbench with typed design documents, token editing, theme compilation, component catalogs, Redux state, persistence, and independent appearance controls."
+    }
+  ]
+}
