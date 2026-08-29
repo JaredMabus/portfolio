@@ -43,7 +43,9 @@ export default function Footer() {
         </Typography>
 
         {/* Right: Minimal Social Actions */}
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack direction="row" spacing={1.5} sx={{
+          alignItems: "center"
+        }}>
           <Tooltip title="GitHub" arrow>
             <IconButton
               component={Link}

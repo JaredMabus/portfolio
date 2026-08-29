@@ -3,7 +3,7 @@
   "asOf": "2026-08-28",
   "source": {
     "owner": "JaredMabus",
-    "selectionMethod": "Five repositories selected for recent activity, sustained contribution, implementation depth, delivery evidence, and coverage across the three portfolio domains.",
+    "selectionMethod": "Seven repositories selected for recent activity, sustained contribution, implementation depth, delivery evidence, historical range, and coverage across the three portfolio domains.",
     "scoreScale": "0-100 directional index",
     "limitations": [
       "GitHub activity measures visible project work, not total professional experience or elapsed working hours.",
@@ -53,10 +53,10 @@
       "summary": "Deepest evidence across application architecture, APIs, state, data, infrastructure, and delivery.",
       "scores": {
         "technicalDepth": 94,
-        "projectBreadth": 96,
-        "sustainedInvestment": 93,
-        "deliveryEvidence": 91,
-        "preferenceSignal": 94
+        "projectBreadth": 98,
+        "sustainedInvestment": 96,
+        "deliveryEvidence": 92,
+        "preferenceSignal": 93
       }
     },
     {
@@ -66,11 +66,11 @@
       "colorRole": "secondary",
       "summary": "Evidence spans data modeling, SQL-backed products, operational flows, and custom visualizations.",
       "scores": {
-        "technicalDepth": 81,
-        "projectBreadth": 73,
-        "sustainedInvestment": 68,
-        "deliveryEvidence": 76,
-        "preferenceSignal": 70
+        "technicalDepth": 83,
+        "projectBreadth": 82,
+        "sustainedInvestment": 78,
+        "deliveryEvidence": 79,
+        "preferenceSignal": 72
       }
     },
     {
@@ -81,10 +81,10 @@
       "summary": "Strong evidence across interaction design, responsive UI, design systems, tokens, themes, and components.",
       "scores": {
         "technicalDepth": 89,
-        "projectBreadth": 90,
-        "sustainedInvestment": 84,
-        "deliveryEvidence": 86,
-        "preferenceSignal": 91
+        "projectBreadth": 92,
+        "sustainedInvestment": 88,
+        "deliveryEvidence": 87,
+        "preferenceSignal": 90
       }
     }
   ],
@@ -98,27 +98,27 @@
       },
       {
         "dimension": "Project Breadth",
-        "fullStack": 96,
-        "dataAnalytics": 73,
-        "uiUxDesign": 90
+        "fullStack": 98,
+        "dataAnalytics": 82,
+        "uiUxDesign": 92
       },
       {
         "dimension": "Sustained Work",
-        "fullStack": 93,
-        "dataAnalytics": 68,
-        "uiUxDesign": 84
+        "fullStack": 96,
+        "dataAnalytics": 78,
+        "uiUxDesign": 88
       },
       {
         "dimension": "Delivery Evidence",
-        "fullStack": 91,
-        "dataAnalytics": 76,
-        "uiUxDesign": 86
+        "fullStack": 92,
+        "dataAnalytics": 79,
+        "uiUxDesign": 87
       },
       {
         "dimension": "Preference Signal",
-        "fullStack": 94,
-        "dataAnalytics": 70,
-        "uiUxDesign": 91
+        "fullStack": 93,
+        "dataAnalytics": 72,
+        "uiUxDesign": 90
       }
     ]
   },
@@ -202,6 +202,38 @@
         "uiUxDesign": 100
       },
       "evidence": "MUI design-system workbench with typed design documents, token editing, theme compilation, component catalogs, Redux state, persistence, and independent appearance controls."
+    },
+    {
+      "repository": "JaredMabus/soundklips",
+      "url": "https://github.com/JaredMabus/soundklips",
+      "private": true,
+      "primaryLanguage": "TypeScript",
+      "languages": ["TypeScript", "Python", "HTML"],
+      "createdAt": "2023-08-13T00:45:44Z",
+      "pushedAt": "2024-07-06T01:57:07Z",
+      "defaultBranchCommits": 58,
+      "domainSignals": {
+        "fullStack": 95,
+        "dataAnalytics": 72,
+        "uiUxDesign": 82
+      },
+      "evidence": "React, TypeScript, MUI, FastAPI, SQLAlchemy, and PostgreSQL audio platform with authentication, AWS-backed file delivery, light and dark themes, and waveform amplitude visualization."
+    },
+    {
+      "repository": "JaredMabus/workout-app",
+      "url": "https://github.com/JaredMabus/workout-app",
+      "private": true,
+      "primaryLanguage": "TypeScript",
+      "languages": ["TypeScript", "HTML", "Dockerfile", "CSS", "JavaScript"],
+      "createdAt": "2022-12-05T20:34:37Z",
+      "pushedAt": "2023-09-21T20:02:33Z",
+      "defaultBranchCommits": 79,
+      "domainSignals": {
+        "fullStack": 92,
+        "dataAnalytics": 86,
+        "uiUxDesign": 84
+      },
+      "evidence": "TypeScript MERN weightlifting product with authentication, workout and goal modeling, weekly planning, progress metrics, dashboards, charts, responsive navigation, themes, and deployment infrastructure."
     }
   ]
 }

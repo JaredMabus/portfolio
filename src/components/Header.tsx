@@ -196,9 +196,10 @@ export default function Header() {
             {/* Left: Mobile Menu + Site Logo + Desktop Nav Items */}
             <Stack
               direction="row"
-              alignItems="center"
-              gap={{ xs: 1, sm: 2 }}
-            >
+              sx={{
+                alignItems: "center",
+                gap: { xs: 1, sm: 2 }
+              }}>
               <SideNav
                 open={isDrawerOpen}
                 toggleDrawer={toggleDrawer}
@@ -235,7 +236,9 @@ export default function Header() {
             {/* Right Controls: Theme Switch, Centered Divider, Paired Socials */}
             <Stack
               direction="row"
-              alignItems="center"
+              sx={{
+                alignItems: "center"
+              }}
             >
               <IconButton
                 onClick={toggleTheme}
@@ -258,7 +261,9 @@ export default function Header() {
                 }}
               />
 
-              <Stack direction="row" spacing={0.5} alignItems="center">
+              <Stack direction="row" spacing={0.5} sx={{
+                alignItems: "center"
+              }}>
                 <Tooltip title="GitHub">
                   <IconButton
                     component={Link}

@@ -139,7 +139,12 @@ export default function DataPage() {
 
         {/* 1. Top Metric KPI Strip (Glassmorphic Cards) */}
         <Grid container spacing={2.5}>
-          <Grid item xs={12} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              lg: 3
+            }}>
             <MetricCard
               title="Total Requests"
               value="1.24M"
@@ -148,7 +153,12 @@ export default function DataPage() {
               icon={<QueryStatsOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              lg: 3
+            }}>
             <MetricCard
               title="Avg Latency"
               value="34ms"
@@ -157,7 +167,12 @@ export default function DataPage() {
               icon={<SpeedOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              lg: 3
+            }}>
             <MetricCard
               title="Uptime SLA"
               value="99.98%"
@@ -166,7 +181,12 @@ export default function DataPage() {
               icon={<CheckCircleOutlineOutlinedIcon sx={{ fontSize: 20 }} />}
             />
           </Grid>
-          <Grid item xs={12} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 6,
+              lg: 3
+            }}>
             <MetricCard
               title="Active Commits"
               value="842"
@@ -256,7 +276,11 @@ export default function DataPage() {
 
         {/* 3. Engineering Radar & Tech Stack Donut */}
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <ChartContainer
               title="Engineering Competencies"
               subtitle="Multi-dimensional skill rating vs senior benchmark (%)"
@@ -286,7 +310,11 @@ export default function DataPage() {
             </ChartContainer>
           </Grid>
 
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <ChartContainer
               title="Tech Stack Distribution"
               subtitle="Time and codebase composition by core technology"
@@ -304,7 +332,11 @@ export default function DataPage() {
 
         {/* 4. Lighthouse Scores & Monthly Contributions Bar Charts */}
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <ChartContainer
               title="Quality & Performance Metrics"
               subtitle="Lighthouse automated audit scores vs targets (0-100)"
@@ -334,7 +366,11 @@ export default function DataPage() {
             </ChartContainer>
           </Grid>
 
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <ChartContainer
               title="Monthly Development Activity"
               subtitle="Stacked contributions: features, refactors, and test coverage"
@@ -374,7 +410,11 @@ export default function DataPage() {
 
         {/* 5. Gauge Chart & Activity Heatmap */}
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={4}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 4
+            }}>
             <ChartContainer
               title="System Health"
               subtitle="Composite reliability index"
@@ -390,7 +430,11 @@ export default function DataPage() {
             </ChartContainer>
           </Grid>
 
-          <Grid item xs={12} lg={8}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 8
+            }}>
             <ChartContainer
               title="Commit Activity Heatmap"
               subtitle="26-week activity matrix with sequential Bklit scale shading"
@@ -472,7 +516,13 @@ export default function DataPage() {
               {dynamicPaletteRamp.map((item) => {
                 const hex = isDark ? item.darkHex : item.lightHex;
                 return (
-                  <Grid item xs={12} sm={6} md={2.4} key={item.token}>
+                  <Grid
+                    key={item.token}
+                    size={{
+                      xs: 12,
+                      sm: 6,
+                      md: 2.4
+                    }}>
                     <Box
                       sx={{
                         p: 2,
@@ -552,7 +602,13 @@ export default function DataPage() {
               {dynamicScaleRamp.map((item) => {
                 const hex = isDark ? item.darkHex : item.lightHex;
                 return (
-                  <Grid item xs={12} sm={6} md={2.4} key={item.token}>
+                  <Grid
+                    key={item.token}
+                    size={{
+                      xs: 12,
+                      sm: 6,
+                      md: 2.4
+                    }}>
                     <Box
                       sx={{
                         p: 2,

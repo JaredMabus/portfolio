@@ -9,7 +9,9 @@ const Socials: React.FC = () => {
   const theme = useTheme();
 
   return (
-    <Stack direction="row" spacing={1} alignItems="center">
+    <Stack direction="row" spacing={1} sx={{
+      alignItems: "center"
+    }}>
       <Tooltip title="GitHub" arrow>
         <IconButton
           component={Link}
@@ -44,7 +46,6 @@ const Socials: React.FC = () => {
           <GitHubIcon sx={{ fontSize: 18 }} />
         </IconButton>
       </Tooltip>
-
       <Tooltip title="LinkedIn" arrow>
         <IconButton
           component={Link}

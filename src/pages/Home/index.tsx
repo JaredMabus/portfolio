@@ -166,11 +166,10 @@ export default function Home() {
             <Stack
               direction="row"
               spacing={2}
-              alignItems="center"
               sx={{
-                pt: 1,
-              }}
-            >
+                alignItems: "center",
+                pt: 1
+              }}>
               <Button
                 component={Link}
                 to="/projects"
@@ -256,12 +255,13 @@ export default function Home() {
         >
           {/* Section Heading Outside Card */}
           <Stack
-            alignItems="flex-start"
             spacing={1}
             sx={{
+              alignItems: "flex-start",
               width: "100%",
               maxWidth: "920px",
               position: "relative",
+
               "&::before": {
                 content: '""',
                 position: "absolute",
@@ -275,12 +275,12 @@ export default function Home() {
                 pointerEvents: "none",
                 borderRadius: "20px",
               },
+
               "& > *": {
                 position: "relative",
                 zIndex: 1,
-              },
-            }}
-          >
+              }
+            }}>
             <Box
               component="span"
               sx={{
@@ -313,18 +313,18 @@ export default function Home() {
           {/* Highlights Badge Strip */}
           <Stack
             direction="row"
-            flexWrap="wrap"
-            gap={1.5}
             sx={{
+              flexWrap: "wrap",
+              gap: 1.5,
               width: "100%",
               maxWidth: "920px",
               position: "relative",
+
               "& > *": {
                 zIndex: 1,
                 position: "relative",
-              },
-            }}
-          >
+              }
+            }}>
             {HIGHLIGHTS.map((item, index) => {
               const IconComp = item.icon;
               return (
@@ -547,17 +547,11 @@ export default function Home() {
                     boxShadow: isCardSelected
                       ? `0 12px 28px ${alpha(specialtyColor, 0.16)}`
                       : "none",
-                    transform: isCardActive ? "translateY(-4px)" : "none",
                     cursor: "pointer",
-                    transition: theme.transitions.create(
-                      ["transform", "box-shadow", "border-color"],
-                      {
-                        duration: theme.transitions.duration.standard,
-                        easing: theme.transitions.easing.easeInOut,
-                      }
-                    ),
                     "&:hover": {
-                      transform: "translateY(-4px)",
+                      transform: isCardActive
+                        ? "translateY(-6px) scale(1.012)"
+                        : "translateY(-4px) scale(1)",
                       borderColor: isCardSelected
                         ? specialtyColor
                         : theme.palette.outline.state.outlinedBorder,
@@ -590,7 +584,6 @@ export default function Home() {
                       },
                     }}
                   />
-
                   {isCardSelected && (
                     <Button
                       size="small"
@@ -622,7 +615,6 @@ export default function Home() {
                       Clear
                     </Button>
                   )}
-
                   {/* Icon Header */}
                   <Box
                     sx={{
@@ -640,7 +632,6 @@ export default function Home() {
                   >
                     <IconComp sx={{ fontSize: 24 }} />
                   </Box>
-
                   {/* Title & Description */}
                   <Typography
                     variant="h6"
@@ -667,9 +658,13 @@ export default function Home() {
                   >
                     {pillar.description}
                   </Typography>
-
                   {/* Tech Skill Tags */}
-                  <Stack direction="row" flexWrap="wrap" gap={0.75}>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      flexWrap: "wrap",
+                      gap: 0.75
+                    }}>
                     {pillar.tags.map((tag, tIdx) => (
                       <Box
                         key={tIdx}
@@ -713,11 +708,12 @@ export default function Home() {
             {/* Header & Legend */}
             <Stack
               direction={{ xs: "column", sm: "row" }}
-              alignItems={{ xs: "flex-start", sm: "center" }}
-              justifyContent="space-between"
-              gap={1.5}
-              sx={{ mb: 2 }}
-            >
+              sx={{
+                alignItems: { xs: "flex-start", sm: "center" },
+                justifyContent: "space-between",
+                gap: 1.5,
+                mb: 2
+              }}>
               <Box>
                 <Typography
                   variant="h6"
@@ -736,7 +732,7 @@ export default function Home() {
                     fontSize: "0.85rem",
                   }}
                 >
-                  Shared experience and preference KPIs across five representative projects
+                        Shared experience and preference KPIs from representative GitHub projects
                 </Typography>
               </Box>
             </Stack>
@@ -968,10 +964,11 @@ export default function Home() {
                             <Box key={kpi.key}>
                               <Stack
                                 direction="row"
-                                alignItems="baseline"
-                                justifyContent="space-between"
-                                gap={1}
-                              >
+                                sx={{
+                                  alignItems: "baseline",
+                                  justifyContent: "space-between",
+                                  gap: 1
+                                }}>
                                 <Typography
                                   variant="body2"
                                   sx={{ fontWeight: 700, fontSize: "0.88rem" }}
@@ -1057,16 +1054,18 @@ export default function Home() {
                             <Box key={domain.key}>
                               <Stack
                                 direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                                gap={1.5}
-                              >
+                                sx={{
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  gap: 1.5
+                                }}>
                                 <Stack
                                   direction="row"
-                                  alignItems="center"
-                                  gap={1}
-                                  sx={{ minWidth: 0 }}
-                                >
+                                  sx={{
+                                    alignItems: "center",
+                                    gap: 1,
+                                    minWidth: 0
+                                  }}>
                                   <Box
                                     aria-hidden="true"
                                     sx={{
