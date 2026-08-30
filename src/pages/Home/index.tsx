@@ -281,7 +281,7 @@ export default function Home() {
                 zIndex: 1,
               }
             }}>
-            <Box
+            {/* <Box
               component="span"
               sx={{
                 display: "inline-flex",
@@ -298,7 +298,7 @@ export default function Home() {
               }}
             >
               BACKGROUND
-            </Box>
+            </Box> */}
             <Typography
               variant="h3"
               sx={{
@@ -377,6 +377,7 @@ export default function Home() {
             }}
           >
             <Stack spacing={2.5}>
+
               {/* Story Paragraphs */}
               <Typography
                 variant="body1"
@@ -390,11 +391,7 @@ export default function Home() {
                   },
                 }}
               >
-                I'm a <strong>full-stack developer and data analyst</strong> who
-                likes turning complex information into useful products. I
-                started with data during college research projects, using code
-                to organize messy information, test assumptions, and explain
-                what the results actually meant.
+                I’m a full-stack developer with a background in data analytics, focused on turning complex information into useful, reliable software. My interest in programming began in college during more than a few caffeine-fueled research projects. I started using code to organize messy information, test assumptions, and explain what the results actually meant. That work eventually led me from analyzing information to building software.
               </Typography>
               <Typography
                 variant="body1"
@@ -408,13 +405,7 @@ export default function Home() {
                   },
                 }}
               >
-                That work grew into web development. Today, I work across{" "}
-                <strong>
-                  data models, APIs, frontend architecture, and interface design
-                </strong>{" "}
-                based on what the product needs. I care about how data moves
-                through a system, how people use it, and whether the
-                implementation will hold up beyond the first demo.
+                When building software, I work across data models, APIs, frontend architecture, and interface design, choosing the approach that best fits what I’m creating. I care about how data moves through a system, how people experience it, and whether the implementation will hold up beyond the first demo.
               </Typography>
             </Stack>
           </Box>
@@ -732,7 +723,7 @@ export default function Home() {
                     fontSize: "0.85rem",
                   }}
                 >
-                        Shared experience and preference KPIs from representative GitHub projects
+                  Shared experience and preference KPIs from representative GitHub projects
                 </Typography>
               </Box>
             </Stack>

@@ -1044,13 +1044,6 @@ let theme = createTheme({
             boxShadow: "none",
           },
         }),
-        containedPrimary: ({ theme }: { theme: Theme }) => ({
-          color: theme.palette.surface.main,
-          backgroundColor: theme.palette.primary.main,
-          "&:hover": {
-            backgroundColor: theme.palette.primary.high,
-          },
-        }),
         outlined: ({ theme }: { theme: Theme }) => ({
           boxShadow: "none",
           "&:hover": {
@@ -1059,6 +1052,16 @@ let theme = createTheme({
         }),
       },
       variants: [
+        {
+          props: { variant: "contained", color: "primary" },
+          style: ({ theme }: { theme: Theme }) => ({
+            color: theme.palette.surface.main,
+            backgroundColor: theme.palette.primary.main,
+            "&:hover": {
+              backgroundColor: theme.palette.primary.high,
+            },
+          }),
+        },
         {
           props: { variant: "contained", color: "neutral" },
           style: ({ theme }: { theme: Theme }) => ({
