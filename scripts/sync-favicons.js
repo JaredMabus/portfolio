@@ -6,22 +6,31 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 
-const themeFilePath = path.join(rootDir, "src", "styles", "theme.ts");
+const themeTokensFilePath = path.join(
+  rootDir,
+  "src",
+  "styles",
+  "theme.tokens.ts",
+);
 const faviconSvgPath = path.join(rootDir, "public", "favicon.svg");
 const manifestJsonPath = path.join(rootDir, "public", "manifest.json");
 
 function getActivePrimaryColor() {
-  if (!fs.existsSync(themeFilePath)) {
-    console.warn("[sync-favicons] theme.ts not found, defaulting to #6ABA94");
+  if (!fs.existsSync(themeTokensFilePath)) {
+    console.warn(
+      "[sync-favicons] theme.tokens.ts not found, defaulting to #6ABA94",
+    );
     return "#6ABA94";
   }
 
-  const content = fs.readFileSync(themeFilePath, "utf-8");
+  const content = fs.readFileSync(themeTokensFilePath, "utf-8");
 
   // Extract the themeColorSeed block
   const seedBlockMatch = content.match(/export\s+const\s+themeColorSeed\s*=\s*\{([\s\S]*?)\};/);
   if (!seedBlockMatch) {
-    console.warn("[sync-favicons] themeColorSeed block not found in theme.ts");
+    console.warn(
+      "[sync-favicons] themeColorSeed block not found in theme.tokens.ts",
+    );
     return "#6ABA94";
   }
 
