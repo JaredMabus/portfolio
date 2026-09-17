@@ -4,13 +4,13 @@ import {
   Button,
   Divider,
   Stack,
-  ButtonProps,
   Tooltip,
-  useTheme,
 } from "@mui/material";
-import { Link, LinkProps } from "react-router-dom";
+import type { ButtonProps } from "@mui/material";
+import { Link } from "react-router-dom";
+import type { LinkProps } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { ElementType } from "react";
+import type { ElementType } from "react";
 
 // ICONS
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -20,14 +20,12 @@ import { ProjectData } from "../data/projectData";
 // --- Props Interface ---
 interface CardContainerProps {
   data: ProjectData;
-  component?: ElementType;
 }
-type CardContainerLinkProps = CardContainerProps & LinkProps;
 type CardButtonProps = ButtonProps & LinkProps;
 
-const CardContainer = styled(Link, {
+const CardContainer = styled(Box, {
   shouldForwardProp: (prop) => prop !== "data",
-})<CardContainerProps | CardContainerLinkProps>(({ theme, data }) => ({
+})<CardContainerProps>(({ theme, data }) => ({
   width: "100%",
   minWidth: 256,
   height: 352,
@@ -72,13 +70,23 @@ const CardContainer = styled(Link, {
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 1,
   },
-  "> *": {
-    position: "relative",
-    zIndex: 2,
+}));
+
+const CardPrimaryLink = styled(Link)(({ theme }) => ({
+  position: "absolute",
+  inset: 0,
+  zIndex: 2,
+  borderRadius: "16px",
+  "&:focus-visible": {
+    outline: `3px solid ${theme.palette.primary.main}`,
+    outlineOffset: "3px",
   },
 }));
 
 const CardHeader = styled(Stack)(({ theme }) => ({
+  position: "relative",
+  zIndex: 3,
+  pointerEvents: "none",
   width: "100%",
   flexDirection: "column",
   alignItems: "start",
@@ -94,6 +102,9 @@ const CardHeader = styled(Stack)(({ theme }) => ({
 }));
 
 const CardContent = styled(Stack)(({ theme }) => ({
+  position: "relative",
+  zIndex: 3,
+  pointerEvents: "none",
   visibility: "hidden",
   opacity: 0,
   width: "100%",
@@ -164,16 +175,14 @@ interface PropTypes {
 }
 
 export default function ProjectCard({ data }: PropTypes) {
-  const theme = useTheme();
-
   return (
-    <CardContainer
-      data={data}
-      component={Link}
-      to={data.url}
-      target="_blank"
-      rel="noreferrer"
-    >
+    <CardContainer data={data} component="article">
+      <CardPrimaryLink
+        to={data.url}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={`View ${data.title} project`}
+      />
       <CardHeader id="card-header">
         <Typography
           variant="h5"
@@ -187,7 +196,12 @@ export default function ProjectCard({ data }: PropTypes) {
         <Divider />
         <Stack
           id="card-btn-stack"
-          sx={{ visibility: "visible" }}
+          sx={{
+            visibility: "visible",
+            pointerEvents: "auto",
+            position: "relative",
+            zIndex: 4,
+          }}
           direction="row"
           spacing={1}
         >

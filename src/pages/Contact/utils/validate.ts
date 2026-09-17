@@ -1,4 +1,4 @@
-import {FormData} from './index';
+import type { FormData } from "../types/contact";
 
 export default function validate(data: FormData) {
     const error: Partial<FormData> = {};
