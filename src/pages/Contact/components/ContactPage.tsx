@@ -121,13 +121,17 @@ export default function Contact() {
                   height: 44,
                   alignSelf: "center",
                   backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.surface.main,
+                  color: theme.palette.primary.contrastText,
                   fontWeight: 700,
                   borderRadius: "24px",
                   mt: 1,
                   boxShadow: `0 4px 14px ${theme.palette.primary.state.focus}`,
+                  "& .MuiSvgIcon-root": {
+                    color: "inherit",
+                  },
                   "&:hover": {
                     backgroundColor: theme.palette.primary.high,
+                    color: theme.palette.primary.contrastText,
                     boxShadow: `0 6px 20px ${theme.palette.primary.state.focusVisible}`,
                   },
                   "&:focus-visible": {

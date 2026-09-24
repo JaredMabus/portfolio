@@ -27,6 +27,7 @@ describe("color utilities", () => {
   it("preserves hue while brightening non-hex colors", () => {
     expect(brightenPreserveHue("rgb(255, 0, 0)", 0.1)).toBe("#FF3333");
     expect(brightenPreserveHue("hsl(120 100% 50%)", 0.1)).toBe("#33FF33");
+    expect(brightenPreserveHue("#d24f23")).toBe("#DC5D32");
   });
 
   it("selects readable foregrounds after normalization", () => {

@@ -82,7 +82,7 @@ export default function HeroSection() {
               />
             }
             sx={{
-              color: theme.palette.surface.main,
+              color: theme.palette.primary.contrastText,
               backgroundColor: theme.palette.primary.main,
               fontWeight: 700,
               fontSize: { xs: "1rem", sm: "1.05rem" },
@@ -103,6 +103,7 @@ export default function HeroSection() {
               "& .MuiSvgIcon-root": { color: "inherit" },
               "&:hover": {
                 backgroundColor: theme.palette.primary.high,
+                color: theme.palette.primary.contrastText,
                 boxShadow: `0 8px 24px ${theme.palette.primary.state.focusVisible}`,
                 transform: "translateY(-2px)",
                 "& .MuiButton-endIcon .MuiSvgIcon-root": {

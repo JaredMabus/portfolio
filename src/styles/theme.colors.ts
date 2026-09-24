@@ -15,6 +15,7 @@ import {
   surfaceStateLayerOpacity,
   surfaceTintWeights,
   surfaceToneReferences,
+  themeColorDarkAdjustment,
   themeColorModeOverrides,
   themeColorSeed,
 } from "./theme.tokens";
@@ -48,9 +49,13 @@ export function createStateLayer(
 
 
 /** Resolves a seed color to its mode-specific main value. */
-function modeColorMain(seed: string, mode: ThemeMode) {
+function modeColorMain(
+  seed: string,
+  mode: ThemeMode,
+  lightnessIncrease = 0.05,
+) {
   // Preserves 100% of the seed's original Hue and Saturation
-  return mode === "light" ? seed : brightenPreserveHue(seed, 0.16);
+  return mode === "light" ? seed : brightenPreserveHue(seed, lightnessIncrease);
 }
 
 /** Creates a complete semantic color role from a resolved main color. */
@@ -65,8 +70,12 @@ function createColorRole(main: string, mode: ThemeMode): ColorRole {
 }
 
 /** Creates a semantic color role directly from an authored seed. */
-function createRoleFromSeed(seed: string, mode: ThemeMode): ColorRole {
-  return createColorRole(modeColorMain(seed, mode), mode);
+function createRoleFromSeed(
+  seed: string,
+  mode: ThemeMode,
+  lightnessIncrease?: number,
+): ColorRole {
+  return createColorRole(modeColorMain(seed, mode, lightnessIncrease), mode);
 }
 
 /** Creates a mode-specific container role with a readable foreground. */
@@ -190,13 +199,25 @@ function createGlassSurfaceRole(
 
 /** Builds the complete semantic color scheme for one appearance mode. */
 function createThemeColorScheme(mode: ThemeMode): ThemeColorScheme {
-  const primary = createRoleFromSeed(themeColorSeed.primary, mode);
+  const primary = createRoleFromSeed(
+    themeColorSeed.primary,
+    mode,
+    themeColorDarkAdjustment.primary,
+  );
   const secondary = createColorRole(
     themeColorModeOverrides[mode].secondary,
     mode,
   );
-  const tertiary = createRoleFromSeed(themeColorSeed.tertiary, mode);
-  const error = createRoleFromSeed(themeColorSeed.error, mode);
+  const tertiary = createRoleFromSeed(
+    themeColorSeed.tertiary,
+    mode,
+    themeColorDarkAdjustment.tertiary,
+  );
+  const error = createRoleFromSeed(
+    themeColorSeed.error,
+    mode,
+    themeColorDarkAdjustment.error,
+  );
   const primaryContainer = createContainerRole(themeColorSeed.primary, mode);
   const secondaryContainer = createContainerRole(
     themeColorSeed.secondary,

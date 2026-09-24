@@ -71,6 +71,13 @@ export const themeColorModeOverrides = {
   },
 } as const;
 
+/** Lightness increase applied to seeds when generating dark mode color roles. */
+export const themeColorDarkAdjustment = {
+  primary: 0.1,
+  tertiary: 0.16,
+  error: 0.16,
+} as const;
+
 export const colorStateLayerOpacity = {
   hover: 0.04,
   selected: 0.08,

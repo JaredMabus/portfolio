@@ -319,7 +319,7 @@ export const sharedComponents = {
         }),
         contained: ({ theme }: { theme: Theme }) => ({
           boxShadow: "none",
-          color: theme.palette.surface.main,
+          color: theme.palette.primary.contrastText,
           "& .MuiSvgIcon-root, & .material-symbol": {
             color: "inherit",
           },
@@ -338,10 +338,14 @@ export const sharedComponents = {
         {
           props: { variant: "contained", color: "primary" },
           style: ({ theme }: { theme: Theme }) => ({
-            color: theme.palette.surface.main,
+            color: theme.palette.primary.contrastText,
             backgroundColor: theme.palette.primary.main,
+            "& .MuiSvgIcon-root, & .material-symbol": {
+              color: "inherit",
+            },
             "&:hover": {
               backgroundColor: theme.palette.primary.high,
+              color: theme.palette.primary.contrastText,
             },
           }),
         },

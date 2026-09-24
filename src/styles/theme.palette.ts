@@ -1,6 +1,6 @@
 import { alpha, darken, lighten, type Theme } from "@mui/material/styles";
 import { createStateLayer, darkThemeColors, lightThemeColors } from "./theme.colors";
-import { colorStateLayerOpacity, surfaceStateLayerOpacity } from "./theme.tokens";
+import { colorStateLayerOpacity, neutral, surfaceStateLayerOpacity } from "./theme.tokens";
 import type { ThemeMode } from "./theme.types";
 
 export function createThemePalette(mode: ThemeMode, theme: Theme) {
@@ -13,7 +13,7 @@ export function createThemePalette(mode: ThemeMode, theme: Theme) {
       main: themeColors.primary.main,
       light: lighten(themeColors.primary.main, 0.2),
       dark: darken(themeColors.primary.main, 0.15),
-      contrastText: themeColors.primary.on,
+      contrastText: neutral.n97,
       high: themeColors.primary.high,
       low: themeColors.primary.low,
       state: themeColors.primary.state,

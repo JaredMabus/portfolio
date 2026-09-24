@@ -226,7 +226,7 @@ function rgbToHsl({ r: r255, g: g255, b: b255 }: RgbChannels): HslChannels {
 /** Brightens a supported color while preserving its hue and saturation. */
 export function brightenPreserveHue(
   color: string,
-  lightnessIncrease = 0.16,
+  lightnessIncrease = 0.05,
 ): string {
   const { h, s, l } = rgbToHsl(parseColor(color));
   const targetL = Math.min(88, Math.max(10, l + lightnessIncrease * 100));
