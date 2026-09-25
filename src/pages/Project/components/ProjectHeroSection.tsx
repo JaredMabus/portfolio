@@ -16,7 +16,7 @@ interface ProjectHeroSectionProps {
  *
  * Contains two primary sections:
  * 1. The Content: Page heading, description summary, and interactive category filter pills.
- * 2. The Hero Project Showcase: Wraps the featured project card with its image and integrated action buttons.
+ * 2. The Hero Project Showcase: Optional featured project card.
  */
 export default function ProjectHeroSection({
   categories,
@@ -128,7 +128,7 @@ export default function ProjectHeroSection({
         </Stack>
       </Box>
 
-      {/* Section 2: The Hero Project Showcase */}
+      {/* Section 2: Optional Hero Project Showcase */}
       {featuredProject && (
         <Box sx={{ width: "100%" }}>
           <FeaturedProjectCard data={featuredProject} />

@@ -1,24 +1,14 @@
 import React from "react";
 import ProjectCard from "./ProjectCard";
 import { Box, Typography } from "@mui/material";
-import { animated, useTransition } from "@react-spring/web";
 import { ProjectData } from "../data/projectData";
 
 interface Props {
   data: ProjectData[];
-  selectedCategory?: string;
   showHeading?: boolean;
 }
 
 const ProjectGrid = ({ data, showHeading = true }: Props) => {
-  const transitions = useTransition(data, {
-    keys: (item) => item.id,
-    from: { opacity: 0, transform: "translateY(16px)" },
-    enter: { opacity: 1, transform: "translateY(0px)" },
-    leave: { opacity: 0 },
-    trail: 60,
-  });
-
   if (data.length === 0) {
     return null;
   }
@@ -62,11 +52,10 @@ const ProjectGrid = ({ data, showHeading = true }: Props) => {
           alignItems: "stretch",
         }}
       >
-        {transitions((style, project) => (
-          <animated.div
+        {data.map((project) => (
+          <Box
             key={project.id}
-            style={{
-              ...style,
+            sx={{
               width: "100%",
               height: "100%",
               minWidth: 0,
@@ -75,7 +64,7 @@ const ProjectGrid = ({ data, showHeading = true }: Props) => {
             }}
           >
             <ProjectCard data={project} />
-          </animated.div>
+          </Box>
         ))}
       </Box>
     </Box>
