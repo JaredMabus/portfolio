@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Card, Typography, Chip, useTheme, alpha } from "@mui/material";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import TrendingDownOutlinedIcon from "@mui/icons-material/TrendingDownOutlined";
+import { neutral } from "@/styles/theme.tokens";
 
 export interface MetricCardProps {
   label?: string;
@@ -30,7 +31,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const isDark = theme.palette.mode === "dark";
   const displayTitle = title || label || "Metric";
   const sparklineColor =
-    color || (isDark ? theme.palette.text.primary : theme.palette.neutral.n20);
+    color || (isDark ? theme.palette.text.primary : neutral.n20);
 
   // Generate SVG sparkline path
   const minVal = Math.min(...sparklineData);

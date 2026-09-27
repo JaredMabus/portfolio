@@ -1,7 +1,7 @@
-import { alpha, type Theme } from "@mui/material/styles";
+import { alpha, type Components, type Theme } from "@mui/material/styles";
 import { common, grey } from "@mui/material/colors";
 
-export const sharedComponents = {
+export const sharedComponents: Components<Theme> = {
     MuiTypography: {
       defaultProps: {
         variantMapping: {
