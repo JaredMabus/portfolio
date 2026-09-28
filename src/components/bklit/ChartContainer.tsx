@@ -1,4 +1,5 @@
 import React from "react";
+import { useBklitPalette } from "./theme";
 import { Box, Card, Typography, Button, Chip, useTheme } from "@mui/material";
 
 export interface ChartContainerProps {
@@ -25,6 +26,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
   height = 360,
 }) => {
   const theme = useTheme();
+  const chartPalette = useBklitPalette();
 
   return (
     <Card
@@ -32,7 +34,7 @@ export const ChartContainer: React.FC<ChartContainerProps> = ({
       sx={{
         width: "100%",
         borderRadius: "20px",
-        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
+        backgroundColor: chartPalette.containerBg,
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "light"

@@ -1,13 +1,13 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 import { baseTheme } from "./theme.base";
-import { createModeComponents } from "./theme.mode-components";
+import { createComponents } from "./theme.components";
 import { createThemePalette } from "./theme.palette";
 
 function createAppTheme(mode: "light" | "dark") {
   return responsiveFontSizes(
     createTheme(baseTheme, {
       palette: createThemePalette(mode, baseTheme),
-      components: createModeComponents(mode),
+      components: createComponents(mode),
     }),
   );
 }

@@ -1,11 +1,37 @@
 import { alpha, darken, lighten, type Theme } from "@mui/material/styles";
 import { createStateLayer, darkThemeColors, lightThemeColors } from "./theme.colors";
 import { colorStateLayerOpacity, neutral, surfaceStateLayerOpacity } from "./theme.tokens";
-import type { ThemeMode } from "./theme.types";
+import type { ColorRole, ThemeMode } from "./theme.types";
 
 export function createThemePalette(mode: ThemeMode, theme: Theme) {
   const isLight = mode === "light";
   const themeColors = isLight ? lightThemeColors : darkThemeColors;
+
+  /** Adapt an already-resolved semantic surface without re-deriving its states. */
+  function surfaceColor(role: ColorRole) {
+    return theme.palette.augmentColor({
+      color: {
+        main: role.main,
+        high: role.high,
+        low: role.low,
+        contrastText: role.on,
+        state: role.state,
+      },
+    });
+  }
+
+  /** Add the same interaction treatment to MUI's built-in status colors. */
+  function statusColor(color: Theme["palette"]["warning"]) {
+    return {
+      main: color.main,
+      light: color.light,
+      dark: color.dark,
+      contrastText: color.contrastText,
+      high: isLight ? darken(color.main, 0.12) : lighten(color.main, 0.12),
+      low: isLight ? lighten(color.main, 0.12) : darken(color.main, 0.12),
+      state: createStateLayer(color.main, colorStateLayerOpacity),
+    };
+  }
 
   return {
     mode,
@@ -62,72 +88,9 @@ export function createThemePalette(mode: ThemeMode, theme: Theme) {
       low: themeColors.error.low,
       state: themeColors.error.state,
     },
-    warning: {
-      main: theme.palette.warning.main,
-      light: theme.palette.warning.light,
-      dark: theme.palette.warning.dark,
-      contrastText: theme.palette.warning.contrastText,
-      high: isLight
-        ? darken(theme.palette.warning.main, 0.12)
-        : lighten(theme.palette.warning.main, 0.12),
-      low: isLight
-        ? lighten(theme.palette.warning.main, 0.12)
-        : darken(theme.palette.warning.main, 0.12),
-      state: {
-        hover: alpha(theme.palette.warning.main, 0.04),
-        selected: alpha(theme.palette.warning.main, 0.08),
-        focus: alpha(theme.palette.warning.main, 0.12),
-        focusVisible: alpha(theme.palette.warning.main, 0.3),
-        outlinedBorder: alpha(theme.palette.warning.main, 0.5),
-        dragged: alpha(theme.palette.warning.main, 0.16),
-        disabled: alpha(theme.palette.warning.main, 0.38),
-        disabledBg: alpha(theme.palette.warning.main, 0.12),
-      },
-    },
-    info: {
-      main: theme.palette.info.main,
-      light: theme.palette.info.light,
-      dark: theme.palette.info.dark,
-      contrastText: theme.palette.info.contrastText,
-      high: isLight
-        ? darken(theme.palette.info.main, 0.12)
-        : lighten(theme.palette.info.main, 0.12),
-      low: isLight
-        ? lighten(theme.palette.info.main, 0.12)
-        : darken(theme.palette.info.main, 0.12),
-      state: {
-        hover: alpha(theme.palette.info.main, 0.04),
-        selected: alpha(theme.palette.info.main, 0.08),
-        focus: alpha(theme.palette.info.main, 0.12),
-        focusVisible: alpha(theme.palette.info.main, 0.3),
-        outlinedBorder: alpha(theme.palette.info.main, 0.5),
-        dragged: alpha(theme.palette.info.main, 0.16),
-        disabled: alpha(theme.palette.info.main, 0.38),
-        disabledBg: alpha(theme.palette.info.main, 0.12),
-      },
-    },
-    success: {
-      main: theme.palette.success.main,
-      light: theme.palette.success.light,
-      dark: theme.palette.success.dark,
-      contrastText: theme.palette.success.contrastText,
-      high: isLight
-        ? darken(theme.palette.success.main, 0.12)
-        : lighten(theme.palette.success.main, 0.12),
-      low: isLight
-        ? lighten(theme.palette.success.main, 0.12)
-        : darken(theme.palette.success.main, 0.12),
-      state: {
-        hover: alpha(theme.palette.success.main, 0.04),
-        selected: alpha(theme.palette.success.main, 0.08),
-        focus: alpha(theme.palette.success.main, 0.12),
-        focusVisible: alpha(theme.palette.success.main, 0.3),
-        outlinedBorder: alpha(theme.palette.success.main, 0.5),
-        dragged: alpha(theme.palette.success.main, 0.16),
-        disabled: alpha(theme.palette.success.main, 0.38),
-        disabledBg: alpha(theme.palette.success.main, 0.12),
-      },
-    },
+    warning: statusColor(theme.palette.warning),
+    info: statusColor(theme.palette.info),
+    success: statusColor(theme.palette.success),
     primaryContainer: theme.palette.augmentColor({
       color: {
         main: themeColors.primaryContainer,
@@ -385,24 +348,8 @@ export function createThemePalette(mode: ThemeMode, theme: Theme) {
         state: createStateLayer(themeColors.inverseOnSurface, surfaceStateLayerOpacity),
       },
     }),
-    surfaceContainerLowest: theme.palette.augmentColor({
-      color: {
-        main: themeColors.surfaceContainerLowest.main,
-        high: themeColors.surfaceContainerLowest.high,
-        low: themeColors.surfaceContainerLowest.low,
-        contrastText: themeColors.surfaceContainerLowest.on,
-        state: themeColors.surfaceContainerLowest.state,
-      },
-    }),
-    surfaceContainerLow: theme.palette.augmentColor({
-      color: {
-        main: themeColors.surfaceContainerLow.main,
-        high: themeColors.surfaceContainerLow.high,
-        low: themeColors.surfaceContainerLow.low,
-        contrastText: themeColors.surfaceContainerLow.on,
-        state: themeColors.surfaceContainerLow.state,
-      },
-    }),
+    surfaceContainerLowest: surfaceColor(themeColors.surfaceContainerLowest),
+    surfaceContainerLow: surfaceColor(themeColors.surfaceContainerLow),
     surfaceContainerGlass: theme.palette.augmentColor({
       color: {
         main: themeColors.surfaceContainerGlass.main,
@@ -414,33 +361,9 @@ export function createThemePalette(mode: ThemeMode, theme: Theme) {
         state: themeColors.surfaceContainerGlass.state,
       },
     }),
-    surfaceContainer: theme.palette.augmentColor({
-      color: {
-        main: themeColors.surfaceContainer.main,
-        high: themeColors.surfaceContainer.high,
-        low: themeColors.surfaceContainer.low,
-        contrastText: themeColors.surfaceContainer.on,
-        state: themeColors.surfaceContainer.state,
-      },
-    }),
-    surfaceContainerHigh: theme.palette.augmentColor({
-      color: {
-        main: themeColors.surfaceContainerHigh.main,
-        high: themeColors.surfaceContainerHigh.high,
-        low: themeColors.surfaceContainerHigh.low,
-        contrastText: themeColors.surfaceContainerHigh.on,
-        state: themeColors.surfaceContainerHigh.state,
-      },
-    }),
-    surfaceContainerHighest: theme.palette.augmentColor({
-      color: {
-        main: themeColors.surfaceContainerHighest.main,
-        high: themeColors.surfaceContainerHighest.high,
-        low: themeColors.surfaceContainerHighest.low,
-        contrastText: themeColors.surfaceContainerHighest.on,
-        state: themeColors.surfaceContainerHighest.state,
-      },
-    }),
+    surfaceContainer: surfaceColor(themeColors.surfaceContainer),
+    surfaceContainerHigh: surfaceColor(themeColors.surfaceContainerHigh),
+    surfaceContainerHighest: surfaceColor(themeColors.surfaceContainerHighest),
     primaryFixed: theme.palette.augmentColor({
       color: {
         main: themeColors.primaryFixed,

@@ -1,4 +1,5 @@
 import React from "react";
+import { useBklitPalette } from "./theme";
 import { Box, Typography, useTheme } from "@mui/material";
 import { TooltipItem } from "./types";
 
@@ -20,6 +21,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
   containerWidth,
 }) => {
   const theme = useTheme();
+  const chartPalette = useBklitPalette();
 
   if (!visible || items.length === 0) return null;
 
@@ -31,7 +33,7 @@ export const ChartTooltip: React.FC<ChartTooltipProps> = ({
         top: Math.max(8, y - 40),
         pointerEvents: "none",
         zIndex: 999,
-        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
+        backgroundColor: chartPalette.tooltipBg,
         color: theme.palette.text.primary,
         borderRadius: "12px",
         padding: "12px 16px",

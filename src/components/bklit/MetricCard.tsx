@@ -1,4 +1,5 @@
 import React from "react";
+import { useBklitPalette } from "./theme";
 import { Box, Card, Typography, Chip, useTheme, alpha } from "@mui/material";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import TrendingDownOutlinedIcon from "@mui/icons-material/TrendingDownOutlined";
@@ -28,6 +29,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   icon,
 }) => {
   const theme = useTheme();
+  const chartPalette = useBklitPalette();
   const isDark = theme.palette.mode === "dark";
   const displayTitle = title || label || "Metric";
   const sparklineColor =
@@ -97,7 +99,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       sx={{
         p: 2.5,
         borderRadius: "18px",
-        backgroundColor: theme.palette.mode === "dark" ? "#1E1E1E" : "#FFFFFF",
+        backgroundColor: chartPalette.containerBg,
         border: `1px solid ${theme.palette.border.state.outlinedBorder}`,
         boxShadow:
           theme.palette.mode === "light"

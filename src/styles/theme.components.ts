@@ -1,7 +1,57 @@
 import { alpha, type Components, type Theme } from "@mui/material/styles";
 import { common, grey } from "@mui/material/colors";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import { darkThemeColors, lightThemeColors } from "./theme.colors";
+import { createGlobalCss } from "./theme.global-styles";
+import type { ThemeMode } from "./theme.types";
 
-export const sharedComponents: Components<Theme> = {
+export function createComponents(mode: ThemeMode): Components<Theme> {
+  const isLight = mode === "light";
+  const colors = isLight ? lightThemeColors : darkThemeColors;
+  return {
+    MuiCssBaseline: { styleOverrides: createGlobalCss(mode) },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: isLight ? colors.surface.main : colors.surfaceContainer.main,
+          color: colors.surface.on,
+          borderColor: isLight ? colors.border : colors.outline,
+        },
+      },
+    },
+    ...(isLight && {
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            "& label": { color: colors.surface.on },
+            "& label.Mui-focused": { color: colors.surface.on },
+            "& .MuiInput-underline:after": { borderBottomColor: colors.surface.on },
+          },
+        },
+      },
+    }),
+    ...(isLight && {
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: { borderColor: colors.outline },
+          root: {
+            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: alpha(colors.outline, 0.8),
+            },
+            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+              borderColor: alpha(colors.outline, 1),
+            },
+          },
+        },
+      },
+    }),
+    ...(!isLight && {
+      MuiSvgIcon: {
+        styleOverrides: {
+          root: ({ theme }: { theme: Theme }) => ({ color: theme.palette.text.secondary }),
+        },
+      },
+    }),
     MuiTypography: {
       defaultProps: {
         variantMapping: {
@@ -549,4 +599,5 @@ export const sharedComponents: Components<Theme> = {
         }),
       },
     },
-};
+  };
+}
