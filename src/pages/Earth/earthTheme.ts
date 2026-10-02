@@ -1,12 +1,13 @@
 // Scientific scene colors are intentional feature-local art direction. The page
 // uses the existing dark MUI theme for navigation, typography, and controls.
 export const earthColors = {
-  space: "#050a0e",
+  space: "#030507",
   panel: "#0c141a",
   text: "#edf5fa",
   muted: "#8b9ca9",
-  field: "#5dbbd4",
-  atmosphere: "#4a9bff",
+  field: "#87abae",
+  electron: "#91c9ff",
+  sun: "#ffffff",
   wind: "#f1b47c",
   paleWind: "#fff0d8",
   aurora: "#69e9b6",

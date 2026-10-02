@@ -1,6 +1,9 @@
-Earth surface, normal, specular, and cloud texture maps
-Downloaded from the Three.js planet-texture examples:
-https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg
+Earth surface: NASA Blue Marble: Next Generation, January 2004, 5400 x 2700.
+NASA Earth Observatory, Reto Stöckli / NASA Goddard Space Flight Center.
+https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography/
+https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-topography/january/world.topo.200401.3x5400x2700.jpg
+
+Normal, ocean specular mask, and cloud texture maps from Three.js examples:
 https://threejs.org/examples/textures/planets/earth_normal_2048.jpg
 https://threejs.org/examples/textures/planets/earth_specular_2048.jpg
 https://threejs.org/examples/textures/planets/earth_clouds_1024.png

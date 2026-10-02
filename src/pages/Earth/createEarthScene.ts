@@ -9,6 +9,8 @@ import {
   EARTH_AXIAL_TILT,
   ParticleSimulation,
   STEP,
+  magnetospherePoint,
+  SUN_POSITION,
   type PointerInfluence,
 } from "./physics";
 import { earthColors as colors } from "./earthTheme";
@@ -35,7 +37,7 @@ export function createEarthScene(
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
   renderer.setClearColor(0x000000);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.1;
+  renderer.toneMappingExposure = 1.0;
   renderer.domElement.setAttribute(
     "aria-label",
     "Rotating Earth with magnetic dipole field lines and flowing solar particles. Move your mouse to stir the particles. Drag to orbit the view.",
@@ -50,7 +52,7 @@ export function createEarthScene(
   // clearing before RenderPass would apply the screen's sRGB transform twice.
   scene.background = new THREE.Color(colors.space);
   const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
-  camera.position.set(0, 0.4, 10.5);
+  camera.position.set(0, 0.65, 11.5);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.enableZoom = false;
@@ -60,9 +62,9 @@ export function createEarthScene(
   controls.rotateSpeed = 0.35;
   controls.touches.ONE = THREE.TOUCH.ROTATE;
 
-  scene.add(new THREE.AmbientLight(0x849fc8, 0.42));
-  const sun = new THREE.DirectionalLight(0xfff5e6, 2.3);
-  sun.position.set(-5, 3, 5);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.035));
+  const sun = new THREE.DirectionalLight(0xffffff, 3.0);
+  sun.position.set(-7, 1.2, 4.5);
   scene.add(sun);
   const globe = new THREE.Group();
   globe.rotation.z = EARTH_AXIAL_TILT;
@@ -70,15 +72,29 @@ export function createEarthScene(
   const geometry = new THREE.SphereGeometry(1, 96, 64);
   const earthMaterial = new THREE.MeshPhongMaterial({
     color: 0xffffff,
-    shininess: 16,
-    specular: 0x687987,
+    shininess: 45,
+    specular: 0x161b20,
   });
+  // A small daylight ocean-scattering contribution gives the dark surface
+  // reflectance map its orbital blue appearance without an external halo.
+  earthMaterial.onBeforeCompile = (shader) => {
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "#include <map_fragment>",
+      `
+      #include <map_fragment>
+      #ifdef USE_SPECULARMAP
+        float ocean = texture2D(specularMap, vSpecularMapUv).r;
+        diffuseColor.rgb += vec3(.009, .032, .065) * ocean;
+      #endif
+    `,
+    );
+  };
   const earth = new THREE.Mesh(geometry, earthMaterial);
   earth.rotation.y = 2.9;
   globe.add(earth);
   const cloudMaterial = new THREE.MeshPhongMaterial({
     transparent: true,
-    opacity: 0.6,
+    opacity: 0.93,
     depthWrite: false,
   });
   const clouds = new THREE.Mesh(
@@ -88,66 +104,112 @@ export function createEarthScene(
   clouds.rotation.y = earth.rotation.y;
   globe.add(clouds);
 
-  // View-dependent atmospheric limb. Its illumination remains on the sunward
-  // side while the globe rotates independently underneath it.
-  const atmosphereMaterial = new THREE.ShaderMaterial({
-    uniforms: { tint: { value: new THREE.Color(colors.atmosphere) } },
-    vertexShader: `varying vec3 n; varying vec3 p;
-      void main() { n = normalize(mat3(modelMatrix) * normal);
-      p = (modelMatrix * vec4(position, 1.)).xyz;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.); }`,
-    fragmentShader: `uniform vec3 tint; varying vec3 n; varying vec3 p;
-      void main() { float rim = pow(1. - abs(dot(normalize(n), normalize(cameraPosition-p))), 3.5);
-      float sun = .3 + .7 * max(dot(normalize(n), normalize(vec3(-5.,3.,5.))),0.);
-      gl_FragColor = vec4(tint * 1.4, rim * sun * .72); }`,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    side: THREE.BackSide,
-    depthWrite: false,
-  });
-  scene.add(
-    new THREE.Mesh(new THREE.SphereGeometry(1.045, 80, 48), atmosphereMaterial),
+  // A white solar disk with a gentle limb falloff. Distances and its size are
+  // deliberately compressed; the illumination direction stays sunward.
+  const sunDisk = new THREE.Mesh(
+    new THREE.SphereGeometry(0.66, 64, 48),
+    new THREE.ShaderMaterial({
+      vertexShader: `varying vec3 n; varying vec3 p;
+        void main(){n=normalize(normalMatrix*normal); vec4 v=modelViewMatrix*vec4(position,1.);
+        p=v.xyz; gl_Position=projectionMatrix*v;}`,
+      fragmentShader: `varying vec3 n; varying vec3 p;
+        void main(){float mu=max(dot(normalize(n),normalize(-p)),0.);
+        gl_FragColor=vec4(vec3(1.35+.35*sqrt(mu)),1.);}`,
+    }),
   );
+  sunDisk.position.set(...SUN_POSITION);
+  scene.add(sunDisk);
 
   const fieldGroup = new THREE.Group();
-  fieldGroup.rotation.z = DIPOLE_TILT;
   scene.add(fieldGroup);
-  // Exact ideal-dipole integral curves: r = L sin²(theta). They terminate at
-  // the globe and share the magnetic axis used by the particle integrator.
-  for (const shell of [1.65, 2.25, 3.05, 4.1]) {
-    const start = Math.asin(Math.sqrt(1.025 / shell));
-    for (let meridian = 0; meridian < 10; meridian++) {
-      const phi = (meridian / 10) * Math.PI * 2;
-      const points: THREE.Vector3[] = [];
-      for (let j = 0; j <= 160; j++) {
-        const theta = start + ((Math.PI - 2 * start) * j) / 160;
-        const r = shell * Math.sin(theta) ** 2;
-        points.push(
-          new THREE.Vector3(
-            r * Math.sin(theta) * Math.cos(phi),
-            r * Math.cos(theta),
-            r * Math.sin(theta) * Math.sin(phi),
-          ),
-        );
-      }
-      const line = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(points),
-        new THREE.LineBasicMaterial({
-          color: colors.field,
-          transparent: true,
-          opacity: meridian % 5 === 0 ? 0.28 : 0.11,
-          depthWrite: false,
-        }),
-      );
-      fieldGroup.add(line);
-    }
+  // One continuous thick trace, through the two meridional lobes. Mapping it
+  // with the same deformation as B keeps the displayed field and forces aligned.
+  const fieldPoints: THREE.Vector3[] = [];
+  const shell = 3.2;
+  const rotation = new THREE.Matrix4().makeRotationZ(DIPOLE_TILT);
+  for (let j = 0; j < 720; j++) {
+    const theta = (j / 720) * Math.PI * 2;
+    const r = shell * Math.sin(theta) ** 2;
+    const p = new THREE.Vector3(
+      r * Math.sin(theta),
+      r * Math.cos(theta),
+      0,
+    ).applyMatrix4(rotation);
+    fieldPoints.push(new THREE.Vector3(...magnetospherePoint(p.x, p.y, p.z)));
+  }
+  const fieldCurve = new THREE.CatmullRomCurve3(fieldPoints, true);
+  const fieldMaterial = new THREE.MeshBasicMaterial({
+    color: colors.field,
+    transparent: true,
+    opacity: 0.64,
+  });
+  fieldGroup.add(
+    new THREE.Mesh(
+      new THREE.TubeGeometry(fieldCurve, 720, 0.018, 6, true),
+      fieldMaterial,
+    ),
+  );
+  // Scale-compressed Shue-style boundary silhouette. This is a distinct,
+  // subdued reference for the magnetopause, not an additional dipole shell.
+  const boundaryPoints: THREE.Vector3[] = [];
+  for (let j = 0; j <= 360; j++) {
+    const theta = -2.35 + (j / 360) * 4.7;
+    const r = 3.35 * (2 / (1 + Math.cos(theta))) ** 0.55;
+    boundaryPoints.push(
+      new THREE.Vector3(-r * Math.cos(theta), r * Math.sin(theta) * 0.6, -0.15),
+    );
+  }
+  const boundary = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(boundaryPoints),
+    new THREE.LineDashedMaterial({
+      color: colors.field,
+      transparent: true,
+      opacity: 0.13,
+      dashSize: 0.06,
+      gapSize: 0.09,
+    }),
+  );
+  boundary.computeLineDistances();
+  fieldGroup.add(boundary);
+
+  // Thin auroral curtains, independently illuminated by precipitation at each
+  // magnetic pole. No atmospheric blue shell surrounds the globe.
+  const auroras: THREE.ShaderMaterial[] = [];
+  const auroraGroup = new THREE.Group();
+  auroraGroup.rotation.z = DIPOLE_TILT;
+  scene.add(auroraGroup);
+  for (const pole of [1, -1]) {
+    const auroraGeometry = new THREE.SphereGeometry(
+      1.035,
+      128,
+      12,
+      0,
+      Math.PI * 2,
+      pole > 0 ? 0.25 : Math.PI - 0.43,
+      0.18,
+    );
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        bandStart: { value: pole > 0 ? 0.25 : Math.PI - 0.43 },
+        activity: { value: 0 },
+        time: { value: 0 },
+        tint: { value: new THREE.Color(colors.aurora) },
+      },
+      vertexShader: `varying vec2 vUv; uniform float bandStart; void main(){vUv=vec2(uv.x,(acos(clamp(normal.y,-1.,1.))-bandStart)/.18); gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+      fragmentShader: `varying vec2 vUv; uniform float activity; uniform float time; uniform vec3 tint;
+        void main(){float curtain=.5+.5*sin(vUv.x*170.+sin(vUv.x*45.+time)*2.);
+        float edge=pow(sin(vUv.y*3.14159265),1.5);
+        gl_FragColor=vec4(tint*1.8,edge*curtain*activity*.7);}`,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    auroras.push(material);
+    auroraGroup.add(new THREE.Mesh(auroraGeometry, material));
   }
 
   const mobile = host.clientWidth < 700;
   const simulation = new ParticleSimulation(mobile ? 1800 : 4200);
-  // Warm up a deterministic fixed-step evolution so the first frame already
-  // contains curved trajectories instead of a blank emitter.
-  for (let j = 0; j < 160; j++) simulation.step(1 / 60, 0.45, 0);
   const particleGeometry = new THREE.BufferGeometry();
   particleGeometry.setAttribute(
     "position",
@@ -159,34 +221,33 @@ export function createEarthScene(
   const sizes = new Float32Array(simulation.count);
   const color = new THREE.Color();
   for (let i = 0; i < simulation.count; i++) {
-    color.set(
-      i % 5 === 0 ? colors.field : i % 7 === 0 ? colors.paleWind : colors.wind,
-    );
-    color.multiplyScalar(i % 23 === 0 ? 2.2 : 1.05);
+    color.set(simulation.charges[i] > 0 ? colors.wind : colors.electron);
+    color.multiplyScalar(i % 23 === 0 ? 2.7 : 1.15);
     color.toArray(particleColors, i * 3);
-    sizes[i] = i % 23 === 0 ? 5.2 : 1.6 + Math.random() * 1.6;
+    sizes[i] = i % 23 === 0 ? 6.5 : 1.3 + Math.random() ** 2 * 3.0;
   }
   particleGeometry.setAttribute(
     "color",
     new THREE.BufferAttribute(particleColors, 3),
   );
   particleGeometry.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+  particleGeometry.setAttribute(
+    "visibility",
+    new THREE.BufferAttribute(simulation.active, 1).setUsage(
+      THREE.DynamicDrawUsage,
+    ),
+  );
   const particleMaterial = new THREE.ShaderMaterial({
-    uniforms: {
-      pixelRatio: { value: renderer.getPixelRatio() },
-      flareCenter: { value: -10 },
-      flareStrength: { value: 0 },
-    },
-    vertexShader: `attribute float size; varying vec3 c; uniform float pixelRatio;
-      uniform float flareCenter; uniform float flareStrength;
-      void main() { float d = (position.x-flareCenter)/1.8;
-      float burst = flareStrength * exp(-d*d);
-      c = color * (1. + burst * 2.); vec4 mv = modelViewMatrix * vec4(position,1.);
-      gl_PointSize = size * (1. + burst*.45) * pixelRatio * clamp(10. / -mv.z,.5,2.);
-      gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `varying vec3 c;
-      void main() { float r = length(gl_PointCoord - .5) * 2.; if(r > 1.) discard;
-      gl_FragColor = vec4(c, exp(-r*r*4.) * .9); }`,
+    uniforms: { pixelRatio: { value: renderer.getPixelRatio() } },
+    vertexShader: `attribute float size; attribute float visibility; varying vec3 c;
+      varying float opacity; uniform float pixelRatio;
+      void main() { c=color; opacity=visibility; vec4 mv=modelViewMatrix*vec4(position,1.);
+      gl_PointSize=size*pixelRatio*clamp(11./-mv.z,.5,2.5);
+      gl_Position=projectionMatrix*mv; }`,
+    fragmentShader: `varying vec3 c; varying float opacity;
+      void main() { float r=length(gl_PointCoord-.5)*2.; if(r>1. || opacity<.5) discard;
+      float core=exp(-r*r*18.); float halo=exp(-r*r*4.5)*.28;
+      gl_FragColor=vec4(c, (core+halo)*.9); }`,
     vertexColors: true,
     transparent: true,
     depthWrite: false,
@@ -196,7 +257,20 @@ export function createEarthScene(
   particles.frustumCulled = false;
   scene.add(particles);
 
-  const trailPositions = new Float32Array(simulation.count * 6);
+  const trailSegments = 8;
+  const trailPositions = new Float32Array(simulation.count * trailSegments * 6);
+  const history = new Float32Array(simulation.count * (trailSegments + 1) * 3);
+  const trailColors = new Float32Array(trailPositions.length);
+  for (let i = 0; i < simulation.count; i++) {
+    for (let j = 0; j < trailSegments; j++) {
+      for (let v = 0; v < 2; v++) {
+        const fade = (1 - (j + v) / trailSegments) * 0.24;
+        for (let c = 0; c < 3; c++)
+          trailColors[(i * trailSegments + j) * 6 + v * 3 + c] =
+            particleColors[i * 3 + c] * fade;
+      }
+    }
+  }
   const trailGeometry = new THREE.BufferGeometry();
   trailGeometry.setAttribute(
     "position",
@@ -204,12 +278,16 @@ export function createEarthScene(
       THREE.DynamicDrawUsage,
     ),
   );
+  trailGeometry.setAttribute(
+    "color",
+    new THREE.BufferAttribute(trailColors, 3),
+  );
   const trails = new THREE.LineSegments(
     trailGeometry,
     new THREE.LineBasicMaterial({
-      color: colors.wind,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.12,
+      opacity: 0.24,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
     }),
@@ -219,7 +297,7 @@ export function createEarthScene(
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.42, 0.55, 1.1);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.2, 0.15, 1.5);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
@@ -267,7 +345,7 @@ export function createEarthScene(
     ),
     load("earth-normal.jpg", (texture) => {
       earthMaterial.normalMap = texture;
-      earthMaterial.normalScale.set(0.45, 0.45);
+      earthMaterial.normalScale.set(0.08, 0.08);
       earthMaterial.needsUpdate = true;
     }),
     load("earth-specular.jpg", (texture) => {
@@ -361,8 +439,6 @@ export function createEarthScene(
   intersection.observe(host);
   let lastTime = 0,
     accumulator = 0,
-    flare = 0,
-    flareAge = 0,
     lastFlare = settings.current.flareId;
   const frame = (now: number) => {
     if (disposed) return;
@@ -404,8 +480,7 @@ export function createEarthScene(
       renderDirty = true;
     }
     if (lastFlare !== current.flareId) {
-      flare = 1;
-      flareAge = 0;
+      simulation.launchEruption();
       lastFlare = current.flareId;
     }
     if (fieldGroup.visible !== current.field) {
@@ -418,29 +493,42 @@ export function createEarthScene(
         simulation.step(
           STEP,
           current.intensity,
-          flare,
-          -10 + flareAge * 3,
           pointer.strength > 0 ? pointer : undefined,
         );
-        flareAge += STEP;
         accumulator -= STEP;
       }
-      flare *= Math.exp(-dt * 0.09);
-      if (flareAge > 9) flare = 0;
-      particleMaterial.uniforms.flareCenter.value = -10 + flareAge * 3;
-      particleMaterial.uniforms.flareStrength.value = flare;
+      auroras.forEach((material, pole) => {
+        material.uniforms.activity.value = Math.min(
+          1,
+          simulation.precipitation[pole],
+        );
+        material.uniforms.time.value += dt;
+      });
       earth.rotation.y += dt * 0.022;
       clouds.rotation.y += dt * 0.026;
       for (let i = 0; i < simulation.count; i++) {
         const k = i * 3,
-          t = i * 6;
-        for (let j = 0; j < 3; j++) {
-          trailPositions[t + j] = simulation.positions[k + j];
-          trailPositions[t + 3 + j] =
-            simulation.positions[k + j] - simulation.velocities[k + j] * 0.055;
+          h = i * (trailSegments + 1) * 3;
+        for (let j = trailSegments; j >= 0; j--) {
+          for (let c = 0; c < 3; c++) {
+            history[h + j * 3 + c] =
+              j === 0 ||
+              simulation.ages[i] <= dt + STEP ||
+              !simulation.active[i]
+                ? simulation.positions[k + c]
+                : history[h + (j - 1) * 3 + c];
+          }
+        }
+        for (let j = 0; j < trailSegments; j++) {
+          const t = (i * trailSegments + j) * 6;
+          for (let c = 0; c < 3; c++) {
+            trailPositions[t + c] = history[h + j * 3 + c];
+            trailPositions[t + c + 3] = history[h + (j + 1) * 3 + c];
+          }
         }
       }
       particleGeometry.attributes.position.needsUpdate = true;
+      particleGeometry.attributes.visibility.needsUpdate = true;
       trailGeometry.attributes.position.needsUpdate = true;
     }
     if (!current.paused || cameraMoved || renderDirty) composer.render();
