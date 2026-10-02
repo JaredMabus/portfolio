@@ -1,564 +1,500 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Collapse from "@mui/material/Collapse";
-import Container from "@mui/material/Container";
-import Slider from "@mui/material/Slider";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import FlareRoundedIcon from "@mui/icons-material/FlareRounded";
-import WavesRoundedIcon from "@mui/icons-material/WavesRounded";
-import ArrowOutwardRoundedIcon from "@mui/icons-material/ArrowOutwardRounded";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
-import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
-import { Link as RouterLink } from "react-router-dom";
+import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import { Link as RouterLink } from "react-router-dom";
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import { themeDark } from "@/styles/theme";
 import EarthScene from "./EarthScene";
+import PhysicsPanel, { Parameter, Toggle } from "./PhysicsPanel";
+import { DEFAULT_PHYSICS } from "./physicsSettings";
 import { earthColors as colors } from "./earthTheme";
 
-const labelStyle = {
-  fontSize: 10,
-  fontWeight: 600,
-  letterSpacing: "0.16em",
-  textTransform: "uppercase",
-  color: colors.muted,
-} as const;
-const controlStyle = {
+const buttonStyle = {
   color: colors.text,
   borderColor: colors.border,
-  borderRadius: "8px",
+  borderRadius: 2,
   textTransform: "none",
-  fontSize: { xs: 11, sm: 12 },
-  fontWeight: 500,
-  height: 40,
-  px: { xs: 1, sm: 2 },
-  "&:hover": {
-    borderColor: colors.field,
-    backgroundColor: "rgba(93,187,212,.08)",
-  },
-};
+  fontSize: 12,
+  minHeight: 36,
+  "&:hover": { borderColor: colors.field, backgroundColor: colors.glass },
+} as const;
+const smallText = {
+  fontSize: 11,
+  color: colors.muted,
+  lineHeight: 1.8,
+} as const;
+
+function GlassPanel({
+  title,
+  side,
+  open,
+  children,
+}: {
+  title: string;
+  side: "left" | "right";
+  open: boolean;
+  children: ReactNode;
+}) {
+  return (
+    <Box
+      component="aside"
+      aria-label={title}
+      hidden={!open}
+      sx={{
+        position: "absolute",
+        top: { xs: 116, sm: 120 },
+        bottom: 86,
+        [side]: { xs: 12, sm: 20 },
+        width: { xs: "calc(100% - 24px)", sm: 284 },
+        maxWidth: 340,
+        zIndex: 2,
+        border: `1px solid ${colors.border}`,
+        borderRadius: 3,
+        background: colors.glass,
+        backdropFilter: "blur(22px) saturate(130%)",
+        WebkitBackdropFilter: "blur(22px) saturate(130%)",
+        boxShadow: "0 12px 48px rgba(0,0,0,.25)",
+        overflowY: "auto",
+        overscrollBehavior: "contain",
+        p: 2.5,
+        scrollbarWidth: "thin",
+        scrollbarColor: `${colors.border} transparent`,
+      }}
+    >
+      <Typography
+        component="h2"
+        sx={{
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: ".15em",
+          textTransform: "uppercase",
+          mb: 2,
+        }}
+      >
+        {title}
+      </Typography>
+      {children}
+    </Box>
+  );
+}
 
 export default function EarthPage() {
   useDocumentTitle("Earth · A magnetic world");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const wide = useMediaQuery("(min-width: 1100px)");
   const [pauseOverride, setPauseOverride] = useState<boolean | null>(null);
   const paused = pauseOverride ?? reducedMotion;
   const [field, setField] = useState(true);
   const [intensity, setIntensity] = useState(0);
-  const [mouseStrength, setMouseStrength] = useState(12);
+  const [mouseStrength, setMouseStrength] = useState(0);
   const [flareId, setFlareId] = useState(0);
+  const [resetId, setResetId] = useState(0);
   const [details, setDetails] = useState(false);
+  const [physics, setPhysics] = useState({ ...DEFAULT_PHYSICS });
+  const [chargeColors, setChargeColors] = useState(true);
+  const [sunSize, setSunSize] = useState(0.53);
+  const [timeScale, setTimeScale] = useState(1);
+  const [viewOpen, setViewOpen] = useState(true);
+  const [physicsOpen, setPhysicsOpen] = useState(true);
+  const [mobilePanel, setMobilePanel] = useState<"view" | "physics" | null>(
+    null,
+  );
+  const showView = wide ? viewOpen : mobilePanel === "view";
+  const showPhysics = wide ? physicsOpen : mobilePanel === "physics";
+  const restore = () => {
+    setPhysics({ ...DEFAULT_PHYSICS });
+    setIntensity(0);
+    setMouseStrength(0);
+    setSunSize(0.53);
+    setTimeScale(1);
+    setField(true);
+    setChargeColors(true);
+    setResetId((id) => id + 1);
+  };
 
   return (
     <ThemeProvider theme={themeDark}>
       <Box
         component="main"
-        sx={{ minHeight: "100dvh", backgroundColor: colors.space }}
+        sx={{
+          height: "100dvh",
+          minHeight: 540,
+          position: "relative",
+          overflow: "hidden",
+          backgroundColor: colors.space,
+          color: colors.text,
+        }}
       >
+        <EarthScene
+          settings={{
+            paused,
+            field,
+            intensity,
+            flareId,
+            resetId,
+            mouseStrength: mouseStrength / 100,
+            physics,
+            chargeColors,
+            sunSize,
+            timeScale,
+          }}
+        />
         <Box
-          component="section"
-          aria-labelledby="earth-title"
+          component="header"
           sx={{
-            backgroundColor: colors.space,
-            color: colors.text,
-            pb: { xs: 5, md: 8 },
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 3,
+            px: { xs: 2, sm: 3 },
+            pt: 2,
+            pointerEvents: "none",
+            background: `linear-gradient(${colors.space}, transparent)`,
           }}
         >
-          <Container
-            maxWidth="lg"
-            sx={{ pt: { xs: 2, md: 3 }, pb: { xs: 3, md: 0 } }}
-          >
-            <Stack
-              direction="row"
-              sx={{
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: { xs: 3, md: 4 },
-              }}
-            >
-              <Button
-                component={RouterLink}
-                to="/"
-                startIcon={<ArrowBackRoundedIcon />}
-                sx={{
-                  color: colors.muted,
-                  textTransform: "none",
-                  px: 0,
-                  fontSize: 12,
-                }}
-              >
-                Back to portfolio
-              </Button>
-              <Stack direction="row" sx={{ alignItems: "center", gap: 1 }}>
-                <Box
-                  sx={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    backgroundColor: paused ? colors.muted : colors.aurora,
-                  }}
-                />
-                <Typography sx={labelStyle}>
-                  {paused ? "Paused" : "Interactive model"}
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack
-              direction={{ xs: "column", md: "row" }}
-              sx={{
-                justifyContent: "space-between",
-                gap: 2,
-                alignItems: { xs: "flex-start", md: "flex-end" },
-              }}
-            >
-              <Box>
-                <Typography
-                  component="h1"
-                  id="earth-title"
-                  sx={{
-                    fontSize: { xs: 64, sm: 80, md: 96 },
-                    fontWeight: 400,
-                    lineHeight: 1,
-                    letterSpacing: "-0.06em",
-                  }}
-                >
-                  Earth<span style={{ color: colors.field }}>.</span>
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: { xs: 15, md: 18 },
-                    color: colors.muted,
-                    mt: 2,
-                    letterSpacing: "-0.015em",
-                  }}
-                >
-                  A small world. An extraordinary shield.
-                </Typography>
-              </Box>
-              <Typography
-                sx={{
-                  maxWidth: 315,
-                  fontSize: 13,
-                  color: colors.muted,
-                  lineHeight: 1.8,
-                  mb: 0.5,
-                }}
-              >
-                A moving portrait of our planet and the invisible field that
-                shapes its encounter with the Sun.
-              </Typography>
-            </Stack>
-          </Container>
-
-          <Box
+          <Stack
+            direction="row"
             sx={{
-              position: "relative",
-              height: { xs: 480, sm: 580, md: "min(660px, 62vw)" },
-              minHeight: { md: 490 },
-              my: { xs: 0, md: 1 },
-              overflow: "hidden",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 1,
             }}
           >
-            <EarthScene
-              settings={{
-                paused,
-                field,
-                intensity,
-                flareId,
-                mouseStrength: mouseStrength / 100,
-              }}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                top: "10%",
-                left: { sm: "5%", lg: "9%" },
-                pointerEvents: "none",
-                display: { xs: "none", md: "block" },
-              }}
+            <Button
+              component={RouterLink}
+              to="/"
+              startIcon={<ArrowBackRoundedIcon />}
+              sx={{ ...buttonStyle, pointerEvents: "auto" }}
             >
-              <Typography sx={{ ...labelStyle, color: colors.sun }}>
-                01 / The Sun
-              </Typography>
-              <Typography sx={{ fontSize: 12, color: colors.muted, mt: 1 }}>
-                White light. Charged plasma.
-              </Typography>
-              <Box
+              Portfolio
+            </Button>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                component="h1"
                 sx={{
-                  width: 72,
-                  height: 1,
-                  backgroundColor: colors.wind,
-                  opacity: 0.4,
-                  mt: 2,
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "10%",
-                right: { sm: "5%", lg: "9%" },
-                pointerEvents: "none",
-                display: { xs: "none", md: "block" },
-              }}
-            >
-              <Typography sx={{ ...labelStyle, color: colors.field }}>
-                02 / Magnetotail
-              </Typography>
-              <Typography sx={{ fontSize: 12, color: colors.muted, mt: 1 }}>
-                A shield shaped by the wind
-              </Typography>
-              <Box
-                sx={{
-                  width: 72,
-                  height: 1,
-                  backgroundColor: colors.field,
-                  opacity: 0.4,
-                  mt: 2,
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: 22,
-                left: 0,
-                right: 0,
-                pointerEvents: "none",
-                textAlign: "center",
-              }}
-            >
-              <Typography sx={{ ...labelStyle, fontSize: 9, opacity: 0.65 }}>
-                {mouseStrength === 0
-                  ? "Mouse interaction off · Drag to explore"
-                  : "Move your mouse to stir particles · Drag to explore"}
-              </Typography>
-            </Box>
-          </Box>
-
-          <Container maxWidth="lg">
-            <Box
-              sx={{
-                borderTop: `1px solid ${colors.border}`,
-                borderBottom: `1px solid ${colors.border}`,
-                py: 2.5,
-              }}
-            >
-              <Stack
-                direction={{ xs: "column", md: "row" }}
-                sx={{
-                  gap: { xs: 3, md: 2 },
-                  justifyContent: "space-between",
-                  alignItems: { xs: "stretch", md: "center" },
+                  fontSize: { xs: 28, sm: 34 },
+                  fontWeight: 400,
+                  letterSpacing: "-.06em",
+                  lineHeight: 1.1,
                 }}
               >
-                <Stack direction="row" sx={{ gap: 1, flexWrap: "wrap" }}>
-                  <Button
-                    variant="outlined"
-                    sx={controlStyle}
-                    startIcon={
-                      paused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />
-                    }
-                    onClick={() => setPauseOverride(!paused)}
-                  >
-                    {paused ? "Resume" : "Pause"}
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    aria-pressed={field}
-                    sx={{
-                      ...controlStyle,
-                      color: field ? colors.field : colors.muted,
-                    }}
-                    startIcon={<WavesRoundedIcon />}
-                    onClick={() => setField(!field)}
-                  >
-                    Magnetic field
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    disabled={paused}
-                    sx={controlStyle}
-                    startIcon={<FlareRoundedIcon sx={{ color: colors.wind }} />}
-                    onClick={() => setFlareId((id) => id + 1)}
-                  >
-                    Launch solar eruption
-                  </Button>
-                </Stack>
-                <Stack
-                  direction={{ xs: "column", sm: "row" }}
-                  sx={{ gap: 3, width: { xs: "100%", md: "auto" } }}
-                >
-                  <Box sx={{ width: { xs: "100%", sm: 200 }, px: 1 }}>
-                    <Stack
-                      direction="row"
-                      sx={{
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        mb: 0.5,
-                      }}
-                    >
-                      <Typography id="wind-label" sx={labelStyle}>
-                        Solar wind intensity
-                      </Typography>
-                      <Typography sx={{ fontSize: 11, color: colors.wind }}>
-                        {intensity === 0
-                          ? "Off"
-                          : intensity < 0.35
-                            ? "Quiet"
-                            : intensity > 0.7
-                              ? "Strong"
-                              : "Moderate"}
-                      </Typography>
-                    </Stack>
-                    <Slider
-                      aria-labelledby="wind-label"
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      value={intensity}
-                      onChange={(_, value) => setIntensity(value as number)}
-                      sx={{
-                        color: colors.wind,
-                        p: "8px 0",
-                        height: 2,
-                        "& .MuiSlider-thumb": { width: 10, height: 10 },
-                        "& .MuiSlider-rail": { opacity: 0.15 },
-                      }}
-                    />
-                  </Box>
-                  <Box sx={{ width: { xs: "100%", sm: 200 }, px: 1 }}>
-                    <Stack
-                      direction="row"
-                      sx={{
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        mb: 0.5,
-                      }}
-                    >
-                      <Typography id="mouse-strength-label" sx={labelStyle}>
-                        Mouse effect
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: 11,
-                          color:
-                            mouseStrength === 0 ? colors.muted : colors.field,
-                        }}
-                      >
-                        {mouseStrength === 0 ? "Off" : `${mouseStrength}%`}
-                      </Typography>
-                    </Stack>
-                    <Slider
-                      aria-labelledby="mouse-strength-label"
-                      aria-valuetext={
-                        mouseStrength === 0 ? "Off" : `${mouseStrength} percent`
-                      }
-                      min={0}
-                      max={100}
-                      step={1}
-                      value={mouseStrength}
-                      valueLabelDisplay="auto"
-                      valueLabelFormat={(value) =>
-                        value === 0 ? "Off" : `${value}%`
-                      }
-                      onChange={(_, value) => setMouseStrength(value as number)}
-                      sx={{
-                        color: colors.field,
-                        p: "8px 0",
-                        height: 2,
-                        "& .MuiSlider-thumb": { width: 10, height: 10 },
-                        "& .MuiSlider-rail": { opacity: 0.15 },
-                      }}
-                    />
-                  </Box>
-                </Stack>
-              </Stack>
-            </Box>
-
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              sx={{
-                mt: 2.5,
-                gap: 2,
-                justifyContent: "space-between",
-                alignItems: { xs: "flex-start", sm: "center" },
-              }}
-            >
-              <Stack direction="row" sx={{ gap: 2, flexWrap: "wrap" }}>
-                {[
-                  { name: "Positive · ions", color: colors.wind },
-                  { name: "Negative · electrons", color: colors.electron },
-                  { name: "Magnetic field", color: colors.field },
-                  { name: "Dashed · magnetopause", color: colors.muted },
-                ].map((item) => (
-                  <Stack
-                    key={item.name}
-                    direction="row"
-                    sx={{ gap: 1, alignItems: "center" }}
-                  >
-                    <Box
-                      sx={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: "50%",
-                        backgroundColor: item.color,
-                      }}
-                    />
-                    <Typography sx={{ fontSize: 11, color: colors.muted }}>
-                      {item.name}
-                    </Typography>
-                  </Stack>
-                ))}
-              </Stack>
-              <Button
-                aria-expanded={details}
-                aria-controls="earth-model-details"
-                onClick={() => setDetails(!details)}
-                endIcon={details ? <RemoveRoundedIcon /> : <AddRoundedIcon />}
+                Earth<span style={{ color: colors.field }}>.</span>
+              </Typography>
+              <Typography
                 sx={{
-                  color: colors.muted,
-                  textTransform: "none",
-                  fontSize: 12,
-                  px: 0,
+                  ...smallText,
+                  display: { xs: "none", sm: "block" },
+                  fontSize: 10,
+                  letterSpacing: ".08em",
                 }}
               >
-                Inside the simulation
-              </Button>
-            </Stack>
-            <Collapse in={details}>
-              <Box id="earth-model-details" sx={{ pt: 4, pb: 2 }}>
-                <Typography
-                  component="h2"
-                  sx={{
-                    fontSize: 26,
-                    fontWeight: 400,
-                    letterSpacing: "-0.035em",
-                    mb: 2,
-                  }}
-                >
-                  The physics behind the portrait
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    color: colors.muted,
-                    lineHeight: 1.9,
-                    maxWidth: 770,
-                  }}
-                >
-                  White sunlight illuminates a NASA Blue Marble globe. The
-                  Sun-facing field is compressed and the nightside stretches
-                  into a magnetotail; the outer boundary is the magnetopause. In
-                  nature its dayside is typically about 10 Earth radii from the
-                  center, while the tail extends hundreds of radii. Distances
-                  here are compressed so Earth stays visible.
-                </Typography>
-                <Box
-                  component="pre"
-                  sx={{
-                    fontSize: { xs: 11, sm: 13 },
-                    color: colors.field,
-                    fontFamily: "monospace",
-                    lineHeight: 2.2,
-                    my: 3,
-                    whiteSpace: "pre-wrap",
-                    overflowWrap: "anywhere",
-                  }}
-                >
-                  {
-                    "m dv/dt = q(v × B) − GMm r/|r|³\nμ = m v⊥² / (2|B|)     a∥ = −(μ/m) ∇∥|B|\n−∇p + η∇²u = 0     ∇·u = 0"
-                  }
-                </Box>
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    color: colors.muted,
-                    lineHeight: 1.9,
-                    maxWidth: 770,
-                  }}
-                >
-                  The eruption launches an expanding loop-shaped particle cloud,
-                  representing a coronal mass ejection that can accompany a
-                  solar flare. Half the tracers are positive ions, half negative
-                  electrons. Opposite charges spiral in opposite directions;
-                  both can reach either pole. A Boris integrator handles Lorentz
-                  deflection and central gravity. Inside the prescribed polar
-                  entry regions, an adiabatic guiding-center model conserves
-                  magnetic moment: many particles mirror as the field
-                  strengthens, while those in the loss cone reach the atmosphere
-                  and light the auroral ovals.
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: 13,
-                    color: colors.muted,
-                    lineHeight: 1.9,
-                    maxWidth: 770,
-                    mt: 2,
-                  }}
-                >
-                  This is an illustrative test-particle model, not a
-                  space-weather prediction. The stretched field is prescribed,
-                  polar entry is seeded, and aurora brightness tracks tracer
-                  precipitation. Stokes flow provides illustrative external
-                  drag; real solar wind is collisionless plasma. Charge-to-mass
-                  ratios, gyroradii, distance and time are scaled. The model
-                  does not solve MHD, reconnection, electric acceleration, or
-                  atmospheric chemistry. Magnetic forces turn particles without
-                  adding energy. Mouse stirring acts on free particles as a
-                  separate exploratory force.
-                </Typography>
-                <Stack direction="row" sx={{ mt: 3, gap: 3, flexWrap: "wrap" }}>
-                  {[
-                    {
-                      label: "NOAA · Magnetosphere",
-                      url: "https://www.swpc.noaa.gov/phenomena/earths-magnetosphere",
-                    },
-                    {
-                      label: "NASA · Polar cusps",
-                      url: "https://www.nasa.gov/solar-system/science-on-the-cusp-sounding-rockets-head-north/",
-                    },
-                    {
-                      label: "The Boris integrator",
-                      url: "https://docs.plasmapy.org/en/stable/api/plasmapy.simulation.particle_integrators.BorisIntegrator.html",
-                    },
-                    {
-                      label: "Texture credits",
-                      url: `${import.meta.env.BASE_URL}earth/credits.txt`,
-                    },
-                  ].map((link) => (
-                    <Button
-                      key={link.label}
-                      component="a"
-                      href={link.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      endIcon={
-                        <ArrowOutwardRoundedIcon sx={{ fontSize: 14 }} />
-                      }
-                      sx={{
-                        color: colors.text,
-                        fontSize: 11,
-                        textTransform: "none",
-                        px: 0,
-                      }}
-                    >
-                      {link.label}
-                    </Button>
-                  ))}
-                </Stack>
-              </Box>
-            </Collapse>
-          </Container>
+                A MAGNETIC WORLD
+              </Typography>
+            </Box>
+            <Button
+              onClick={() => setPauseOverride(!paused)}
+              startIcon={
+                paused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />
+              }
+              sx={{ ...buttonStyle, pointerEvents: "auto" }}
+            >
+              {paused ? "Resume" : "Pause"}
+            </Button>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: "space-between",
+              mt: 1,
+              pointerEvents: "none",
+            }}
+          >
+            <Button
+              variant="outlined"
+              aria-expanded={showView}
+              onClick={() =>
+                wide
+                  ? setViewOpen(!viewOpen)
+                  : setMobilePanel(showView ? null : "view")
+              }
+              startIcon={<TuneRoundedIcon />}
+              sx={{
+                ...buttonStyle,
+                pointerEvents: "auto",
+                background: colors.glass,
+              }}
+            >
+              Scene {showView ? "−" : "+"}
+            </Button>
+            <Button
+              variant="outlined"
+              aria-expanded={showPhysics}
+              onClick={() =>
+                wide
+                  ? setPhysicsOpen(!physicsOpen)
+                  : setMobilePanel(showPhysics ? null : "physics")
+              }
+              startIcon={<ScienceOutlinedIcon />}
+              sx={{
+                ...buttonStyle,
+                pointerEvents: "auto",
+                background: colors.glass,
+              }}
+            >
+              Physics {showPhysics ? "−" : "+"}
+            </Button>
+          </Stack>
         </Box>
+
+        <GlassPanel title="Scene & eruption" side="left" open={showView}>
+          <Typography sx={{ ...smallText, mb: 2 }}>
+            A quiet magnetosphere. Send an eruption toward Earth to see how
+            charged particles respond.
+          </Typography>
+          <Button
+            fullWidth
+            variant="outlined"
+            disabled={paused}
+            startIcon={<FlareRoundedIcon />}
+            onClick={() => setFlareId((id) => id + 1)}
+            sx={{ ...buttonStyle, color: colors.wind, mb: 1 }}
+          >
+            Launch solar eruption
+          </Button>
+          <Typography sx={{ ...smallText, fontSize: 10 }}>
+            Expanding CME flux rope · Sun–Earth transit omitted.
+          </Typography>
+          <Parameter
+            label="Background solar wind"
+            min={0}
+            max={100}
+            value={Math.round(intensity * 100)}
+            unit="%"
+            onChange={(v) => setIntensity(v / 100)}
+          />
+          <Parameter
+            label="Simulation speed"
+            min={0.25}
+            max={2}
+            step={0.05}
+            value={timeScale}
+            unit="×"
+            onChange={setTimeScale}
+          />
+          <Box sx={{ borderTop: `1px solid ${colors.border}`, mt: 2, pt: 2 }}>
+            <Toggle
+              label="Show magnetic field"
+              checked={field}
+              onChange={setField}
+            />
+            <Toggle
+              label="Color particles by charge"
+              checked={chargeColors}
+              onChange={setChargeColors}
+            />
+            <Stack direction="row" sx={{ gap: 2, mt: 1 }}>
+              {chargeColors ? (
+                <>
+                  <Typography sx={{ fontSize: 10, color: colors.wind }}>
+                    ● Positive
+                  </Typography>
+                  <Typography sx={{ fontSize: 10, color: colors.electron }}>
+                    ● Negative
+                  </Typography>
+                </>
+              ) : (
+                <Typography sx={{ fontSize: 10 }}>
+                  ● White particles · both charges
+                </Typography>
+              )}
+            </Stack>
+            <Parameter
+              label="Sun angular diameter"
+              min={0.1}
+              max={3}
+              step={0.01}
+              value={sunSize}
+              unit="°"
+              onChange={setSunSize}
+            />
+            <Typography sx={{ ...smallText, fontSize: 10 }}>
+              0.53° is the apparent diameter from Earth. The distant disk’s size
+              does not change Earth’s lighting.
+            </Typography>
+            <Parameter
+              label="Mouse effect"
+              min={0}
+              max={100}
+              value={mouseStrength}
+              unit="%"
+              onChange={setMouseStrength}
+            />
+            <Typography sx={{ ...smallText, fontSize: 10 }}>
+              Off at 0%. Optional cursor stirring adds an external force.
+            </Typography>
+          </Box>
+          <Stack sx={{ gap: 1, mt: 3 }}>
+            <Button
+              variant="outlined"
+              onClick={() => setResetId((id) => id + 1)}
+              sx={buttonStyle}
+            >
+              Clear particles
+            </Button>
+            <Button onClick={restore} sx={buttonStyle}>
+              Restore defaults
+            </Button>
+          </Stack>
+        </GlassPanel>
+        <GlassPanel title="Particle physics" side="right" open={showPhysics}>
+          <PhysicsPanel value={physics} onChange={setPhysics} />
+        </GlassPanel>
+
+        <Stack
+          component="footer"
+          direction="row"
+          sx={{
+            position: "absolute",
+            bottom: 20,
+            left: { xs: 16, sm: 28 },
+            right: { xs: 16, sm: 28 },
+            zIndex: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 2,
+            pointerEvents: "none",
+          }}
+        >
+          <Box>
+            <Typography sx={{ ...smallText, color: colors.text }}>
+              {paused ? "Paused" : "Interactive model"} ·{" "}
+              {intensity === 0 ? "Quiet solar wind" : "Solar wind active"}
+            </Typography>
+            <Typography sx={{ ...smallText, fontSize: 10 }}>
+              Drag to orbit · scaled distances & gyromotion
+            </Typography>
+          </Box>
+          <Button
+            onClick={() => setDetails(true)}
+            sx={{
+              ...buttonStyle,
+              pointerEvents: "auto",
+              background: colors.glass,
+            }}
+          >
+            Model & sources
+          </Button>
+        </Stack>
       </Box>
+      <Dialog
+        open={details}
+        onClose={() => setDetails(false)}
+        maxWidth="sm"
+        fullWidth
+        aria-labelledby="model-title"
+      >
+        <DialogTitle id="model-title">
+          The physics behind the portrait
+        </DialogTitle>
+        <DialogContent
+          sx={{ "& p": { fontSize: 13, lineHeight: 1.85, mb: 2 } }}
+        >
+          <Typography>
+            The Boris integrator advances m dv/dt = q(E + v × B) − GMm r/|r|³.
+            Inputs start at 400 km/s, a 31.2 µT equatorial surface field, −5 nT
+            north/south interplanetary field, ±e charges, and the
+            proton/electron mass ratio of 1836.15. These are representative
+            inputs, not live measurements.
+          </Typography>
+          <Typography>
+            The imposed convection field is E = −U × B_IMF. Magnetic force
+            changes direction without doing work; electric fields can change
+            kinetic energy. Both charge signs can enter either hemisphere.
+            Gravity acts equally per unit mass and is weak at solar-wind speeds.
+          </Typography>
+          <Typography>
+            Lengths use Earth radii and velocities use 400 km/s. One simulation
+            time unit corresponds to 15.93 physical seconds before the playback
+            multiplier. A common electromagnetic display factor of 0.00002
+            reduces both qE/m and qv×B/m, enlarging gyromotion while preserving
+            charge signs and the species mass ratio. Local gyrofrequency sets up
+            to 64 substeps; extreme settings can under-resolve an orbit.
+          </Typography>
+          <Typography>
+            The stretched dipole is prescribed and scale-compressed. It is not a
+            self-consistent magnetosphere: the model does not solve plasma
+            currents, reconnection, the solar wind’s pressure balance,
+            collisions, or MHD. The thick trace shows a reference dipole curve;
+            it excludes the adjustable uniform IMF. Auroral brightness responds
+            to tracers reaching the polar atmosphere.
+          </Typography>
+          <Typography>
+            Stokes drag and seeded polar capture are optional illustrations and
+            are off by default. Full Lorentz orbits include magnetic mirroring
+            when resolved; it is not an additional force. The optional
+            guiding-center cusp model substitutes conserved magnetic moment and
+            energy for full orbits, and omits electric and drag forces during
+            capture.
+          </Typography>
+          <Typography>
+            The eruption is a prescribed twisted horseshoe-shaped flux rope with
+            an expanding front and trailing legs, inspired by CME observations.
+            A solar flare is primarily a burst of radiation; a CME carries
+            plasma through space. The Sun is a distant visual proxy, with its
+            transit distance omitted. Its apparent size is independent of the
+            directional light illuminating the NASA Blue Marble Earth.
+          </Typography>
+          <Stack sx={{ gap: 1 }}>
+            {[
+              [
+                "NASA · Flux ropes on the Sun",
+                "https://www.nasa.gov/image-article/flux-ropes-sun/",
+              ],
+              [
+                "NOAA · Earth’s magnetosphere",
+                "https://www.swpc.noaa.gov/phenomena/earths-magnetosphere",
+              ],
+              [
+                "PlasmaPy · Boris integrator",
+                "https://docs.plasmapy.org/en/stable/api/plasmapy.simulation.particle_integrators.BorisIntegrator.html",
+              ],
+              [
+                "Earth texture credits",
+                `${import.meta.env.BASE_URL}earth/credits.txt`,
+              ],
+            ].map(([label, href]) => (
+              <Button
+                key={label}
+                component="a"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                sx={{ textTransform: "none", justifyContent: "flex-start" }}
+              >
+                {label}
+              </Button>
+            ))}
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDetails(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 }

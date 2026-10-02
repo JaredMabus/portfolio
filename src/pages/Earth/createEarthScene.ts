@@ -9,10 +9,13 @@ import {
   EARTH_AXIAL_TILT,
   ParticleSimulation,
   STEP,
-  magnetospherePoint,
   SUN_POSITION,
+  flowToWorld,
+  magnetospherePoint,
+  dipoleMeridianPoint,
   type PointerInfluence,
 } from "./physics";
+import type { PhysicsSettings } from "./physicsSettings";
 import { earthColors as colors } from "./earthTheme";
 
 export interface SceneSettings {
@@ -21,6 +24,11 @@ export interface SceneSettings {
   intensity: number;
   mouseStrength: number;
   flareId: number;
+  resetId: number;
+  physics: PhysicsSettings;
+  chargeColors: boolean;
+  sunSize: number;
+  timeScale: number;
 }
 
 export function createEarthScene(
@@ -51,7 +59,7 @@ export function createEarthScene(
   // A scene background clears in the render target's linear color space;
   // clearing before RenderPass would apply the screen's sRGB transform twice.
   scene.background = new THREE.Color(colors.space);
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+  const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 2000);
   camera.position.set(0, 0.65, 11.5);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -62,9 +70,9 @@ export function createEarthScene(
   controls.rotateSpeed = 0.35;
   controls.touches.ONE = THREE.TOUCH.ROTATE;
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.035));
   const sun = new THREE.DirectionalLight(0xffffff, 3.0);
-  sun.position.set(-7, 1.2, 4.5);
+  sun.position.set(...SUN_POSITION);
+  sun.target.position.set(0, 0, 0);
   scene.add(sun);
   const globe = new THREE.Group();
   globe.rotation.z = EARTH_AXIAL_TILT;
@@ -107,7 +115,7 @@ export function createEarthScene(
   // A white solar disk with a gentle limb falloff. Distances and its size are
   // deliberately compressed; the illumination direction stays sunward.
   const sunDisk = new THREE.Mesh(
-    new THREE.SphereGeometry(0.66, 64, 48),
+    new THREE.SphereGeometry(1, 64, 48),
     new THREE.ShaderMaterial({
       vertexShader: `varying vec3 n; varying vec3 p;
         void main(){n=normalize(normalMatrix*normal); vec4 v=modelViewMatrix*vec4(position,1.);
@@ -117,6 +125,8 @@ export function createEarthScene(
         gl_FragColor=vec4(vec3(1.35+.35*sqrt(mu)),1.);}`,
     }),
   );
+  // The distant disk and directional light share the same Earth-to-Sun axis.
+  // Its size is angular diameter, independent of irradiance on Earth.
   sunDisk.position.set(...SUN_POSITION);
   scene.add(sunDisk);
 
@@ -125,17 +135,10 @@ export function createEarthScene(
   // One continuous thick trace, through the two meridional lobes. Mapping it
   // with the same deformation as B keeps the displayed field and forces aligned.
   const fieldPoints: THREE.Vector3[] = [];
-  const shell = 3.2;
-  const rotation = new THREE.Matrix4().makeRotationZ(DIPOLE_TILT);
   for (let j = 0; j < 720; j++) {
     const theta = (j / 720) * Math.PI * 2;
-    const r = shell * Math.sin(theta) ** 2;
-    const p = new THREE.Vector3(
-      r * Math.sin(theta),
-      r * Math.cos(theta),
-      0,
-    ).applyMatrix4(rotation);
-    fieldPoints.push(new THREE.Vector3(...magnetospherePoint(p.x, p.y, p.z)));
+    const p = dipoleMeridianPoint(theta);
+    fieldPoints.push(new THREE.Vector3(...magnetospherePoint(...p)));
   }
   const fieldCurve = new THREE.CatmullRomCurve3(fieldPoints, true);
   const fieldMaterial = new THREE.MeshBasicMaterial({
@@ -156,7 +159,9 @@ export function createEarthScene(
     const theta = -2.35 + (j / 360) * 4.7;
     const r = 3.35 * (2 / (1 + Math.cos(theta))) ** 0.55;
     boundaryPoints.push(
-      new THREE.Vector3(-r * Math.cos(theta), r * Math.sin(theta) * 0.6, -0.15),
+      new THREE.Vector3(
+        ...flowToWorld(-r * Math.cos(theta), r * Math.sin(theta) * 0.6, -0.15),
+      ),
     );
   }
   const boundary = new THREE.Line(
@@ -375,7 +380,7 @@ export function createEarthScene(
     if (!width || !height) return;
     camera.aspect = width / height;
     // Mobile keeps the globe and inner field in view without squeezing Earth.
-    camera.fov = width < 700 ? 38 : 34;
+    camera.fov = width < 700 ? 48 : 40;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height);
     composer.setSize(width, height);
@@ -437,6 +442,31 @@ export function createEarthScene(
     visible = entries[0].isIntersecting;
   });
   intersection.observe(host);
+  let lastSettings = settings.current;
+  let lastReset = -1;
+  let lastColors: boolean | undefined;
+  const refreshColors = (byCharge: boolean) => {
+    for (let i = 0; i < simulation.count; i++) {
+      color.set(
+        byCharge
+          ? simulation.charges[i] > 0
+            ? colors.wind
+            : colors.electron
+          : colors.sun,
+      );
+      color.multiplyScalar(i % 23 === 0 ? 2.7 : 1.15);
+      color.toArray(particleColors, i * 3);
+      for (let j = 0; j < trailSegments; j++)
+        for (let v = 0; v < 2; v++) {
+          const fade = (1 - (j + v) / trailSegments) * 0.24;
+          for (let c = 0; c < 3; c++)
+            trailColors[(i * trailSegments + j) * 6 + v * 3 + c] =
+              particleColors[i * 3 + c] * fade;
+        }
+    }
+    particleGeometry.attributes.color.needsUpdate = true;
+    trailGeometry.attributes.color.needsUpdate = true;
+  };
   let lastTime = 0,
     accumulator = 0,
     lastFlare = settings.current.flareId;
@@ -449,6 +479,34 @@ export function createEarthScene(
       return;
     }
     const current = settings.current;
+    if (lastSettings !== current) {
+      if (lastSettings.physics !== current.physics) simulation.guided.fill(0);
+      lastSettings = current;
+      renderDirty = true;
+    }
+    simulation.settings = current.physics;
+    sunDisk.scale.setScalar(
+      sunDisk.position.distanceTo(camera.position) *
+        Math.tan((current.sunSize * Math.PI) / 360),
+    );
+    if (lastColors !== current.chargeColors) {
+      refreshColors(current.chargeColors);
+      lastColors = current.chargeColors;
+      renderDirty = true;
+    }
+    if (lastReset !== current.resetId) {
+      simulation.reset();
+      history.fill(0);
+      trailPositions.fill(0);
+      particleGeometry.attributes.visibility.needsUpdate = true;
+      trailGeometry.attributes.position.needsUpdate = true;
+      auroras.forEach((material) => {
+        material.uniforms.activity.value = 0;
+      });
+      lastReset = current.resetId;
+      accumulator = 0;
+      renderDirty = true;
+    }
     const cameraMoved = controls.update();
     const oldStrength = pointer.strength;
     pointer.strength =
@@ -488,7 +546,7 @@ export function createEarthScene(
       renderDirty = true;
     }
     if (!current.paused) {
-      accumulator += dt;
+      accumulator += dt * current.timeScale;
       while (accumulator >= STEP) {
         simulation.step(
           STEP,

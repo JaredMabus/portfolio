@@ -2,6 +2,7 @@
 // uses the existing dark MUI theme for navigation, typography, and controls.
 export const earthColors = {
   space: "#030507",
+  glass: "rgba(12, 20, 26, 0.66)",
   panel: "#0c141a",
   text: "#edf5fa",
   muted: "#8b9ca9",

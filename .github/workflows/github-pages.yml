@@ -16,11 +16,17 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
+          node-version: 22.x
           cache: "yarn"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Check application types
+        run: yarn tsc --noEmit --project tsconfig.app.json
+
+      - name: Test Earth physics
+        run: yarn test --run src/pages/Earth/physics.test.ts
 
       - name: Build
         run: yarn build
@@ -35,3 +41,4 @@ jobs:
           yarn deploy
         env:
           CI: false
+          VITE_GA_MEASUREMENT_ID: ${{ secrets.GA_MEASUREMENT_ID }}

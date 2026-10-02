@@ -1,16 +1,26 @@
 import { describe, expect, it } from "vitest";
 import {
   borisVelocity,
+  normalizedChargeMass,
+  convectionElectricField,
+  EARTH_GRAVITY,
   dipoleField,
+  dipoleMeridianPoint,
   magnetospherePoint,
   magnetosphereField,
   DIPOLE_TILT,
   ParticleSimulation,
   STEP,
+  SUN_POSITION,
+  FLOW_DIRECTION,
+  worldToFlow,
+  flowToWorld,
   stokesVelocity,
   pointerAcceleration,
   type Vec3,
 } from "./physics";
+
+import { DEFAULT_PHYSICS } from "./physicsSettings";
 
 describe("Earth test-particle dynamics", () => {
   it("keeps cursor forces finite, local, and inactive when released", () => {
@@ -160,6 +170,7 @@ describe("Earth test-particle dynamics", () => {
   it("mirrors large pitch angles and precipitates loss-cone particles", () => {
     for (const pitch of [0, 0.99]) {
       const simulation = new ParticleSimulation(2, () => pitch);
+      simulation.settings = { ...DEFAULT_PHYSICS, polarCapture: true };
       simulation.positions.set([0.3, 1.9, 0]);
       simulation.velocities.set([0, -1.5, 0]);
       simulation.active[0] = 1;
@@ -182,6 +193,175 @@ describe("Earth test-particle dynamics", () => {
         expect(mirrored).toBe(true);
         expect(precipitation).toBe(0);
       }
+    }
+  });
+});
+
+describe("Adjustable physical forces", () => {
+  function freeParticle() {
+    const sim = new ParticleSimulation(2);
+    sim.settings = {
+      ...DEFAULT_PHYSICS,
+      magnetic: false,
+      electric: false,
+      gravity: false,
+      drag: false,
+    };
+    sim.positions.set([-4, 0.5, 0, -4, 0.5, 0]);
+    sim.velocities.set([1, 0, 0, 1, 0, 0]);
+    sim.active.fill(1);
+    return sim;
+  }
+  it("uses the physical species mass ratio and consistent SI normalization", () => {
+    const positive = normalizedChargeMass(1, DEFAULT_PHYSICS);
+    const negative = normalizedChargeMass(-1, DEFAULT_PHYSICS);
+    expect(-negative / positive).toBeCloseTo(1836.1527, 8);
+    expect(positive).toBeCloseTo(0.030513573, 5);
+    const electric = convectionElectricField(DEFAULT_PHYSICS);
+    expect(electric[0]).toBeCloseTo(-FLOW_DIRECTION[2] * 0.005, 10);
+    expect(electric[1]).toBe(0);
+    expect(electric[2]).toBeCloseTo(FLOW_DIRECTION[0] * 0.005, 10);
+    expect(
+      electric.reduce((dot, v, i) => dot + v * FLOW_DIRECTION[i], 0),
+    ).toBeCloseTo(0, 10);
+    expect(normalizedChargeMass(1, { ...DEFAULT_PHYSICS, charge: 0 })).toBe(0);
+    expect(
+      normalizedChargeMass(1, { ...DEFAULT_PHYSICS, ionMass: 2 }),
+    ).toBeCloseTo(positive / 2);
+  });
+  it("moves ballistically with every equation disabled", () => {
+    const sim = freeParticle();
+    sim.step(0.1, 0);
+    expect(sim.positions[0]).toBeCloseTo(-3.9, 5);
+    expect(Array.from(sim.velocities)).toEqual([1, 0, 0, 1, 0, 0]);
+  });
+  it("applies equal gravitational acceleration to both masses", () => {
+    const sim = freeParticle();
+    sim.settings.gravity = true;
+    sim.settings.earthMass = 3;
+    sim.step(0.1, 0);
+    expect(sim.velocities[0]).toBeCloseTo(
+      1 + ((4 * EARTH_GRAVITY * 3) / 16.25 ** 1.5) * 0.1,
+      6,
+    );
+    expect(sim.velocities[0]).toBe(sim.velocities[3]);
+    expect(sim.velocities[1]).toBeLessThan(0);
+  });
+  it("accelerates opposite charges oppositely under an imposed electric field", () => {
+    const sim = freeParticle();
+    sim.settings.electric = true;
+    sim.velocities.fill(0);
+    sim.settings.massRatio = 1;
+    sim.step(0.1, 0);
+    expect(sim.velocities[2]).toBeGreaterThan(0);
+    expect(sim.velocities[2]).toBeCloseTo(-sim.velocities[5], 8);
+    const speed = Math.hypot(...sim.velocities.slice(0, 3));
+    expect(speed).toBeGreaterThan(0);
+  });
+  it("turns magnetic trajectories without doing work", () => {
+    const sim = freeParticle();
+    sim.settings.magnetic = true;
+    sim.step(0.1, 0);
+    expect(sim.velocities[2]).not.toBe(0);
+    expect(sim.velocities[5]).not.toBe(0);
+    expect(Math.hypot(...sim.velocities.slice(0, 3))).toBeCloseTo(1, 5);
+    expect(Math.hypot(...sim.velocities.slice(3, 6))).toBeCloseTo(1, 5);
+  });
+  it("enables drag only when requested and resets the particle population", () => {
+    const sim = freeParticle();
+    sim.settings.drag = true;
+    sim.step(0.1, 0);
+    expect(sim.velocities[0]).toBeLessThan(1);
+    sim.reset();
+    expect(Array.from(sim.active)).toEqual([0, 0]);
+    expect(sim.precipitation).toEqual([0, 0]);
+    sim.step(STEP, 0);
+    expect(sim.active[0]).toBe(0);
+  });
+  it("launches an arch with trailing legs and a faster leading front", () => {
+    let seed = 17;
+    const sim = new ParticleSimulation(500, () => {
+      seed = (seed * 16807) % 2147483647;
+      return seed / 2147483647;
+    });
+    sim.launchEruption();
+    const fronts: number[] = [],
+      legs: number[] = [];
+    for (let i = 0; i < sim.count; i++) {
+      if (!sim.active[i]) continue;
+      const [x, y] = worldToFlow(
+        ...(Array.from(sim.positions.slice(i * 3, i * 3 + 3)) as Vec3),
+      );
+      const velocity = worldToFlow(
+        ...(Array.from(sim.velocities.slice(i * 3, i * 3 + 3)) as Vec3),
+      );
+      expect(x).toBeGreaterThan(-6.41);
+      if (Math.abs(y) < 0.2) fronts.push(velocity[0]);
+      if (Math.abs(y) > 1.2) legs.push(velocity[0]);
+    }
+    expect(fronts.length).toBeGreaterThan(10);
+    expect(legs.length).toBeGreaterThan(10);
+    expect(Math.min(...fronts)).toBeGreaterThan(Math.max(...legs));
+  });
+});
+
+describe("Shared Sun geometry", () => {
+  it("launches the eruption from the visible Sun direction toward Earth", () => {
+    // Deterministic center-of-arch particles have no transverse offset.
+    const sim = new ParticleSimulation(10, () => 0.5);
+    sim.launchEruption();
+    const sunLength = Math.hypot(...SUN_POSITION);
+    const p = Array.from(sim.positions.slice(0, 3));
+    const v = Array.from(sim.velocities.slice(0, 3));
+    for (let axis = 0; axis < 3; axis++) {
+      expect(p[axis] / Math.hypot(...p)).toBeCloseTo(
+        SUN_POSITION[axis] / sunLength,
+        6,
+      );
+      expect(v[axis] / Math.hypot(...v)).toBeCloseTo(
+        -SUN_POSITION[axis] / sunLength,
+        6,
+      );
+    }
+  });
+  it("compresses the Sun-facing field and stretches the opposite tail", () => {
+    for (const distance of [-3, 3]) {
+      const point = flowToWorld(distance, 0, 0);
+      const warped = worldToFlow(...magnetospherePoint(...point));
+      expect(warped[1]).toBeCloseTo(0, 10);
+      expect(warped[2]).toBeCloseTo(0, 10);
+      if (distance < 0) expect(Math.abs(warped[0])).toBeLessThan(3);
+      else expect(warped[0]).toBeGreaterThan(3);
+    }
+  });
+});
+
+describe("Sun-facing dipole meridian", () => {
+  it("has a compressed dayside and a long tail along the solar axis", () => {
+    const tail = magnetospherePoint(...dipoleMeridianPoint(Math.PI / 2));
+    const dayside = magnetospherePoint(...dipoleMeridianPoint(Math.PI * 1.5));
+    const tailAxial = worldToFlow(...tail)[0];
+    const dayAxial = worldToFlow(...dayside)[0];
+    expect(dayAxial).toBeLessThan(-2);
+    expect(dayAxial).toBeGreaterThan(-3.2);
+    expect(tailAxial).toBeGreaterThan(8);
+    expect(tailAxial / Math.abs(dayAxial)).toBeGreaterThan(3);
+  });
+  it("keeps the visible meridian tangent to the actual magnetic field in 3D", () => {
+    for (const theta of [0.9, 1.3, 1.9, 4, 4.6, 5.1]) {
+      const epsilon = 1e-6;
+      const p = magnetospherePoint(...dipoleMeridianPoint(theta));
+      const next = magnetospherePoint(...dipoleMeridianPoint(theta + epsilon));
+      const tangent = next.map((v, i) => (v - p[i]) / epsilon);
+      const b = magnetosphereField(...p);
+      const cross = [
+        tangent[1] * b[2] - tangent[2] * b[1],
+        tangent[2] * b[0] - tangent[0] * b[2],
+        tangent[0] * b[1] - tangent[1] * b[0],
+      ];
+      expect(
+        Math.hypot(...cross) / Math.hypot(...tangent) / Math.hypot(...b),
+      ).toBeLessThan(1e-5);
     }
   });
 });
