@@ -23,7 +23,8 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
-describe("Earth controls panel", () => {
+// These multi-step MUI interactions can exceed five seconds in jsdom on slower runners.
+describe("Earth controls panel", { timeout: 20_000 }, () => {
   it("opens one panel with its title and supports keyboard tab selection", async () => {
     const user = userEvent.setup();
     render(<MemoryRouter><EarthPage /></MemoryRouter>);
@@ -62,20 +63,20 @@ describe("Earth controls panel", () => {
     const first = render(<MemoryRouter><EarthPage /></MemoryRouter>);
     await user.click(screen.getByRole("button", { name: "Show Earth controls" }));
     await user.click(screen.getByRole("switch", { name: "Show magnetic field" }));
-    await user.click(screen.getByRole("button", { name: "Appearance", exact: true }));
+    await user.click(screen.getByRole("button", { name: "Appearance" }));
     await waitFor(() => expect(screen.queryByRole("switch", { name: "Show magnetic field" })).toBeNull());
     await user.click(screen.getByRole("tab", { name: "Physics" }));
-    await user.click(screen.getByRole("button", { name: "Forces", exact: true }));
-    await user.click(screen.getByRole("button", { name: "Particle species", exact: true }));
+    await user.click(screen.getByRole("button", { name: "Forces" }));
+    await user.click(screen.getByRole("button", { name: "Particle species" }));
     expect(screen.getByRole("slider", { name: "Charge magnitude" })).toBeTruthy();
     first.unmount();
     render(<MemoryRouter><EarthPage /></MemoryRouter>);
-    expect(screen.getByRole("button", { name: "Forces", exact: true }).getAttribute("aria-expanded")).toBe("false");
-    expect(screen.getByRole("button", { name: "Particle species", exact: true }).getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("button", { name: "Forces" }).getAttribute("aria-expanded")).toBe("false");
+    expect(screen.getByRole("button", { name: "Particle species" }).getAttribute("aria-expanded")).toBe("true");
     expect(screen.getByRole("slider", { name: "Charge magnitude" })).toBeTruthy();
     await user.click(screen.getByRole("tab", { name: "Scene" }));
-    expect(screen.getByRole("button", { name: "Appearance", exact: true }).getAttribute("aria-expanded")).toBe("false");
-    await user.click(screen.getByRole("button", { name: "Appearance", exact: true }));
+    expect(screen.getByRole("button", { name: "Appearance" }).getAttribute("aria-expanded")).toBe("false");
+    await user.click(screen.getByRole("button", { name: "Appearance" }));
     expect((screen.getByRole("switch", { name: "Show magnetic field" }) as HTMLInputElement).checked).toBe(false);
   });
 
