@@ -1,0 +1,15 @@
+Earth surface: NASA Blue Marble: Next Generation, January 2004, 5400 x 2700.
+NASA Earth Observatory, Reto Stöckli / NASA Goddard Space Flight Center.
+https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography/
+https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-topography/january/world.topo.200401.3x5400x2700.jpg
+
+Normal, ocean specular mask, and cloud texture maps from Three.js examples:
+https://threejs.org/examples/textures/planets/earth_normal_2048.jpg
+https://threejs.org/examples/textures/planets/earth_specular_2048.jpg
+https://threejs.org/examples/textures/planets/earth_clouds_1024.png
+
+Three.js source and license: https://github.com/mrdoob/three.js (MIT).
+Original Earth imagery: NASA Blue Marble, https://visibleearth.nasa.gov/collection/1484/blue-marble
+The scene is inspired by the composition of OpenAI's GPT-6.1 Sol page:
+https://openai.com/index/introducing-gpt-6-1-sol/
+No OpenAI artwork or code is included.

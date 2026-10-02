@@ -3,12 +3,16 @@ import React, {
   createContext,
   useEffect,
   useLayoutEffect,
+  lazy,
+  Suspense,
 } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider, CssBaseline, GlobalStyles } from "@mui/material";
 
 import * as page from "./pages";
 import { GlobalStyle, themeDark, themeLight } from "@/styles/theme";
+
+const Earth = lazy(() => import("@/pages/Earth"));
 
 interface ThemeContextType {
   light: boolean;
@@ -61,6 +65,27 @@ export default function App() {
               <Route path="/projects" element={<page.Project />} />
               <Route path="/resume" element={<page.Resume />} />
               <Route path="/data" element={<page.Data />} />
+              <Route
+                path="/earth"
+                element={
+                  <Suspense
+                    fallback={
+                      <div
+                        role="status"
+                        style={{
+                          minHeight: "100dvh",
+                          display: "grid",
+                          placeItems: "center",
+                        }}
+                      >
+                        Loading Earth…
+                      </div>
+                    }
+                  >
+                    <Earth />
+                  </Suspense>
+                }
+              />
               <Route path="*" element={<page.Home />} />
             </Routes>
           </BrowserRouter>

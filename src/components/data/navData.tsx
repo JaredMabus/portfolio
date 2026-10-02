@@ -3,6 +3,7 @@ import HailOutlinedIcon from "@mui/icons-material/HailOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 
 export interface NavDataType {
   id: number;
@@ -35,5 +36,11 @@ export const navData: NavDataType[] = [
     name: "Data",
     url: "/data",
     icon: <BarChartOutlinedIcon />,
+  },
+  {
+    id: 4,
+    name: "Earth",
+    url: "/earth",
+    icon: <PublicOutlinedIcon />,
   },
 ];
