@@ -3,14 +3,20 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { createEarthScene, type SceneSettings } from "./createEarthScene";
 import { earthColors as colors } from "./earthTheme";
+import type { CameraPosition } from "./earthState";
 
-export default function EarthScene({ settings }: { settings: SceneSettings }) {
+export default function EarthScene({ settings, onCameraChange }: {
+  settings: SceneSettings;
+  onCameraChange: (position: CameraPosition) => void;
+}) {
   const host = useRef<HTMLDivElement>(null);
   const liveSettings = useRef(settings);
+  const cameraChange = useRef(onCameraChange);
   const [status, setStatus] = useState("Preparing Earth…");
   useEffect(() => {
     liveSettings.current = settings;
-  }, [settings]);
+    cameraChange.current = onCameraChange;
+  }, [settings, onCameraChange]);
   useEffect(() => {
     if (!host.current) return;
     try {
@@ -19,6 +25,7 @@ export default function EarthScene({ settings }: { settings: SceneSettings }) {
         liveSettings,
         () => setStatus(""),
         setStatus,
+        (position) => cameraChange.current(position),
       );
     } catch {
       setStatus(

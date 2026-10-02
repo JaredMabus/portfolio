@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import type { CameraPosition } from "./earthState";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
@@ -29,6 +30,7 @@ export interface SceneSettings {
   chargeColors: boolean;
   sunSize: number;
   timeScale: number;
+  camera: CameraPosition;
 }
 
 export function createEarthScene(
@@ -36,6 +38,7 @@ export function createEarthScene(
   settings: { current: SceneSettings },
   onReady: () => void,
   onError: (message: string) => void,
+  onCameraChange: (position: CameraPosition) => void,
 ) {
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
@@ -60,7 +63,7 @@ export function createEarthScene(
   // clearing before RenderPass would apply the screen's sRGB transform twice.
   scene.background = new THREE.Color(colors.space);
   const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 2000);
-  camera.position.set(0, 0.65, 11.5);
+  camera.position.set(...settings.current.camera);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.enableZoom = false;
@@ -69,6 +72,16 @@ export function createEarthScene(
   controls.maxPolarAngle = Math.PI * 0.7;
   controls.rotateSpeed = 0.35;
   controls.touches.ONE = THREE.TOUCH.ROTATE;
+  let cameraSaveTimer: ReturnType<typeof setTimeout> | undefined;
+  // Publish the settled orbit to React without rerendering on animation frames.
+  const saveCamera = () => {
+    clearTimeout(cameraSaveTimer);
+    cameraSaveTimer = setTimeout(() => {
+      onCameraChange(camera.position.toArray() as CameraPosition);
+    }, 180);
+  };
+  controls.addEventListener("change", saveCamera);
+  let lastCamera = settings.current.camera;
 
   const sun = new THREE.DirectionalLight(0xffffff, 3.0);
   sun.position.set(...SUN_POSITION);
@@ -507,6 +520,13 @@ export function createEarthScene(
       accumulator = 0;
       renderDirty = true;
     }
+    if (lastCamera !== current.camera) {
+      if (camera.position.distanceTo(new THREE.Vector3(...current.camera)) > 1e-8) {
+        camera.position.set(...current.camera);
+        renderDirty = true;
+      }
+      lastCamera = current.camera;
+    }
     const cameraMoved = controls.update();
     const oldStrength = pointer.strength;
     pointer.strength =
@@ -607,6 +627,8 @@ export function createEarthScene(
     renderer.setAnimationLoop(null);
     observer.disconnect();
     intersection.disconnect();
+    clearTimeout(cameraSaveTimer);
+    controls.removeEventListener("change", saveCamera);
     controls.dispose();
     renderer.domElement.removeEventListener("pointermove", movePointer);
     renderer.domElement.removeEventListener("pointerup", movePointer);

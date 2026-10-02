@@ -1,26 +1,32 @@
 import { useState, type ReactNode } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { ThemeProvider } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import FlareRoundedIcon from "@mui/icons-material/FlareRounded";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
-import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import { Link as RouterLink } from "react-router-dom";
 import useDocumentTitle from "@/utils/useDocumentTitle";
 import { themeDark } from "@/styles/theme";
 import EarthScene from "./EarthScene";
-import PhysicsPanel, { Parameter, Toggle } from "./PhysicsPanel";
+import PhysicsPanel from "./PhysicsPanel";
+import ScenePanel from "./ScenePanel";
 import { DEFAULT_PHYSICS } from "./physicsSettings";
+import { DEFAULT_CAMERA, type EarthSection, type EarthState, type EarthTab } from "./earthState";
+import useEarthState from "./useEarthState";
 import { earthColors as colors } from "./earthTheme";
 
 const buttonStyle = {
@@ -37,30 +43,41 @@ const smallText = {
   color: colors.muted,
   lineHeight: 1.8,
 } as const;
+const iconStyle = {
+  ...buttonStyle,
+  pointerEvents: "auto",
+  width: 44,
+  height: 44,
+  border: "1px solid",
+  background: colors.glass,
+} as const;
 
 function GlassPanel({
-  title,
-  side,
   open,
+  activeTab,
+  onTabChange,
   children,
 }: {
-  title: string;
-  side: "left" | "right";
   open: boolean;
+  activeTab: EarthTab;
+  onTabChange: (tab: EarthTab) => void;
   children: ReactNode;
 }) {
+  if (!open) return null;
   return (
     <Box
       component="aside"
-      aria-label={title}
+      id="earth-controls"
+      aria-label="Earth controls"
       hidden={!open}
       sx={{
         position: "absolute",
-        top: { xs: 116, sm: 120 },
+        top: 76,
         bottom: 86,
-        [side]: { xs: 12, sm: 20 },
-        width: { xs: "calc(100% - 24px)", sm: 284 },
-        maxWidth: 340,
+        left: { xs: 12, sm: 20 },
+        width: { xs: "calc(100% - 24px)", sm: 320 },
+        display: open ? "flex" : "none",
+        flexDirection: "column",
         zIndex: 2,
         border: `1px solid ${colors.border}`,
         borderRadius: 3,
@@ -68,26 +85,49 @@ function GlassPanel({
         backdropFilter: "blur(22px) saturate(130%)",
         WebkitBackdropFilter: "blur(22px) saturate(130%)",
         boxShadow: "0 12px 48px rgba(0,0,0,.25)",
+        overflow: "hidden",
+      }}
+    >
+      <Box sx={{ px: 2.5, pt: 2.5, flexShrink: 0 }}>
+        <Typography
+          component="h1"
+          sx={{ fontSize: 34, fontWeight: 400, letterSpacing: "-.06em", lineHeight: 1.1 }}
+        >
+          Earth<span style={{ color: colors.field }}>.</span>
+        </Typography>
+        <Typography sx={{ ...smallText, fontSize: 10, letterSpacing: ".08em", mt: 0.5 }}>
+          A MAGNETIC WORLD
+        </Typography>
+        <Tabs
+          value={activeTab}
+          onChange={(_, tab: EarthTab) => onTabChange(tab)}
+          aria-label="Earth settings"
+          variant="fullWidth"
+          sx={{
+            mt: 1.5,
+            borderBottom: `1px solid ${colors.border}`,
+            "& .MuiTabs-indicator": { backgroundColor: colors.field },
+            "& .MuiTab-root": {
+              color: colors.muted,
+              textTransform: "none",
+              "&.Mui-selected": { color: colors.field },
+            },
+          }}
+        >
+          <Tab label="Scene" value="scene" id="earth-scene-tab" aria-controls="earth-scene-panel" />
+          <Tab label="Physics" value="physics" id="earth-physics-tab" aria-controls="earth-physics-panel" />
+        </Tabs>
+      </Box>
+      <Box key={activeTab} sx={{
         overflowY: "auto",
+        minHeight: 0,
         overscrollBehavior: "contain",
         p: 2.5,
         scrollbarWidth: "thin",
         scrollbarColor: `${colors.border} transparent`,
-      }}
-    >
-      <Typography
-        component="h2"
-        sx={{
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: ".15em",
-          textTransform: "uppercase",
-          mb: 2,
-        }}
-      >
-        {title}
-      </Typography>
-      {children}
+      }}>
+        {children}
+      </Box>
     </Box>
   );
 }
@@ -96,33 +136,34 @@ export default function EarthPage() {
   useDocumentTitle("Earth · A magnetic world");
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const wide = useMediaQuery("(min-width: 1100px)");
-  const [pauseOverride, setPauseOverride] = useState<boolean | null>(null);
+  const [state, setState] = useEarthState();
+  const {
+    pauseOverride, field, intensity, mouseStrength, details, physics,
+    chargeColors, sunSize, timeScale, activeTab, camera,
+  } = state;
+  const set = <K extends keyof EarthState>(key: K, value: EarthState[K]) =>
+    setState((previous) => ({ ...previous, [key]: value }));
   const paused = pauseOverride ?? reducedMotion;
-  const [field, setField] = useState(true);
-  const [intensity, setIntensity] = useState(0);
-  const [mouseStrength, setMouseStrength] = useState(0);
   const [flareId, setFlareId] = useState(0);
   const [resetId, setResetId] = useState(0);
-  const [details, setDetails] = useState(false);
-  const [physics, setPhysics] = useState({ ...DEFAULT_PHYSICS });
-  const [chargeColors, setChargeColors] = useState(true);
-  const [sunSize, setSunSize] = useState(0.53);
-  const [timeScale, setTimeScale] = useState(1);
-  const [viewOpen, setViewOpen] = useState(true);
-  const [physicsOpen, setPhysicsOpen] = useState(true);
-  const [mobilePanel, setMobilePanel] = useState<"view" | "physics" | null>(
-    null,
-  );
-  const showView = wide ? viewOpen : mobilePanel === "view";
-  const showPhysics = wide ? physicsOpen : mobilePanel === "physics";
+  const showPanel = wide ? state.panelOpen : state.mobilePanelOpen;
+  const setSection = (id: EarthSection, expanded: boolean) =>
+    setState((previous) => ({
+      ...previous, sections: { ...previous.sections, [id]: expanded },
+    }));
   const restore = () => {
-    setPhysics({ ...DEFAULT_PHYSICS });
-    setIntensity(0);
-    setMouseStrength(0);
-    setSunSize(0.53);
-    setTimeScale(1);
-    setField(true);
-    setChargeColors(true);
+    setState((previous) => ({
+      ...previous,
+      physics: { ...DEFAULT_PHYSICS },
+      intensity: 0,
+      mouseStrength: 0,
+      sunSize: 0.53,
+      timeScale: 1,
+      field: true,
+      chargeColors: true,
+      pauseOverride: null,
+      camera: [...DEFAULT_CAMERA],
+    }));
     setResetId((id) => id + 1);
   };
 
@@ -140,6 +181,7 @@ export default function EarthPage() {
         }}
       >
         <EarthScene
+          onCameraChange={(position) => setState((previous) => ({ ...previous, camera: position }))}
           settings={{
             paused,
             field,
@@ -151,6 +193,7 @@ export default function EarthPage() {
             chargeColors,
             sunSize,
             timeScale,
+            camera,
           }}
         />
         <Box
@@ -161,7 +204,7 @@ export default function EarthPage() {
             left: 0,
             right: 0,
             zIndex: 3,
-            px: { xs: 2, sm: 3 },
+            px: { xs: 1.5, sm: 2.5 },
             pt: 2,
             pointerEvents: "none",
             background: `linear-gradient(${colors.space}, transparent)`,
@@ -175,39 +218,45 @@ export default function EarthPage() {
               gap: 1,
             }}
           >
-            <Button
-              component={RouterLink}
-              to="/"
-              startIcon={<ArrowBackRoundedIcon />}
-              sx={{ ...buttonStyle, pointerEvents: "auto" }}
-            >
-              Portfolio
-            </Button>
-            <Box sx={{ textAlign: "center" }}>
-              <Typography
-                component="h1"
-                sx={{
-                  fontSize: { xs: 28, sm: 34 },
-                  fontWeight: 400,
-                  letterSpacing: "-.06em",
-                  lineHeight: 1.1,
-                }}
+            <Stack direction="row" sx={{ alignItems: "center", gap: { xs: 0.5, sm: 1 } }}>
+              <Button
+                component={RouterLink}
+                to="/"
+                startIcon={<ArrowBackRoundedIcon />}
+                sx={{ ...buttonStyle, pointerEvents: "auto" }}
               >
-                Earth<span style={{ color: colors.field }}>.</span>
-              </Typography>
-              <Typography
-                sx={{
-                  ...smallText,
-                  display: { xs: "none", sm: "block" },
-                  fontSize: 10,
-                  letterSpacing: ".08em",
-                }}
-              >
-                A MAGNETIC WORLD
-              </Typography>
-            </Box>
+                Portfolio
+              </Button>
+              <Tooltip title={showPanel ? "Hide Earth controls" : "Show Earth controls"}>
+                <IconButton
+                  aria-label={showPanel ? "Hide Earth controls" : "Show Earth controls"}
+                  aria-expanded={showPanel}
+                  aria-controls="earth-controls"
+                  onClick={() => set(wide ? "panelOpen" : "mobilePanelOpen", !showPanel)}
+                  sx={{
+                    ...iconStyle,
+                    borderColor: showPanel ? colors.field : colors.border,
+                    color: showPanel ? colors.field : colors.text,
+                  }}
+                >
+                  <TuneRoundedIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={paused ? "Resume to launch solar eruption" : "Launch solar eruption"}>
+                <Box component="span" sx={{ display: "inline-flex", pointerEvents: "auto" }}>
+                  <IconButton
+                    aria-label="Launch solar eruption"
+                    disabled={paused}
+                    onClick={() => setFlareId((id) => id + 1)}
+                    sx={{ ...iconStyle, color: colors.wind }}
+                  >
+                    <FlareRoundedIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+              </Tooltip>
+            </Stack>
             <Button
-              onClick={() => setPauseOverride(!paused)}
+              onClick={() => set("pauseOverride", !paused)}
               startIcon={
                 paused ? <PlayArrowRoundedIcon /> : <PauseRoundedIcon />
               }
@@ -216,137 +265,37 @@ export default function EarthPage() {
               {paused ? "Resume" : "Pause"}
             </Button>
           </Stack>
-          <Stack
-            direction="row"
-            sx={{
-              justifyContent: "space-between",
-              mt: 1,
-              pointerEvents: "none",
-            }}
-          >
-            <Button
-              variant="outlined"
-              aria-expanded={showView}
-              onClick={() =>
-                wide
-                  ? setViewOpen(!viewOpen)
-                  : setMobilePanel(showView ? null : "view")
-              }
-              startIcon={<TuneRoundedIcon />}
-              sx={{
-                ...buttonStyle,
-                pointerEvents: "auto",
-                background: colors.glass,
-              }}
-            >
-              Scene {showView ? "−" : "+"}
-            </Button>
-            <Button
-              variant="outlined"
-              aria-expanded={showPhysics}
-              onClick={() =>
-                wide
-                  ? setPhysicsOpen(!physicsOpen)
-                  : setMobilePanel(showPhysics ? null : "physics")
-              }
-              startIcon={<ScienceOutlinedIcon />}
-              sx={{
-                ...buttonStyle,
-                pointerEvents: "auto",
-                background: colors.glass,
-              }}
-            >
-              Physics {showPhysics ? "−" : "+"}
-            </Button>
-          </Stack>
         </Box>
 
-        <GlassPanel title="Scene & eruption" side="left" open={showView}>
-          <Typography sx={{ ...smallText, mb: 2 }}>
-            A quiet magnetosphere. Send an eruption toward Earth to see how
-            charged particles respond.
-          </Typography>
-          <Button
-            fullWidth
-            variant="outlined"
-            disabled={paused}
-            startIcon={<FlareRoundedIcon />}
-            onClick={() => setFlareId((id) => id + 1)}
-            sx={{ ...buttonStyle, color: colors.wind, mb: 1 }}
+        <GlassPanel
+          open={showPanel}
+          activeTab={activeTab}
+          onTabChange={(tab) => set("activeTab", tab)}
+        >
+          <Box
+            role="tabpanel"
+            id="earth-scene-panel"
+            aria-labelledby="earth-scene-tab"
+            hidden={activeTab !== "scene"}
           >
-            Launch solar eruption
-          </Button>
-          <Typography sx={{ ...smallText, fontSize: 10 }}>
-            Expanding CME flux rope · Sun–Earth transit omitted.
-          </Typography>
-          <Parameter
-            label="Background solar wind"
-            min={0}
-            max={100}
-            value={Math.round(intensity * 100)}
-            unit="%"
-            onChange={(v) => setIntensity(v / 100)}
-          />
-          <Parameter
-            label="Simulation speed"
-            min={0.25}
-            max={2}
-            step={0.05}
-            value={timeScale}
-            unit="×"
-            onChange={setTimeScale}
-          />
-          <Box sx={{ borderTop: `1px solid ${colors.border}`, mt: 2, pt: 2 }}>
-            <Toggle
-              label="Show magnetic field"
-              checked={field}
-              onChange={setField}
+            <ScenePanel
+              value={state}
+              onChange={(patch) => setState((previous) => ({ ...previous, ...patch }))}
+              onSectionChange={setSection}
             />
-            <Toggle
-              label="Color particles by charge"
-              checked={chargeColors}
-              onChange={setChargeColors}
+          </Box>
+          <Box
+            role="tabpanel"
+            id="earth-physics-panel"
+            aria-labelledby="earth-physics-tab"
+            hidden={activeTab !== "physics"}
+          >
+            <PhysicsPanel
+              value={physics}
+              onChange={(value) => set("physics", value)}
+              sections={state.sections}
+              onSectionChange={setSection}
             />
-            <Stack direction="row" sx={{ gap: 2, mt: 1 }}>
-              {chargeColors ? (
-                <>
-                  <Typography sx={{ fontSize: 10, color: colors.wind }}>
-                    ● Positive
-                  </Typography>
-                  <Typography sx={{ fontSize: 10, color: colors.electron }}>
-                    ● Negative
-                  </Typography>
-                </>
-              ) : (
-                <Typography sx={{ fontSize: 10 }}>
-                  ● White particles · both charges
-                </Typography>
-              )}
-            </Stack>
-            <Parameter
-              label="Sun angular diameter"
-              min={0.1}
-              max={3}
-              step={0.01}
-              value={sunSize}
-              unit="°"
-              onChange={setSunSize}
-            />
-            <Typography sx={{ ...smallText, fontSize: 10 }}>
-              0.53° is the apparent diameter from Earth. The distant disk’s size
-              does not change Earth’s lighting.
-            </Typography>
-            <Parameter
-              label="Mouse effect"
-              min={0}
-              max={100}
-              value={mouseStrength}
-              unit="%"
-              onChange={setMouseStrength}
-            />
-            <Typography sx={{ ...smallText, fontSize: 10 }}>
-              Off at 0%. Optional cursor stirring adds an external force.
-            </Typography>
           </Box>
           <Stack sx={{ gap: 1, mt: 3 }}>
             <Button
@@ -360,9 +309,6 @@ export default function EarthPage() {
               Restore defaults
             </Button>
           </Stack>
-        </GlassPanel>
-        <GlassPanel title="Particle physics" side="right" open={showPhysics}>
-          <PhysicsPanel value={physics} onChange={setPhysics} />
         </GlassPanel>
 
         <Stack
@@ -390,7 +336,7 @@ export default function EarthPage() {
             </Typography>
           </Box>
           <Button
-            onClick={() => setDetails(true)}
+            onClick={() => set("details", true)}
             sx={{
               ...buttonStyle,
               pointerEvents: "auto",
@@ -403,7 +349,7 @@ export default function EarthPage() {
       </Box>
       <Dialog
         open={details}
-        onClose={() => setDetails(false)}
+        onClose={() => set("details", false)}
         maxWidth="sm"
         fullWidth
         aria-labelledby="model-title"
@@ -492,7 +438,7 @@ export default function EarthPage() {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDetails(false)}>Close</Button>
+          <Button onClick={() => set("details", false)}>Close</Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>
